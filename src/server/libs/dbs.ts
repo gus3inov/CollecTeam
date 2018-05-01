@@ -2,6 +2,7 @@ import * as MysqlPromise from 'mysql-promise';
 import * as mongoose from 'mongoose';
 import * as Redis from 'promise-redis';
 import * as config from 'config';
+import err from "../middlewares/error";
 
 export interface IConfigApp {
     db: object,
@@ -10,7 +11,7 @@ export interface IConfigApp {
 
 const configApp: IConfigApp = config.get('dev')
 
-const mysqlPromise: object = MysqlPromise();
+const mysqlPromise: object = new MysqlPromise();
 const redis: any = Redis().createClient(configApp.redis.port, configApp.redis.host)
 
 let mongo = mongoose;
@@ -18,16 +19,28 @@ let mongo = mongoose;
 mongo.Promise = Promise;
 
 interface IDBConnect {
-   checkMySqlConnection(): Promise<any>;
+    checkMySqlConnection(): Promise<any>;
 
     checkRedisReadyState(): Promise<any>;
 
     init(): Promise<any>;
 }
 
-class DBConnect implements IDBConnect {
+class DBConnect {
+    static mysqlConfig: any;
+
+    constructor() {
+        this.mysqlConfig = configApp.db.mysql;
+    }
+
     private checkMySqlConnection() {
-        return mysqlPromise.query('SELECT 1');
+        return mysqlPromise.configure({
+            "host": this.mysqlConfig.host,
+            "user": this.mysqlConfig.user,
+            "password": this.mysqlConfig.password,
+            "database": this.mysqlConfig.database
+        });
+
     }
 
     private checkRedisReadyState() {
@@ -39,7 +52,8 @@ class DBConnect implements IDBConnect {
         })
     }
 
-    init() {
+   init() {
+        // console.log('init-------------------', this)
         return Promise.all([
             this.checkMySqlConnection(),
             new Promise<Promise<any>>((resolve, reject) => {
@@ -52,8 +66,6 @@ class DBConnect implements IDBConnect {
     }
 }
 
-const init = new DBConnect().init;
-
 export {mysqlPromise};
 export {redis};
-export {init};
+export {DBConnect};
