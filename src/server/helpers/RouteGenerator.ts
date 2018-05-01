@@ -1,6 +1,4 @@
-import * as Router from 'koa-router';
-import * as convert from 'koa-conver';
-import * as KoaBody from 'koa-body';
+import * as KoaRouter from 'koa-router';
 import { IMiddleware, IRouterContext } from 'koa-router';
 
 enum ErrorStatus{
@@ -35,11 +33,7 @@ interface IRouter {
  */
 
 class Router implements IRouter {
-    private _router: any;
-
-    constructor(router: any) {
-        this._router = router;
-    }
+    private _router: any = new KoaRouter();
 
     public get (path: string | RegExp, ...middleware: Array<IMiddleware>): any {
         this._router.get(path, ...middleware);
@@ -55,6 +49,10 @@ class Router implements IRouter {
 
     public put (path: string | RegExp, ...middleware: Array<IMiddleware>) {
         this._router.put(path, ...middleware);
+    }
+
+    protected listenRoutes () {
+        this._router.routes();
     }
 }
 
