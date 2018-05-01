@@ -1,9 +1,15 @@
+import * as crypto from 'crypto'
+
 export interface IStringHelper<T> {
     lat: Array<T>;
     rus: Array<T>;
 
     basename(path: T, suffix: T): T;
-
+    getRandomString(length: number): T;
+    sha512(password: T, salt: T): object;
+    dirname(path: T): T;
+    findIndexTranslit(string: T, arr: Array<T>, replaceArr: Array<T>): T;
+    translit(string: T): T;
 }
 
 class StringHelper implements IStringHelper<string> {
@@ -94,6 +100,35 @@ class StringHelper implements IStringHelper<string> {
         }
 
         return pathReg;
+    }
+
+    /*
+     * @param {number} - length . Длина строки
+     * @return {string}
+     */
+
+    static getRandomString(length: number): string {
+        return crypto.randomBytes(Math.ceil(length / 2))
+            .toString('hex')
+            .slice(0, length);
+    }
+
+    /*
+     * Хэширование по алгогритму sha512
+     * @param {string} - password. Пароль
+     * @param {string} - salt. Данные подлежащие проверке
+     * @return {object}
+     */
+
+    static sha512(password: string, salt: string): object {
+        const hash = crypto.createHmac('sha512', salt);
+        hash.update(password);
+        const value = hash.digest('hex');
+
+        return {
+            salt,
+            hash: value
+        }
     }
 
     /*
