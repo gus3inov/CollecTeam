@@ -1,10 +1,24 @@
-import * from 'koa';
-import * as config 'config';
+import * as Koa from 'koa';
+import * as config from 'config';
 
 import err from './middlewares/error';
-import { routes, allowedMethods } from './middlewares/routes'
-import { init, mysqlPromise, redis } from './libs/dbs'
+import { routes, allowedMethods } from './middlewares/routes';
+import { DBConnect, mysqlPromise, redis } from './libs/dbs';
 
-const initDb = init();
+import User from './models/User'
 
-console.log(initDb)
+const user = new User({
+    username: 'gus3infsdfaov',
+    lastName: 'Guseinov',
+    firstName: 'Muslim',
+    password: '23123131233',
+    email: 'gusejnov@mail.ru'
+})
+
+user.create().then(res => {
+    console.log(res)
+})
+
+// const dbConnect = new DBConnect;
+//
+// console.log(dbConnect.init())

@@ -1,6 +1,8 @@
-import * as mongoose from 'mongoose';
+import Database from '../helpers/Database'
 import * as config from 'config';
-const tableName = config.get('')
+import StringHelper from '../helpers/StringHelper';
+
+const tableName: object = 'users'
 
 export interface IUserRequest {
     username: string;
@@ -25,27 +27,66 @@ export interface IUserResponse {
     updatedAt: number;
 }
 
+type UserResponse = IUserResponse;
+
 export interface IUserModel {
     create(): IUserRequest;
-    validate(): void;
-    findIdentityByAccessToken(accessToken: string): any;
-    findIndentity(id: string): any;
-    findByUserName(username: string): any;
 
+    validate(): void;
+
+    findIdentityByAccessToken(accessToken: string): any;
+
+    findIndentity(id: string): any;
+
+    findByUserName(username: string): any;
 }
 
-class User implements IUserModel {
+class User extends Database implements IUserModel {
+
+    private username: string;
+    private firstName: string;
+    private lastName: string;
+    private password: string;
+    private email: string;
+
     constructor({
-        username,
-        firstName,
-        lastName,
-        password,
-        email
+                    username,
+                    firstName,
+                    lastName,
+                    password,
+                    email
                 }: UserRequest) {
+        super();
+        this.username = username;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+    }
+
+    public create() : Promise<any> {
+        const salt = StringHelper.getRandomString(16);
+        const passwordData = StringHelper.sha512(this.password, salt);
+
+        console.log(`INSERT INTO ${tableName} 
+            (first_name, last_name, email, username, password)
+            VALUES(${this.firstName}, ${this.lastName}, 'fsjdflksa@list.ru', ${this.username}, ${this.password})`)
+
+        // typeof passwordData.hash === 'string' ? console.log('string'passwordData.hash) : console.log('is not string', passwordData.hash)
+        return this.query(`INSERT INTO ${tableName} 
+            (first_name, last_name, email, username, password)
+            VALUES('${this.firstName}', '${this.lastName}', '${this.email}', '${this.username}', '${this.password}')`)
+    }
+
+    public remove() {
+        this.query()
+    }
+
+    static update() {
 
     }
 
-    private create () {
+    static getAll() {
 
     }
 
