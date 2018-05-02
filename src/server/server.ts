@@ -1,24 +1,26 @@
 import * as Koa from 'koa';
 import * as config from 'config';
-
 import err from './middlewares/error';
-import { routes, allowedMethods } from './middlewares/routes';
+import UserController from './controllers/UserController';
+import User from './models/User'
 import { DBConnect, mysqlPromise, redis } from './libs/dbs';
 
-import User from './models/User'
+const serverPort = config.get('dev.port');
+const app = new Koa();
 
-const user = new User({
-    username: 'gus3infsdfaov',
-    lastName: 'Guseinov',
-    firstName: 'Muslim',
-    password: '23123131233',
-    email: 'gusejnov@mail.ru'
-})
+const userModel = new User();
+const userController = new UserController(userModel)
 
-user.create().then(res => {
-    console.log(res)
-})
+app.use(err);
+app.use(userController.getRoutes());
+app.use(userController.allowedMethods());
 
-// const dbConnect = new DBConnect;
-//
-// console.log(dbConnect.init())
+app.use(async (ctx, next) => {
+    await next();
+
+    ctx.body = ctx.request.body;
+});
+
+app.listen(serverPort);
+
+console.log(`server listen on port ${serverPort}`)
