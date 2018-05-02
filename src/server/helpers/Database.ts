@@ -4,7 +4,7 @@ import * as config from 'config';
 const mysql: object = new MysqlPromise();
 
 interface IDatabase {
-    query(sql: string): Promise<any>;
+    query(sql: string, args: Array<any>): Promise<any>;
 
     close(): Promise<any>;
 }
@@ -19,8 +19,8 @@ class Database implements IDatabase {
         this.connection = mysql.configure(configMysql);
     }
 
-    protected query(sql: string): Promise<any> {
-        return mysql.query(sql);
+    protected query(sql: string, ...args: Array<any>): Promise<any> {
+        return mysql.query(sql, args);
     }
 
     protected close(): Promise<any> {
