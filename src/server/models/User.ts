@@ -38,9 +38,9 @@ export interface IUserModel {
 
     findByUserName(username: string): any;
 
-    update(id: number, user: IUserRequest): any;
+    update(username: string, user: IUserRequest): any;
 
-    remove(id: number): any;
+    remove(username: string): any;
 
     generateId(): string;
 
@@ -91,26 +91,37 @@ class User extends Database implements IUserModel {
 
         return await this.query(`INSERT INTO ${tableName} 
             (id, first_name, last_name, email, username, password, salt, role)
-            VALUES('${uniqeId}', '${firstName}', '${lastName}', '${email}', '${username}', '${passwordData.hash}', '${salt}', 3)`);
+            VALUES('${uniqeId}', '${firstName}', '${lastName}', '${email}', '${username}', '${passwordData.hash}', '${passwordData.salt}', 3)`);
     }
 
-    public async remove(id: number): any {
-        let result = await this.query(`DELETE FROM ${tableName} WHERE id=?`, [id]);
+    public async remove(username: string): any {
+        let result = await this.query(`DELETE FROM ${tableName} WHERE username=?`, [username]);
 
         return result.affectedRows;
     }
 
-    public async update(id: number, user: IUserRequest): any {
-            let UpgrageUser: IUserRequest = {};
+    public async update(username: string, user: IUserRequest): any {
+            let UpgrageUser: IUserRequest = {},
+                updateQuery: string = '';
 
             if (user.hasOwnProperty('username')) UpgrageUser.username = (user.username);
             if (user.hasOwnProperty('firstName')) UpgrageUser.firstName = (user.firstName);
             if (user.hasOwnProperty('lastName')) UpgrageUser.lastName = (user.lastName);
-            if (user.hasOwnProperty('password')) UpgrageUser.password = (user.password);
+            if (user.hasOwnProperty('password')) {
+                const salt = StringHelper.getRandomString(16);
+                const passwordData = StringHelper.sha512(user.password, salt);
+                UpgrageUser.salt = (passwordData.salt);
+                UpgrageUser.password = (passwordData.hash);
+            }
             if (user.hasOwnProperty('email')) UpgrageUser.email = (user.email);
 
-            let result = await this.query(`UPDATE ${tableName} SET ? WHERE id=?`, [UpgrageUser, id]);
+            let i:number = 0;
+            for(let key in UpgrageUser) {
+                i++
+                i === Object.keys(UpgrageUser).length ? updateQuery += `${key} = '${UpgrageUser[key]}'` : updateQuery += `${key} = '${UpgrageUser[key]}', `;
+            }
 
+            let result = await this.query(`UPDATE ${tableName} SET ${updateQuery} WHERE username=?`, [username]);
             return result.affectedRows;
     }
 
