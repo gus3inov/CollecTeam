@@ -6,7 +6,7 @@ Coming soon
 
 ## Git flow
 
-| Command | Description |
+| Name | Description |
 | --- | --- |
 | `@feature(<function>)` | Добавление новой функциональности на уровне приложения |
 | `@refactor` | Рефакторинг кода |
