@@ -39,20 +39,24 @@ class Router implements IRouter {
         this._router.get(path, ...middleware);
     }
 
-    public post (path: string | RegExp, ...middleware: Array<IMiddleware>) {
+    public post (path: string | RegExp, ...middleware: Array<IMiddleware>): any {
         this._router.post(path, ...middleware);
     }
 
-    public delete (path: string | RegExp, ...middleware: Array<IMiddleware>) {
+    public delete (path: string | RegExp, ...middleware: Array<IMiddleware>): any {
         this._router.delete(path, ...middleware);
     }
 
-    public put (path: string | RegExp, ...middleware: Array<IMiddleware>) {
+    public put (path: string | RegExp, ...middleware: Array<IMiddleware>): any {
         this._router.put(path, ...middleware);
     }
 
     protected listenRoutes () {
-        this._router.routes();
+       return this._router.routes();
+    }
+
+    protected allowedMethods () {
+       return this._router.allowedMethods();
     }
 }
 
