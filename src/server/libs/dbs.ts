@@ -52,7 +52,7 @@ class DBConnect {
         })
     }
 
-   init() {
+   public init() {
         // console.log('init-------------------', this)
         return Promise.all([
             this.checkMySqlConnection(),
