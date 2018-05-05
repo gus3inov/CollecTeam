@@ -1,8 +1,10 @@
 # Team Up
 
-- ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) `under development`
+![N|Solid](http://www.touchline3d.com/sites/default/files/styles/large/public/comingsoon_600x400.png?itok=urVKWPCz)    
 
-Coming soon
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
+
+Comming soon
 
 ## Git flow
 
