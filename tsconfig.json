@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "build/dist",
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es2017",
     "lib": ["es6", "dom"],
     "sourceMap": true,
@@ -17,6 +17,9 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true
   },
+  "include": [
+    "./src/**/*"
+  ],
   "exclude": [
     "node_modules",
     "build",
