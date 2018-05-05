@@ -6,7 +6,7 @@ import { IUserModel } from '../models/User';
 
 interface ContextStats {
     status: number;
-    body: any;
+    body: object;
     params: object;
     request: object;
 }
