@@ -8,7 +8,7 @@ import { DBConnect, mysqlPromise, redis } from './libs/dbs';
 import * as React from 'react';
 import * as ReactDomServer from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
-import App from '../App'
+import App from '../client/App'
 
 const serverPort = config.get('dev.port');
 const app = new Koa();
