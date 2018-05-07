@@ -3,45 +3,63 @@ import * as config from 'config';
 import err from './middlewares/error';
 import UserController from './controllers/UserController';
 import User from './models/User'
-import { DBConnect, mysqlPromise, redis } from './libs/dbs';
+import {DBConnect} from './libs/dbs';
+import passportInit from './libs/passport'
+import * as session from 'koa-generic-session';
+import * as RedisStore from 'koa-redis';
 
 import * as React from 'react';
 import * as ReactDomServer from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
-import App from '../client/App'
+import store from '../client/redux';
+import {Provider} from 'react-redux';
+import { ConnectedRouter } from 'react-router-redux';
+import App from '../client/App';
 
 const serverPort = config.get('dev.port');
 const app = new Koa();
 const assetUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:8000' : '/';
 
-// const userModel = new User();
-// const userController = new UserController(userModel)
+const userModel = new User();
+const userController = new UserController(userModel)
 
-// app.use(err);
-// app.use(userController.getRoutes());
-// app.use(userController.allowedMethods());
+app.use(err);
+
+const dbConnect = new DBConnect();
+
+// dbConnect.init().then(res => {
+//     console.log(res)
+// }).catch(err => {
+//     console.error(err);
+//
+//     throw new Error(err);
+// })
+
+// app.use(session({
+//     store: new RedisStore()
+// }));
+
+import './authenticate/init';
+import { StaticRouter } from 'react-router-dom';
+
+// passportInit(app);
+
+app.use(userController.getRoutes());
+app.use(userController.allowedMethods());
 
 app.use(async (ctx, next) => {
+    const context = {};
 
-    // match({ routes, location: ctx.req.url }, ( error, redirectLocation, renderProps ) => {
-    //     if (redirectLocation) { // Если необходимо сделать redirect
-    //         return ctx.res.redirect(301, redirectLocation.pathname + redirectLocation.search);
-    //     }
-    //
-    //     if (error) { // Произошла ошибка любого рода
-    //         return ctx.res.status(500).send(error.message);
-    //     }
-    //
-    //     if (!renderProps) {
-    //         return ctx.res.status(404).send('Not found');
-    //     }
-    //
-    // })
+    const componentHTML = ReactDomServer.renderToString(
 
-    const componentHTML = ReactDomServer.renderToString(<App />);
+        <Provider store={store}>
+                    <StaticRouter location={ctx.req.url}
+                                  context={context}>
+                            <App />
+                    </StaticRouter>
+                </Provider>
+    );
 
     return ctx.res.end(renderHTML(componentHTML));
-
 });
 
 const renderHTML = (componentHTML: any) => {
