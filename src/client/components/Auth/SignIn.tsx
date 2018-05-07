@@ -16,28 +16,12 @@ class SignIn extends React.Component<SignInProps & InjectedFormProps, {}> {
                 <h2>Sign In</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="">Username</label>
-                        <Field name="username" component="input"/>
-                    </div>
-                    <div>
-                        <label htmlFor="">First Name</label>
-                        <Field name="firstName" component="input"/>
-                    </div>
-                    <div>
-                        <label htmlFor="">Last Name</label>
-                        <Field name="lastName" component="input" />
-                    </div>
-                    <div>
                         <label htmlFor="">Email</label>
                         <Field name="email" component="input" />
                     </div>
                     <div>
                         <label htmlFor="">Password</label>
                         <Field name="password" component="input" type="password" />
-                    </div>
-                    <div>
-                        <label htmlFor="">Repeat Password</label>
-                        <Field name="r_password" component="input" type="password" />
                     </div>
                     <div>
                         <input type="submit"/>
