@@ -1,5 +1,6 @@
 import * as convert from 'koa-convert';
 import * as KoaBody from 'koa-body';
+import * as passport from 'passport';
 
 import Router from '../helpers/RouteGenerator';
 import { IUserModel } from '../models/User';
@@ -42,6 +43,8 @@ class UserController extends Router {
         this.actionGet();
         this.actionChange();
         this.actionDelete();
+        this.actionLogin();
+        this.actionLogout();
     }
 
     public getRoutes (): any {
@@ -54,13 +57,48 @@ class UserController extends Router {
 
     public actionCreate () {
         this.post('/api/user', koaBody, async(ctx: ContextStats, next: any) => {
-            console.log('create', ctx.request)
             ctx.status = ErrorStatus.Created;
-
+            console.log(this.request.body)
             const user = this.model.create(ctx.request.body);
 
             ctx.body = user
+
+            return passport.authenticate('local', (err, user, info, status) => {
+                if (user) {
+                    ctx.login(user);
+                    ctx.redirect('/auth/status');
+                } else {
+                    ctx.status = 400;
+                    ctx.body = { status: 'error' };
+                }
+            })(ctx);
         })
+    }
+
+    public actionLogin () {
+        this.post('/auth/login', async (ctx) => {
+            return passport.authenticate('local', (err, user, info, status) => {
+                if (user) {
+                    ctx.login(user);
+                    ctx.redirect('/auth/status');
+                } else {
+                    ctx.status = 400;
+                    ctx.body = { status: 'error' };
+                }
+            })(ctx);
+        });
+    }
+
+    public actionLogout () {
+        this.get('/auth/logout', async (ctx) => {
+            if (ctx.isAuthenticated()) {
+                ctx.logout();
+                ctx.redirect('/auth/login');
+            } else {
+                ctx.body = { success: false };
+                ctx.throw(401);
+            }
+        });
     }
 
     public actionGetAll () {
