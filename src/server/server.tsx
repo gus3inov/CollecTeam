@@ -4,16 +4,17 @@ import err from './middlewares/error';
 import UserController from './controllers/UserController';
 import User from './models/User'
 import {DBConnect} from './libs/dbs';
-import passportInit from './libs/passport'
-import * as session from 'koa-generic-session';
+import * as passport from 'koa-passport'
+import * as session from 'koa-session';
 import * as RedisStore from 'koa-redis';
+import * as bodyParser from 'koa-bodyparser';
 
 import * as React from 'react';
 import * as ReactDomServer from 'react-dom/server';
 import store from '../client/redux';
 import {Provider} from 'react-redux';
-import { ConnectedRouter } from 'react-router-redux';
 import App from '../client/App';
+import { StaticRouter } from 'react-router-dom';
 
 const serverPort = config.get('dev.port');
 const app = new Koa();
@@ -33,15 +34,15 @@ const dbConnect = new DBConnect();
 //
 //     throw new Error(err);
 // })
+app.keys = ['your-session-secret']
+app.use(session({
+    store: new RedisStore()
+}, app));
+app.use(bodyParser())
+require('./authenticate/init');
 
-// app.use(session({
-//     store: new RedisStore()
-// }));
-
-import './authenticate/init';
-import { StaticRouter } from 'react-router-dom';
-
-// passportInit(app);
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(userController.getRoutes());
 app.use(userController.allowedMethods());

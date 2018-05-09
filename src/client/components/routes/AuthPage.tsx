@@ -3,7 +3,7 @@ import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
 import { Route, NavLink } from 'react-router-dom'
 import {connect} from 'react-redux'
-import {signUp, moduleName} from '../../ducks/auth'
+import {signUp, moduleName, signIn} from '../../ducks/auth'
 import Loader from '../common/Loader'
 
 export interface AuthPageProps {
@@ -11,9 +11,16 @@ export interface AuthPageProps {
 }
 
 class AuthPage extends React.Component<any, any> {
+    handleSignIn = ({
+        username,
+        password
+                    }: any) => {
+        const user = {
+            username,
+            password
+        };
 
-    handleSignIn = (values: any) => {
-        console.log(values)
+        this.props.signIn(user);
     }
 
     handleSignUp = ({
@@ -50,8 +57,7 @@ class AuthPage extends React.Component<any, any> {
 }
 
 export default connect(state => {
-    console.log(state)
     return {
         loading: state[moduleName].loading
     }
-}, {signUp})(AuthPage);
+}, {signUp, signIn})(AuthPage);

@@ -58,8 +58,7 @@ class UserController extends Router {
     public actionCreate () {
         this.post('/api/user', koaBody, async(ctx: ContextStats, next: any) => {
             ctx.status = ErrorStatus.Created;
-            console.log(this.request.body)
-            const user = this.model.create(ctx.request.body);
+            const user = await this.model.create(ctx.request.body);
 
             ctx.body = user
 
@@ -79,11 +78,11 @@ class UserController extends Router {
         this.post('/auth/login', async (ctx) => {
             return passport.authenticate('local', (err, user, info, status) => {
                 if (user) {
-                    ctx.login(user);
-                    ctx.redirect('/auth/status');
+                    ctx.body = { success: true };
+                    return ctx.login(user);
                 } else {
                     ctx.status = 400;
-                    ctx.body = { status: 'error' };
+                    ctx.body = { status: info };
                 }
             })(ctx);
         });

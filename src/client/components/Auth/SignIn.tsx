@@ -2,7 +2,7 @@ import * as React from 'react';
 import { reduxForm, Field, InjectedFormProps } from 'redux-form'
 
 export interface SignInProps {
-    email: string;
+    username: string;
     password: string;
     onSubmit(): any;
 }
@@ -16,8 +16,8 @@ class SignIn extends React.Component<SignInProps & InjectedFormProps, {}> {
                 <h2>Sign In</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="">Email</label>
-                        <Field name="email" component="input" />
+                        <label htmlFor="">Username</label>
+                        <Field name="username" component="input" />
                     </div>
                     <div>
                         <label htmlFor="">Password</label>
