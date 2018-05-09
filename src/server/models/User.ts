@@ -42,7 +42,7 @@ export interface IUserModel {
 
     remove(username: string): any;
 
-    generateId(): string;
+    generateID(): string;
 
     getAll(): Promise<any>;
 }
@@ -87,7 +87,7 @@ class User extends Database implements IUserModel {
                         }: UserRequest): Promise<any> {
         const salt = genSaltSync();
         const hash = hashSync(password, salt);
-        const uniqeId:string = this.generateID();
+        const uniqeId: string = this.generateID();
 
         return await this.query(`INSERT INTO ${tableName} 
             (id, first_name, last_name, email, username, password, salt, role)
@@ -125,7 +125,7 @@ class User extends Database implements IUserModel {
             return result.affectedRows;
     }
 
-    private generateID(): string {
+    public generateID(): string {
         return uuid();
     }
 

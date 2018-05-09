@@ -3,8 +3,7 @@ import * as config from 'config';
 import err from './middlewares/error';
 import UserController from './controllers/UserController';
 import User from './models/User'
-import {DBConnect} from './libs/dbs';
-import * as passport from 'koa-passport'
+import passportInit from './libs/passport'
 import * as session from 'koa-session';
 import * as RedisStore from 'koa-redis';
 import * as bodyParser from 'koa-bodyparser';
@@ -12,7 +11,7 @@ import * as bodyParser from 'koa-bodyparser';
 import * as React from 'react';
 import * as ReactDomServer from 'react-dom/server';
 import store from '../client/redux';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import App from '../client/App';
 import { StaticRouter } from 'react-router-dom';
 
@@ -21,31 +20,24 @@ const app = new Koa();
 const assetUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:8000' : '/';
 
 const userModel = new User();
-const userController = new UserController(userModel)
+const userController = new UserController(userModel);
 
 app.use(err);
 
-const dbConnect = new DBConnect();
+app.keys = ['your-session-secret'];
 
-// dbConnect.init().then(res => {
-//     console.log(res)
-// }).catch(err => {
-//     console.error(err);
-//
-//     throw new Error(err);
-// })
-app.keys = ['your-session-secret']
 app.use(session({
     store: new RedisStore()
 }, app));
-app.use(bodyParser())
-require('./authenticate/init');
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(bodyParser());
+
+import './authenticate/init';
+
+passportInit(app);
 
 app.use(userController.getRoutes());
-app.use(userController.allowedMethods());
+app.use(userController.getMethods());
 
 app.use(async (ctx, next) => {
     const context = {};

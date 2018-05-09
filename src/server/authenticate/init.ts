@@ -1,7 +1,6 @@
 import * as passport from 'koa-passport';
 import * as LocalPassport from 'passport-local';
 import User from '../models/User';
-import authenticationMiddleware from './middleware';
 import { compareSync } from 'bcryptjs';
 
 const LocalStrategy = LocalPassport.Strategy;

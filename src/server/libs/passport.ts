@@ -1,4 +1,4 @@
-import * as passport from 'koa-passport'
+import * as passport from 'koa-passport';
 
 const passportInit = (app: any) =>  {
     app.use(passport.initialize());

@@ -22,10 +22,9 @@ interface IRequest{
     id: number;
 }
 
-type RequestStats = IRequest
+type RequestStats = IRequest;
 
 const koaBody = convert(KoaBody());
-
 
 /***
  * @todo Сделать MV подобную архитектуру с контроллером, в качестве аргумента инстанса принемаемый экземлпяр модели
@@ -64,11 +63,16 @@ class UserController extends Router {
 
             return passport.authenticate('local', (err, user, info, status) => {
                 if (user) {
-                    ctx.login(user);
-                    ctx.redirect('/auth/status');
+                    ctx.body = { success: true };
+                    return ctx.login(user);
                 } else {
                     ctx.status = 400;
-                    ctx.body = { status: 'error' };
+                    ctx.body = {
+                        status: status,
+                        user: user,
+                        info: info,
+                        error: err
+                    };
                 }
             })(ctx);
         })
@@ -82,7 +86,12 @@ class UserController extends Router {
                     return ctx.login(user);
                 } else {
                     ctx.status = 400;
-                    ctx.body = { status: info };
+                    ctx.body = {
+                        status: status,
+                        user: user,
+                        info: info,
+                        error: err
+                    };
                 }
             })(ctx);
         });
@@ -91,8 +100,7 @@ class UserController extends Router {
     public actionLogout () {
         this.get('/auth/logout', async (ctx) => {
             if (ctx.isAuthenticated()) {
-                ctx.logout();
-                ctx.redirect('/auth/login');
+                return ctx.logout();
             } else {
                 ctx.body = { success: false };
                 ctx.throw(401);
@@ -102,15 +110,15 @@ class UserController extends Router {
 
     public actionGetAll () {
         this.get('/api/users', async(ctx: ContextStats, next: any) => {
-            const result = await this.model.getAll();
+            const result: Array<object> = await this.model.getAll();
             ctx.body = result[0];
         });
     }
 
     public actionGet () {
         this.get('/api/user/:username', async(ctx: ContextStats, next: any) => {
-            let result = await this.model.findByUserName(ctx.params.username);
-            console.log('get ----', ctx.params.username)
+            let result: Array<object> = await this.model.findByUserName(ctx.params.username);
+
             if (result) {
                 ctx.body = result[0];
             } else {
@@ -122,15 +130,15 @@ class UserController extends Router {
     public actionChange () {
         this.put('/api/user/:username', koaBody, async <RequestStats> (ctx: ContextStats, next: any) => {
             ctx.status = ErrorStatus.NoContent;
-            console.log('body ----', ctx.request.body)
+
             await this.model.update(ctx.params.username, ctx.request.body);
         })
     }
 
     public actionDelete () {
         this.delete('/api/user/:username', async (ctx: ContextStats, next: any) => {
-            console.log(ctx.params.username)
             ctx.status = ErrorStatus.NoContent;
+
             await this.model.remove(ctx.params.username);
         })
     }

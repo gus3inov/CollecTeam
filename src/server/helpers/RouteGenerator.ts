@@ -1,24 +1,5 @@
 import * as KoaRouter from 'koa-router';
-import { IMiddleware, IRouterContext } from 'koa-router';
-
-enum ErrorStatus{
-    Created = 201,
-    NoContent = 204
-}
-
-interface ContextStats {
-    status: number;
-    body: object;
-    params: object;
-    request: object;
-}
-
-interface IRequest{
-    body: any;
-    id: number;
-}
-
-type RequestStats = IRequest
+import { IMiddleware } from 'koa-router';
 
 interface IRouter {
     router: IRouter;
