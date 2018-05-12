@@ -28,16 +28,22 @@ class AuthPage extends React.Component<any, any> {
                         firstName,
                         lastName,
                         password,
-                        email
+                        email,
+                        avatar
                     }: any) => {
-
+        console.log(avatar)
+        let imgAvatar = new FormData();
+        imgAvatar.append('avatar', avatar);
+        imgAvatar.append('filename', avatar.name);
         const user = {
             username,
             firstName,
             lastName,
             password,
-            email
+            email,
+            avatar: imgAvatar
         };
+
         this.props.signUp(user)
     }
 

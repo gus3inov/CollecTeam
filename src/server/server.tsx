@@ -7,6 +7,8 @@ import passportInit from './libs/passport'
 import * as session from 'koa-session';
 import * as RedisStore from 'koa-redis';
 import * as bodyParser from 'koa-bodyparser';
+import * as serve from 'koa-static';
+import * as path from 'path';
 
 import * as React from 'react';
 import * as ReactDomServer from 'react-dom/server';
@@ -31,6 +33,7 @@ app.use(session({
 }, app));
 
 app.use(bodyParser());
+app.use(serve(path.join(__dirname, '/public')));
 
 import './authenticate/init';
 

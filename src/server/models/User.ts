@@ -10,6 +10,7 @@ export interface IUserRequest {
     lastName: string;
     password: string;
     email: string;
+    avatar: string;
 }
 
 type UserRequest = IUserRequest
@@ -83,15 +84,16 @@ class User extends Database implements IUserModel {
                             firstName,
                             lastName,
                             password,
-                            email
+                            email,
+                            avatar
                         }: UserRequest): Promise<any> {
         const salt = genSaltSync();
         const hash = hashSync(password, salt);
         const uniqeId: string = this.generateID();
 
         return await this.query(`INSERT INTO ${tableName} 
-            (id, first_name, last_name, email, username, password, salt, role)
-            VALUES('${uniqeId}', '${firstName}', '${lastName}', '${email}', '${username}', '${hash}', '${salt}', 3)`);
+            (id, first_name, last_name, email, username, avatar, password, salt, role)
+            VALUES('${uniqeId}', '${firstName}', '${lastName}', '${email}', '${username}', '${avatar}', '${hash}', '${salt}', 3)`);
     }
 
     public async remove(username: string): any {
@@ -114,10 +116,11 @@ class User extends Database implements IUserModel {
                 UpgrageUser.password = (hash);
             }
             if (user.hasOwnProperty('email')) UpgrageUser.email = (user.email);
+            if (user.hasOwnProperty('avatar')) UpgrageUser.avatar = (user.avatar);
 
             let i:number = 0;
             for(let key in UpgrageUser) {
-                i++
+                i++;
                 i === Object.keys(UpgrageUser).length ? updateQuery += `${key} = '${UpgrageUser[key]}'` : updateQuery += `${key} = '${UpgrageUser[key]}', `;
             }
 

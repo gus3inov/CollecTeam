@@ -1,6 +1,9 @@
 import * as convert from 'koa-convert';
 import * as KoaBody from 'koa-body';
 import * as passport from 'passport';
+import * as path from 'path';
+import * as os from 'os';
+import * as fs from 'fs';
 
 import Router from '../helpers/RouteGenerator';
 import { IUserModel } from '../models/User';
@@ -24,7 +27,7 @@ interface IRequest{
 
 type RequestStats = IRequest;
 
-const koaBody = convert(KoaBody());
+const koaBody = convert(KoaBody({ multipart: true }));
 
 /***
  * @todo Сделать MV подобную архитектуру с контроллером, в качестве аргумента инстанса принемаемый экземлпяр модели
@@ -57,7 +60,21 @@ class UserController extends Router {
     public actionCreate () {
         this.post('/api/user', koaBody, async(ctx: ContextStats, next: any) => {
             ctx.status = ErrorStatus.Created;
-            const user = await this.model.create(ctx.request.body);
+            const imgAvatar = ctx.request.body.files.avatar;
+            const reader = fs.createWriteStream(imgAvatar.path);
+            const stream = fs.createWriteStream(path.join(os.tmpdir(), Math.random().toString()));
+            reader.pipe(stream);
+
+            const userData = {
+                username: ctx.request.body.username,
+                firstName: ctx.request.body.firstName,
+                lastName: ctx.request.body.lastName,
+                password: ctx.request.body.password,
+                email: ctx.request.body.email,
+                avatar: 'pathTestavatar.jpg'
+            };
+
+            const user = await this.model.create(userData);
 
             ctx.body = user
 

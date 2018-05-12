@@ -95,10 +95,8 @@ export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
         dispatch({
             type: SIGN_IN_REQUEST
         })
-        console.log(user)
         axios.post('/auth/login', user)
             .then(user => {
-                console.log(user);
                 return dispatch({
                     type: SIGN_IN_SUCCESS,
                     payload: user
@@ -106,7 +104,6 @@ export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
             })
             .catch(err => {
                 console.error(err);
-
                 return dispatch({
                     type: SIGN_IN_ERROR,
                     err

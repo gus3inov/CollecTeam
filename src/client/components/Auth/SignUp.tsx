@@ -24,10 +24,33 @@ const validate = ({email, password, repeatPassword}: any) => {
     else if(password.length < 8) errors.password;
 
     return errors
-}
+};
 
+const adaptFileEventToValue = (delegate: any) => (e: any) => delegate(e.target.files[0]);
+
+const FileInput = ({
+                       input: { value: omitValue, onChange, onBlur, ...inputProps },
+                       meta: omitMeta,
+                       ...props
+                   }: any) => {
+    return (
+        <input
+            onChange={adaptFileEventToValue(onChange)}
+            onBlur={adaptFileEventToValue(onBlur)}
+            type="file"
+            {...props.input}
+            {...props}
+        />
+    );
+};
+
+@(reduxForm({
+    form: 'auth',
+    validate
+}) as any)
 class SignUp extends React.Component<SignUpProps & InjectedFormProps, {}> {
-    render() {
+
+    public render() {
         const {handleSubmit} = this.props
 
         return (
@@ -44,7 +67,11 @@ class SignUp extends React.Component<SignUpProps & InjectedFormProps, {}> {
                     </div>
                     <div>
                         <label htmlFor="">Last Name</label>
-                        <Field name="lastName" component="input" />
+                        <Field name="lastName" component="input"/>
+                    </div>
+                    <div>
+                        <label htmlFor="">Avatar</label>
+                        <Field name="avatar" component={FileInput} type="file"/>
                     </div>
                     <div>
                         <label htmlFor="">Email</label>
@@ -67,7 +94,4 @@ class SignUp extends React.Component<SignUpProps & InjectedFormProps, {}> {
     }
 }
 
-export default reduxForm({
-    form: 'auth',
-    validate
-})(SignUp);
+export default SignUp;
