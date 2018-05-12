@@ -26,7 +26,7 @@ const validate = ({email, password, repeatPassword}: any) => {
     return errors
 };
 
-const adaptFileEventToValue = (delegate: any) => (e: any) => delegate(e.target.files[0]);
+const adaptFileEventToValue = (delegate: any) => (e: any) => delegate(e.target.files);
 
 const FileInput = ({
                        input: { value: omitValue, onChange, onBlur, ...inputProps },

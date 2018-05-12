@@ -4,6 +4,7 @@ import * as passport from 'passport';
 import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs';
+import * as util from 'util';
 
 import Router from '../helpers/RouteGenerator';
 import { IUserModel } from '../models/User';
@@ -27,7 +28,7 @@ interface IRequest{
 
 type RequestStats = IRequest;
 
-const koaBody = convert(KoaBody({ multipart: true }));
+const koaBody = KoaBody();
 
 /***
  * @todo Сделать MV подобную архитектуру с контроллером, в качестве аргумента инстанса принемаемый экземлпяр модели
@@ -60,38 +61,38 @@ class UserController extends Router {
     public actionCreate () {
         this.post('/api/user', koaBody, async(ctx: ContextStats, next: any) => {
             ctx.status = ErrorStatus.Created;
-            const imgAvatar = ctx.request.body.files.avatar;
-            const reader = fs.createWriteStream(imgAvatar.path);
-            const stream = fs.createWriteStream(path.join(os.tmpdir(), Math.random().toString()));
-            reader.pipe(stream);
+            // const imgAvatar = ctx.request.body.avatar;
+            // ctx.body = {
+            //     message: JSON.stringify(imgAvatar)
+            // }
+            // const reader = fs.createWriteStream(imgAvatar.path);
+            // const stream = fs.createWriteStream(path.join(os.tmpdir(), Math.random().toString()));
+            // reader.pipe(stream);
 
             const userData = {
                 username: ctx.request.body.username,
                 firstName: ctx.request.body.firstName,
                 lastName: ctx.request.body.lastName,
                 password: ctx.request.body.password,
-                email: ctx.request.body.email,
-                avatar: 'pathTestavatar.jpg'
+                email: ctx.request.body.email
             };
 
             const user = await this.model.create(userData);
 
-            ctx.body = user
-
-            return passport.authenticate('local', (err, user, info, status) => {
-                if (user) {
-                    ctx.body = { success: true };
-                    return ctx.login(user);
-                } else {
-                    ctx.status = 400;
-                    ctx.body = {
-                        status: status,
-                        user: user,
-                        info: info,
-                        error: err
-                    };
-                }
-            })(ctx);
+            // return passport.authenticate('local', (err, user, info, status) => {
+            //     if (user) {
+            //         ctx.body = { success: true };
+            //         return ctx.login(user);
+            //     } else {
+            //         ctx.status = 400;
+            //         ctx.body = {
+            //             status: status,
+            //             user: user,
+            //             info: info,
+            //             error: err
+            //         };
+            //     }
+            // })(ctx);
         })
     }
 

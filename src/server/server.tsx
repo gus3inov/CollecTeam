@@ -32,7 +32,7 @@ app.use(session({
     store: new RedisStore()
 }, app));
 
-app.use(bodyParser());
+// app.use(bodyParser());
 app.use(serve(path.join(__dirname, '/public')));
 
 import './authenticate/init';
