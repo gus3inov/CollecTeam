@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const StyledButton = styled.button`
     font-size: 43px;
-    padding:    ${ (props: { size: boolean })    : string => props.size ? '23px': '5px' };
+    padding: ${ (props: { size: boolean }) : string => props.size ? '23px': '5px' };
     border: none;
     outline: 0;
 `
@@ -18,21 +18,21 @@ const White = StyledButton.extend`
     color: #000;
 `
 
-interface Button {
+interface ButtonProps {
     children: string,
     size: boolean
 }
 
-export const BlackButton = (props: Button) => {
-    const {size} = props
+export const BlackButton: React.SFC<ButtonProps> = (props: ButtonProps) => {
+    const {size} = props;
     return (
         <Black size={size}>{props.children}</Black>
     )
 }
 
-export const WhiteButton = (props: Button) => {
-    const {size} = props
+export const WhiteButton: React.SFC<ButtonProps> = (props: ButtonProps) => {
+    const {size} = props;
     return (
         <White size={size}>{props.children}</White>
     )
-}
+};
