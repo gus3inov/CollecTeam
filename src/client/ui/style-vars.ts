@@ -1,13 +1,13 @@
-export const darkColor = '#2A2A2E'
+export const darkColor = '#040B10'
 export type darkColor = typeof  darkColor
 
-export const lightColor = '#3C3C42'
+export const lightColor = '#07D2FF'
 export type lightColor = typeof  lightColor
 
-export const lightBlue = '#00FFEC'
+export const lightBlue = '#07D2FF'
 export type lightBlue = typeof lightBlue
 
-export const darkBlue = '#09C8D6'
+export const darkBlue = '#0c2740'
 export type darkBlue = typeof darkBlue
 
 
