@@ -1,17 +1,28 @@
-import * as React from "react"
-import {Fragment} from "react"
-import Pannel from '../organisms/Pannel'
+import * as React from 'react';
+import {Fragment} from 'react';
 
-export interface HelloProps {
+import toggleOpen, { InjectedProps } from '../../hocs/toggleOpen';
+import Menu from '../organisms/Menu';
+import Header from '../organisms/Header';
+
+export interface HomeProps {
     title?: string;
 }
 
-const Home = (props: HelloProps)=> {
-    return (
-        <Fragment>
+class Home extends React.Component <HomeProps & InjectedProps> {
 
-        </Fragment>
-    )
+    render() {
+        const { toggleOpen, isOpen } = this.props;
+
+        return (
+            <Fragment>
+                <main className="home">
+                    <Header isOpen={isOpen} />
+                    <Menu toggleOpen={toggleOpen} isOpen={isOpen} />
+                </main>
+            </Fragment>
+        )
+    }
 }
 
-export default Home
+export default toggleOpen(Home);
