@@ -2,7 +2,7 @@ import * as React from "react";
 import { IPosters } from '../../../api/models/poster';
 import styled, { StyledInterface } from 'styled-components';
 import { darkColor, fontWhite, darkPurple } from '../../style-vars';
-import { Icon } from '../../atoms/icon'
+import { Icon } from '../../atoms/Icon'
 
 const PosterItem:StyledInterface = styled.article`
     background-color: ${darkColor};
