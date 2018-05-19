@@ -5,11 +5,10 @@ export interface AppProps {
 
 }
 
-
 class App extends React.Component<AppProps, {}> {
   public render() {
     return (
-                <Root />
+          <Root />
     );
   }
 }
