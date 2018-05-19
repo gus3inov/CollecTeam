@@ -1,22 +1,15 @@
-import * as React from "react"
-import Header from './Header'
-import Menu from './Menu'
-import { Fragment } from "react"
-import toggleOpen, { InjectedProps } from '../../../hocs/toggleOpen'
+import * as React from 'react';
 
-export interface OriginProps {
+import MainHeader from './Header';
+
+export interface HeaderProps {
     isOpen: boolean;
-    toggleOpen(): any;
 }
 
-const MenuHeader:  React.StatelessComponent<OriginProps & InjectedProps> = props => {
-        const { toggleOpen, isOpen } = props
-        return (
-            <Fragment>
-                <Menu toggleOpen={toggleOpen} isOpen={ isOpen }/>
-                <Header toggleOpen={toggleOpen} isOpen={ isOpen }/>
-            </Fragment>
-        )
-}
+const Header:  React.StatelessComponent<HeaderProps> = (props: HeaderProps) => {
+        const { isOpen } = props;
 
-export default toggleOpen(MenuHeader)
+        return <MainHeader isOpen={ isOpen }/>
+};
+
+export default Header;

@@ -1,39 +1,28 @@
 import * as React from "react"
-import styled from 'styled-components'
-import { darkColor } from "../../style-vars";
 
-const StyledHeader = styled.header`
-  background: ${darkColor};
-  padding: 20px;
-  border-bottom: 1px solid #fff;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 100;
-`
+import { StyledHeader } from './style'
+import {HeaderProps} from "./index";
+import Search from '../../molecules/Search';
+import UserAvatar from '../../molecules/UserAvatar';
 
 export interface OriginProps {
     isOpen?: boolean;
-    toggleOpen?(): any;
 }
 
-const  Header = (props: OriginProps ) => {
-        const { toggleOpen, isOpen } = props;
-
+const MainHeader: React.StatelessComponent<HeaderProps> = (props: OriginProps ) => {
+    const { isOpen } = props;
         return (
-            <StyledHeader className="alt-header container-fluid">
-                <div className="row">
-                    <div className="col-md-5">
-                        <button className={`toggle-button ${isOpen ? 'toggle-button_open' : 'toggle-button_close'}`} onClick={ toggleOpen }>
-                            <div className="icon toggle">
-                                <i></i><i></i><i></i>
-                            </div>
-                        </button>
+            <StyledHeader className={`alt-header ${isOpen ? 'alt-header_open' : 'alt-header_closed'} container-fluid`}>
+                <div className="col-md-12">
+                    <div className="row">
+                        <div className="col-md-5">
+                            <Search />
+                            <UserAvatar />
+                        </div>
                     </div>
                 </div>
             </StyledHeader>
         )
-}
+};
 
-export default Header
+export default MainHeader;
