@@ -2,7 +2,7 @@ import * as Koa from 'koa';
 import * as config from 'config';
 import err from './middlewares/error';
 import UserController from './controllers/UserController';
-import User from './models/User'
+import User from './models/User';
 import passportInit from './libs/passport'
 import * as session from 'koa-session';
 import * as RedisStore from 'koa-redis';
@@ -17,7 +17,7 @@ import { StaticRouter } from 'react-router-dom';
 
 const serverPort = config.get('dev.port');
 const app = new Koa();
-const assetUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:8000' : '/';
+const assetUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:4000' : '/';
 
 const userModel = new User();
 const userController = new UserController(userModel);
@@ -62,8 +62,8 @@ const renderHTML = (componentHTML: any) => {
       <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <link href="//cdn.materialdesignicons.com/2.3.54/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
           <title>Collect Team</title>
-          <link rel="stylesheet" href="${assetUrl}/static/css/styles.css">
       </head>
       <body>
         <div id="root">${componentHTML}</div>
@@ -71,8 +71,8 @@ const renderHTML = (componentHTML: any) => {
       </body>
     </html>
   `;
-}
+};
 
 app.listen(serverPort);
 
-console.log(`server listen on port ${serverPort}`)
+console.log(`server listen on port ${serverPort}`);
