@@ -1,5 +1,8 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+
+import  './css/bootstrap.css';
+import './css/main.css';
 import App from './client/App';
 import {ConnectedRouter} from 'react-router-redux';
 import {Provider} from 'react-redux';

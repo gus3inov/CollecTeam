@@ -1,0 +1,272 @@
+*::-webkit-input-placeholder {
+    color: #666;
+    opacity: 1;
+}
+
+*:-moz-placeholder {
+    color: #666;
+    opacity: 1;
+}
+
+*::-moz-placeholder {
+    color: #666;
+    opacity: 1;
+}
+
+*:-ms-input-placeholder {
+    color: #666;
+    opacity: 1;
+}
+
+::-webkit-scrollbar {
+    width: 0.6em;
+    height: 0.5em;
+    outline: 0
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(177, 29, 29);
+    outline: 0
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+
+
+body input:focus:required:invalid,
+body textarea:focus:required:invalid {}
+
+body input:required:valid,
+body textarea:required:valid {}
+
+html{
+    height: 100%;
+}
+
+body {
+    font-family: sans-serif;
+    font-size: 16px;
+    min-width: 320px;
+    position: relative;
+    line-height: 1.6;
+    background-color: #e9ebee;
+    font-family: "PTSans-Regular", sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+#root, #root> div {
+    height: 100%;
+}
+
+#root {
+    background-color: #0A1C28;
+}
+
+.hidden {
+    display: none;
+}
+
+button,
+a {
+    outline: 0;
+    text-decoration: none;
+}
+
+a:hover {
+    color: unset;
+    text-decoration: none;
+}
+
+button{
+    background: transparent;
+    border: none;
+    outline: 0 !important;
+}
+
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Geometria-Regular", sans-serif;
+    font-weight: normal;
+    margin: 0;
+    padding: 0;
+}
+
+ul, li{
+    margin: 0;
+    padding: 0;
+}
+
+ul li{
+    list-style-type: none;
+}
+
+.wrapper{
+    margin-top: 110px;
+}
+
+@media (max-width: 1680px) {
+    .container.wrapper{
+        max-width: 1540px;
+    }
+}
+
+.input {
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    height: 40px;
+    outline: 0;
+    border-bottom: 1px solid #fff;
+    transition: 0.32s;
+}
+
+.button {
+    cursor: pointer;
+}
+
+.mdi {
+    color: #fff
+}
+
+.input:focus {
+    border-bottom: 1px solid #07D2FF;
+}
+
+.input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #fff;
+}
+.input::-moz-placeholder { /* Firefox 19+ */
+    color: #fff;
+}
+.input:-ms-input-placeholder { /* IE 10+ */
+    color: #fff;
+}
+.input:-moz-placeholder { /* Firefox 18- */
+    color: #fff;
+}
+
+.icon.toggle{
+    background-color: transparent;
+    width: 40px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    border: none;
+}
+
+.icon.toggle i {
+    background-color: #07D2FF;
+    width: 40px;
+    height: 3px;
+    display: block;
+    position: relative;
+    transition: 0.32s cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+
+.icon.toggle i:nth-child(1) {
+    top: -4px;
+}
+
+.icon.toggle i:nth-child(2) {
+    top: 4px;
+    width: 23px;
+}
+
+.icon.toggle i:nth-child(3) {
+    top: 11px;
+}
+
+.home {
+    position: relative;
+}
+
+.toggle-button{
+    cursor: pointer;
+    position: absolute;
+    left: 120px;
+    top: 37px;
+    transition: 0.32s;
+}
+
+.toggle-button.toggle-button_open{
+    left: 230px;
+}
+
+.toggle-button.toggle-button_open .toggle i:nth-child(1) {
+    transform: rotateZ(44.87deg);
+    top: 7px;
+}
+
+.toggle-button.toggle-button_open .toggle i:nth-child(2) {
+    opacity: 0;
+}
+
+.toggle-button.toggle-button_open .toggle i:nth-child(3) {
+    top: 1px !important;
+    transform: rotateZ(-44.87deg);
+}
+
+.alt-menu .alt-menu-nav{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.alt-menu .alt-menu-nav .alt-menu-nav__list{
+    width: 100% ;
+}
+
+.alt-menu .alt-menu-nav .alt-menu-nav__list .alt-menu-nav__list__item{
+    color: #fff;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/************ \ Animations \ ************/
+
+.slide-enter {
+    opacity: 0.01;
+    transform: translateX(-200px);
+}
+
+.slide-enter.slide-enter-active {
+    opacity: 1;
+    transform: translateX(0px);
+    transition: opacity 500ms ease-in, transform 1000ms;
+}
+
+.slide-exit {
+    opacity: 1;
+    transform: translateX(0px);
+}
+
+.slide-exit.slide-exit-active {
+    opacity: 0.01;
+    transform: translateX(-200px);
+    transition: opacity 800ms ease-in;
+}
+
+@keyframes Fade {
+    from {
+        opacity: 0.01;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
