@@ -17,7 +17,7 @@ import store from '../client/redux';
 import App from '../client/App';
 import routes from '../client/components/routes';
 
-const serverPort = config.get('dev.port');
+const serverPort = config.get('dev.serverPort');
 const app = new Koa();
 const assetUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:4000' : '/';
 
