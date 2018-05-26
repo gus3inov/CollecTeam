@@ -1,7 +1,4 @@
-interface ContextStats {
-    status: number;
-    body: object;
-}
+import { ContextStats } from '../interfaces/IKoa'
 
 export default async (ctx: ContextStats, next: any) => {
     try {

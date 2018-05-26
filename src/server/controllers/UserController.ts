@@ -4,6 +4,7 @@ import * as passport from 'passport';
 
 import Router from '../helpers/RouteGenerator';
 import { IUserModel } from '../models/User';
+import checkAuth from '../middlewares/checkAuth'
 
 interface ContextStats {
     status: number;
@@ -44,6 +45,7 @@ class UserController extends Router {
         this.actionDelete();
         this.actionLogin();
         this.actionLogout();
+        this.isAuth();
     }
 
     public getRoutes (): any {
@@ -59,18 +61,16 @@ class UserController extends Router {
             ctx.status = ErrorStatus.Created;
             const user = await this.model.create(ctx.request.body);
 
-            ctx.body = user
+            ctx.body = user;
 
-            return passport.authenticate('local', (err, user, info, status) => {
+            return passport.authenticate('local', (err, token, user) => {
                 if (user) {
-                    ctx.body = { success: true };
+                    ctx.body = { success: true, token };
                     return ctx.login(user);
                 } else {
                     ctx.status = 400;
                     ctx.body = {
-                        status: status,
-                        user: user,
-                        info: info,
+
                         error: err
                     };
                 }
@@ -80,21 +80,36 @@ class UserController extends Router {
 
     public actionLogin () {
         this.post('/auth/login', async (ctx) => {
-            return passport.authenticate('local', (err, user, info, status) => {
+            return passport.authenticate('local', (err, token, user) => {
                 if (user) {
-                    ctx.body = { success: true };
+                    const userRequest = {
+                        id: user.id,
+                        username: user.username,
+                        firstName: user.first_name,
+                        lastName: user.last_name,
+                        email: user.email,
+                        avatar: user.avatar,
+                        position: user.position_id,
+                        role: user.role_id,
+                        team: user.team_id
+                    };
+
+                    delete user.salt;
+                    delete user.password;
+                    ctx.body = { success: true, token, user: userRequest};
                     return ctx.login(user);
                 } else {
                     ctx.status = 400;
                     ctx.body = {
-                        status: status,
-                        user: user,
-                        info: info,
-                        error: err
+                        error: `user : ${JSON.stringify(err)}`
                     };
                 }
             })(ctx);
         });
+    }
+
+    public isAuth () {
+        this.get('/auth/isauth', checkAuth);
     }
 
     public actionLogout () {

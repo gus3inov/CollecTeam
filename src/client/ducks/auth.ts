@@ -3,6 +3,7 @@ import {ThunkAction} from 'redux-thunk';
 import {Record} from 'immutable';
 import * as config from 'config';
 import axios from 'axios';
+import AuthService from '../services/AuthService';
 
 const appName: string = 'collect_team';
 
@@ -94,14 +95,45 @@ export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
     return (dispatch) => {
         dispatch({
             type: SIGN_IN_REQUEST
-        })
-        console.log(user)
+        });
+
         axios.post('/auth/login', user)
-            .then(user => {
-                console.log(user);
+            .then(res => {
+                AuthService.authenticateUser(res.data.token);
+                return dispatch({
+                    type: SIGN_IN_SUCCESS
+                })
+            })
+            .catch(err => {
+                console.error(err);
+
+                return dispatch({
+                    type: SIGN_IN_ERROR,
+                    err
+                })
+            })
+    }
+};
+
+export const isAuth: ActionCreator<ThunkAction<any, any, void>> = () => {
+    return (dispatch) => {
+        dispatch({
+            type: SIGN_IN_REQUEST
+        });
+
+        const instance = axios.create({
+            timeout: 2000,
+            headers: {
+                'Authorization': `bearer ${AuthService.getToken()}`
+            }
+        });
+
+        instance.get('/auth/isauth')
+            .then(res => {
+                console.log(res)
                 return dispatch({
                     type: SIGN_IN_SUCCESS,
-                    payload: user
+                    payload: res.data.user
                 })
             })
             .catch(err => {

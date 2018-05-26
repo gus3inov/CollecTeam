@@ -140,7 +140,7 @@ class User extends Database implements IUserModel {
     }
 
     public async findIndentity(id: string): Promise<any> {
-        const user: Array<object> = await this.query(`SELECT * FROM ${tableName} WHERE id=?`, [Number(id)]);
+        const user: Array<object> = await this.query(`SELECT * FROM ${tableName} WHERE id=?`, [id]);
 
         return user[0];
     }
