@@ -1,5 +1,12 @@
 {
   "dev": {
+    "host": "localhost",
+    "port": 3307,
+    "user": "root",
+    "password": "" ,
+    "database": "team_up",
+    "driver": "mysql",
+    "multipleStatements": true,
     "db": {
       "mysql": {
         "host": "localhost",
@@ -22,6 +29,7 @@
       "initialDays": 1
     }
   },
+  "jwtSecret": "+92[u=2S|Ib`k|",
   "appName": "collect_team",
   "prod": {
 
