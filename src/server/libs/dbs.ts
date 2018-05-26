@@ -7,7 +7,7 @@ export interface IConfigApp {
     redis: object;
 }
 
-const configApp: IConfigApp = config.get('dev')
+const configApp: IConfigApp = config.get('dev');
 
 const mysqlPromise: object = new MysqlPromise();
 
