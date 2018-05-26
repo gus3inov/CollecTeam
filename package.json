@@ -117,6 +117,7 @@
     "@types/redux-logger": "^3.0.6",
     "@types/redux-thunk": "^2.1.0",
     "db-migrate": "^0.11.1",
+    "db-migrate-mysql": "^1.1.10",
     "koa-logger": "^3.2.0",
     "morgan": "^1.9.0",
     "randomstring": "^1.1.5",
