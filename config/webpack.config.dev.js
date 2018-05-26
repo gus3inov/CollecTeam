@@ -112,6 +112,9 @@ module.exports = {
       new TsconfigPathsPlugin({ configFile: paths.appTsConfig }),
     ],
   },
+  devServer: {
+      historyApiFallback: true
+  },
   module: {
     strictExportPresence: true,
     rules: [
