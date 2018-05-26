@@ -9,7 +9,7 @@ export interface OriginProps {
     isOpen?: boolean;
 }
 
-const MainHeader: React.StatelessComponent<HeaderProps> = (props: OriginProps ) => {
+const Header: React.StatelessComponent<HeaderProps> = (props: OriginProps ) => {
     const { isOpen } = props;
         return (
             <StyledHeader className={`alt-header ${isOpen ? 'alt-header_open' : 'alt-header_closed'} container-fluid`}>
@@ -25,4 +25,4 @@ const MainHeader: React.StatelessComponent<HeaderProps> = (props: OriginProps ) 
         )
 };
 
-export default MainHeader;
+export default Header;

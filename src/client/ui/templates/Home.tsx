@@ -7,6 +7,7 @@ import Header from '../organisms/Header';
 
 export interface HomeProps {
     title?: string;
+    children: any;
 }
 
 class Home extends React.Component <HomeProps & InjectedProps> {
@@ -19,6 +20,9 @@ class Home extends React.Component <HomeProps & InjectedProps> {
                 <main className="home">
                     <Header isOpen={isOpen} />
                     <Menu toggleOpen={toggleOpen} isOpen={isOpen} />
+                    <div>
+                        {this.props.children}
+                    </div>
                 </main>
             </Fragment>
         )

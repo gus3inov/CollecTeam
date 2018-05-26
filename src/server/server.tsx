@@ -5,16 +5,16 @@ import * as RedisStore from 'koa-redis';
 import * as bodyParser from 'koa-bodyparser';
 import * as React from 'react';
 import * as ReactDomServer from 'react-dom/server';
-import {StaticRouter, matchPath} from 'react-router-dom';
-import {Provider} from 'react-redux';
+import { StaticRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import * as logger from 'koa-logger';
+import { renderRoutes } from 'react-router-config';
 
 import err from './middlewares/error';
 import UserController from './controllers/UserController';
 import User from './models/User';
 import passportInit from './libs/passport'
 import store from '../client/redux';
-import App from '../client/App';
 import routes from '../client/components/routes';
 
 const serverPort = config.get('dev.serverPort');
@@ -33,7 +33,6 @@ app.use(session({
     store: new RedisStore()
 }, app));
 
-// app.use(jwt({ secret: config.get('jwtSecret') }));
 app.use(bodyParser());
 
 import './authenticate/init';
@@ -50,7 +49,7 @@ app.use(async (ctx, next) => {
     const componentHTML = ReactDomServer.renderToString(
         <StaticRouter location={ctx.request.url} context={context}>
                     <Provider store={store}>
-                        <App/>
+                        {renderRoutes(routes)}
                     </Provider>
                 </StaticRouter>
     );

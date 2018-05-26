@@ -1,11 +1,15 @@
 import * as React from 'react';
 
 import { StyledMenu } from "./style";
-import { MenuProps } from './index';
 import LinkMenu from '../../atoms/LinkMenu';
 import ButtonToggle from '../../atoms/ButtonToggle'
 
-const MainMenu: React.StatelessComponent<MenuProps> = (props: MenuProps) => {
+export interface MenuProps {
+    isOpen: boolean;
+    toggleOpen<A>(): A;
+}
+
+const Menu: React.StatelessComponent<MenuProps> = (props: MenuProps) => {
     const { isOpen, toggleOpen } = props;
     return(
         <StyledMenu className={`alt-menu ${isOpen ? 'alt-menu_open' : 'alt-menu_closed'}`} isOpen={ isOpen }>
@@ -41,4 +45,4 @@ const MainMenu: React.StatelessComponent<MenuProps> = (props: MenuProps) => {
 };
 
 
-export default MainMenu;
+export default Menu;
