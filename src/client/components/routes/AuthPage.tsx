@@ -1,10 +1,10 @@
 import * as React from 'react';
 import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
-import { Route, NavLink } from 'react-router-dom'
-import {connect} from 'react-redux'
-import {signUp, moduleName, signIn} from '../../ducks/auth'
-import Loader from '../common/Loader'
+import { Route, NavLink } from 'react-router-dom';
+import {connect} from 'react-redux';
+import {signUp, moduleName, signIn} from '../../ducks/auth';
+import Loader from '../common/Loader';
 
 export interface AuthPageProps {
 

@@ -9,7 +9,9 @@ export interface HomeContainerProps {
 class HomeContainer extends React.Component<HomeContainerProps, any> {
     render() {
         return (
-           <Home />
+           <Home>
+               {this.props.children}
+           </Home>
         );
     }
 }

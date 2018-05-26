@@ -12,32 +12,15 @@ export interface RootProps {
 
 }
 
-const PrivateRoute = ({component: Component, isAuth, ...rest}) => (
-    <Route {...rest} render={props => (
-        isAuth ? (
-            <Component {...props} {...rest} />
-        ) : (
-            <Redirect to={{
-                pathname: '/auth',
-                state: {from: props.location}
-            }}/>
-        )
-    )}/>
-)
-
 @connect(null, {isAuth})
 class Root extends React.Component<RootProps, any> {
     state = {
-        isAuthenticate: false
+        isAuthenticate: AuthService.isUserAuthenticated()
     }
 
-    componentDidMount() {
+    componentDidMount () {
         const {isAuth} = this.props;
         isAuth();
-
-        this.setState({
-            isAuthenticate: AuthService.isUserAuthenticated()
-        })
     }
 
     render() {
@@ -45,7 +28,6 @@ class Root extends React.Component<RootProps, any> {
         console.log(isAuthenticate)
         return (
             <div>
-                {/*<Redirect to="/auth/signup" />*/}
                 <Switch>
                     <Route exact path="/" render={props => (
                         isAuthenticate ? (
@@ -54,7 +36,6 @@ class Root extends React.Component<RootProps, any> {
                             <Redirect to='/auth'/>
                         )
                     )}/>
-                    {/*<PrivateRoute exact path="/" isAuth={isAuthenticate} component={HomePage}/>*/}
                     <Route path="/auth" component={AuthPage}/>
                     <Route path="/home" component={HomePage}/>
                     <Route path="*" component={NotFound}/>
