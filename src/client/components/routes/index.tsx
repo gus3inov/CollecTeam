@@ -1,26 +1,27 @@
-import AuthPage from './AuthPage';
+import AboutPage from './AboutPage';
 import NotFound from './NotFound';
 import HomePage from './HomePage';
 import Root from '../Root';
 
-const routes =  [
-    {
-        path: '/',
-        exact: true,
-        component: Root,
-    },
-    {
-        path: '/home',
-        component: HomePage,
-    },
-    {
-        path: '/auth',
-        component: AuthPage
-    },
-    {
-        path: '*',
-        component: NotFound
+const routes: Array<object> = [
+    { component: Root,
+        protectedRoutes: [
+            {
+                path: '/home',
+                component: HomePage
+            }
+        ],
+        routes: [
+            {
+                path: '/about',
+                component: AboutPage
+            },
+            {
+                path: '*',
+                component: NotFound
+            }
+        ]
     }
-]
+];
 
 export default routes
