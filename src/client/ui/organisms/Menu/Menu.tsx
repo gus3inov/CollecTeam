@@ -7,10 +7,11 @@ import ButtonToggle from '../../atoms/ButtonToggle'
 export interface MenuProps {
     isOpen: boolean;
     toggleOpen<A>(): A;
+    routes: Array<object>
 }
 
 const Menu: React.StatelessComponent<MenuProps> = (props: MenuProps) => {
-    const { isOpen, toggleOpen } = props;
+    const { isOpen, toggleOpen, routes } = props;
     return(
         <StyledMenu className={`alt-menu ${isOpen ? 'alt-menu_open' : 'alt-menu_closed'}`} isOpen={ isOpen }>
             <ButtonToggle
@@ -18,26 +19,24 @@ const Menu: React.StatelessComponent<MenuProps> = (props: MenuProps) => {
                 isOpen={isOpen}
             />
             <div className="logo">
-                { isOpen ? <img src="http://g989666z.beget.tech/images/logo.png" alt=""/> : <img src="http://g989666z.beget.tech/images/logo.png" alt=""/> }
+                <img src="http://g989666z.beget.tech/images/logo.png" alt=""/>
             </div>
             <nav className="alt-menu-nav">
                 <ul className="alt-menu-nav__list">
-                    <li className="alt-menu-nav__list__item">
-                        <LinkMenu
-                            to="/home"
-                            isOpen={isOpen}
-                            text="Home"
-                            icon="mdi-home"
-                        />
-                    </li>
-                    <li className="alt-menu-nav__list__item">
-                        <LinkMenu
-                            to="/startups"
-                            isOpen={isOpen}
-                            text="Startup"
-                            icon="mdi-application"
-                        />
-                    </li>
+                    {
+                        routes.map((route, index) => {
+                            return (
+                                <li key={index} className="alt-menu-nav__list__item">
+                                    <LinkMenu
+                                        to={route.path}
+                                        isOpen={isOpen}
+                                        text={route.name}
+                                        icon={route.icon}
+                                    />
+                                </li>
+                            )
+                        })
+                    }
                 </ul>
             </nav>
         </StyledMenu>

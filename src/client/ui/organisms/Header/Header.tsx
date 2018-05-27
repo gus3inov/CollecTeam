@@ -1,15 +1,14 @@
 import * as React from "react"
 
 import { StyledHeader } from './style'
-import {HeaderProps} from "./index";
 import Search from '../../molecules/Search';
 import UserAvatar from '../../molecules/UserAvatar';
 
-export interface OriginProps {
+export interface HeaderProps {
     isOpen?: boolean;
 }
 
-const Header: React.StatelessComponent<HeaderProps> = (props: OriginProps ) => {
+const Header: React.StatelessComponent<HeaderProps> = (props: HeaderProps ) => {
     const { isOpen } = props;
         return (
             <StyledHeader className={`alt-header ${isOpen ? 'alt-header_open' : 'alt-header_closed'} container-fluid`}>

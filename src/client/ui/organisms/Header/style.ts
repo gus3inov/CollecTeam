@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { darkColor } from '../../style-vars';
+import { darkColor } from '../../theme';
 
 export const StyledHeader = styled.header`
   background: ${darkColor};

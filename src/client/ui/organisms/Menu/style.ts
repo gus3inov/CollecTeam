@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import {darkColor, darkBlue, lightColor} from "../../style-vars";
+
+import { darkColor, darkBlue, lightColor } from "../../theme";
 
 export const StyledMenu = styled.div`
     background: ${darkColor};
@@ -51,8 +52,8 @@ export const StyledMenu = styled.div`
                         position: relative;
                          
                         span {
-                          -webkit-animation: Fade 0.26s 0.43s 1 alternate backwards;
-                            animation: Fade 0.26s 0.43s 1 alternate backwards;
+                          -webkit-animation: Fade 0.26s 0.63s 1 alternate backwards;
+                            animation: Fade 0.26s 0.63s 1 alternate backwards;
                             transition: 0.32s;
                             
                             &:before {
