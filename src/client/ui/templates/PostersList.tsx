@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled, { StyledInterface } from 'styled-components'
-import Poster from '../../ui/organisms/Poster/Poster';
+import Poster from '../molecules/Poster/Poster';
 
 interface IPostersList{
     posters: object[];
