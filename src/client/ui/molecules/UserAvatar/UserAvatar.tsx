@@ -6,7 +6,7 @@ export interface UserAvatarProps {
 
 }
 
-class MainUserAvatar extends React.Component<UserAvatarProps, any> {
+class UserAvatar extends React.Component<UserAvatarProps, any> {
     render() {
         return (
             <StyledUserAvatar className="alt-header__user">
@@ -16,4 +16,4 @@ class MainUserAvatar extends React.Component<UserAvatarProps, any> {
     }
 }
 
-export default MainUserAvatar;
+export default UserAvatar;

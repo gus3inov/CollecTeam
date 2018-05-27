@@ -1,22 +1,31 @@
 import * as React from 'react';
-import { Route, NavLink } from 'react-router-dom'
+import { Route } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-import HomeContainer from '../Home/HomeContainer';
+import Home from '../../ui/templates/Home';
+import { moduleName } from '../../ducks/auth';
+import Startups from '../Home/Startups';
+import MenuRoutes from '../common/MenuRoutes';
+import AuthService from '../../services/AuthService';
 
 export interface HomePageProps {
 
 }
 
+@connect(state => {
+    return {
+        user: state[moduleName].user
+    }
+}, null)
 class HomePage extends React.Component<HomePageProps, any> {
     render() {
+        const { children, user } = this.props;
+        console.log(user)
+
         return (
-            <div>
-                <HomeContainer>
-                    <div>
-                        This home page
-                    </div>
-                </HomeContainer>
-            </div>
+            <Home user={user} routes={MenuRoutes}>
+                <Route path="/home/startups" component={Startups}/>
+            </Home>
         );
     }
 }

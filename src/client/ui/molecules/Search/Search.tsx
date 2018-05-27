@@ -8,7 +8,7 @@ export interface SearchProps {
 
 }
 
-class MainSearch extends React.Component<SearchProps, any> {
+class  Search extends React.Component<SearchProps, any> {
     render() {
         return (
             <StyledSearch className="alt-header__search">
@@ -21,4 +21,4 @@ class MainSearch extends React.Component<SearchProps, any> {
     }
 }
 
-export default MainSearch;
+export default Search;

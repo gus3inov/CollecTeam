@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { NavLink, NavLinkProps } from 'react-router-dom';
 import styled from 'styled-components';
-import { lightColor } from "../style-vars";
+import { lightColor } from "../theme";
 
 const StyledLink = styled.span`
     color: #fff;
     text-decoration: none;
+    transition: 0.32s;
     
     &:hover {
         color: #fff;
