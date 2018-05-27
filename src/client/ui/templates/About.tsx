@@ -1,11 +1,24 @@
-import * as React from "react";
+import * as React from 'react';
+import { Fragment } from 'react';
 
-export interface HelloProps {
-    title: string;
+import Panel from '../organisms/Panel';
+
+export interface AboutProps {
 }
 
-export default class About extends React.Component<HelloProps, {}> {
+class About extends React.Component<AboutProps, {}> {
     render() {
-        return <h1>Hello from {this.props.compiler}</h1>;
+        const { children } = this.props;
+
+        return (
+            <Fragment>
+                <Panel urlImg="http://g989666z.beget.tech/images/about-bg.jpg" />
+                <div className="container">
+                    { children }
+                </div>
+            </Fragment>
+        )
     }
 }
+
+export default About;

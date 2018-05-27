@@ -1,31 +1,33 @@
 import * as React from 'react';
 import {Route, Redirect, Switch} from 'react-router-dom';
-import {connect} from "react-redux";
+import {connect} from 'react-redux';
+import {renderRoutes} from 'react-router-config';
 
-import {isAuth} from '../ducks/auth'
-import AuthPage from './routes/AuthPage';
-import NotFound from './routes/NotFound';
-import HomePage from './routes/HomePage';
-import AuthService from '../services/AuthService'
+import {isAuth} from '../ducks/auth';
+import AuthService from '../services/AuthService';
+import {isNode} from '../helpers/browser';
+import HomePage from './HomePage';
 
 export interface RootProps {
-
+    isAuth(): void;
 }
 
 @connect(null, {isAuth})
 class Root extends React.Component<RootProps, any> {
     state = {
-        isAuthenticate: AuthService.isUserAuthenticated()
-    }
+        isAuthenticate: isNode ? AuthService.isUserAuthenticated() : false
+    };
 
     componentDidMount () {
         const {isAuth} = this.props;
         isAuth();
     }
 
-    render() {
-        const {isAuthenticate} = this.state;
-        console.log(isAuthenticate)
+    render () {
+        const { route } = this.props;
+        const { isAuthenticate } = this.state;
+        console.log(isAuthenticate);
+        const protectedRoutes = [...route.protectedRoutes, ...route.routes];
         return (
             <div>
                 <Switch>
@@ -33,12 +35,16 @@ class Root extends React.Component<RootProps, any> {
                         isAuthenticate ? (
                             <Redirect to='/home'/>
                         ) : (
-                            <Redirect to='/auth'/>
+                            <Redirect to='/about'/>
                         )
                     )}/>
-                    <Route path="/auth" component={AuthPage}/>
-                    <Route path="/home" component={HomePage}/>
-                    <Route path="*" component={NotFound}/>
+                    {
+                        isAuthenticate ? (
+                            renderRoutes(protectedRoutes)
+                        ) : (
+                            renderRoutes(route.routes)
+                        )
+                    }
                 </Switch>
             </div>
         );
