@@ -37,29 +37,29 @@ const ReducerRecord = Record({
     user: null,
     error: null,
     loading: false
-})
+});
 
-const initialState = new ReducerRecord()
+const initialState = new ReducerRecord();
 
 export default function auth(state = initialState, action: SignUpAction): any {
     const {type, payload, error} = action;
     switch (type) {
         case SIGN_UP_REQUEST:
-            return state.set('loading', true)
+            return state.set('loading', true);
         case SIGN_UP_SUCCESS:
             return state
                 .set('loading', false)
                 .set('user', payload)
-                .set('error', null)
+                .set('error', null);
         case SIGN_IN_SUCCESS:
             return state
                 .set('loading', false)
                 .set('user', payload)
-                .set('error', null)
+                .set('error', null);
         case SIGN_UP_ERROR:
             return state
                 .set('loading', false)
-                .set('error', error)
+                .set('error', error);
         default:
             return state;
     }
@@ -69,16 +69,13 @@ export const signUp: ActionCreator<ThunkAction<any, any, void>> = (user) => {
     return (dispatch) => {
         dispatch({
             type: SIGN_UP_REQUEST
-        })
-        console.log(user)
+        });
         axios.post('/api/user', user)
             .then(user => {
-                console.log(user);
-
                 return dispatch({
                     type: SIGN_UP_SUCCESS,
                     payload: user
-                })
+                });
             })
             .catch(err => {
                 console.error(err);
@@ -86,9 +83,9 @@ export const signUp: ActionCreator<ThunkAction<any, any, void>> = (user) => {
                 return dispatch({
                     type: SIGN_UP_ERROR,
                     err
-                })
-            })
-    }
+                });
+            });
+    };
 };
 
 export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
@@ -102,7 +99,7 @@ export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
                 AuthService.authenticateUser(res.data.token);
                 return dispatch({
                     type: SIGN_IN_SUCCESS
-                })
+                });
             })
             .catch(err => {
                 console.error(err);
@@ -110,9 +107,9 @@ export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
                 return dispatch({
                     type: SIGN_IN_ERROR,
                     err
-                })
-            })
-    }
+                });
+            });
+    };
 };
 
 export const isAuth: ActionCreator<ThunkAction<any, any, void>> = () => {
@@ -130,19 +127,17 @@ export const isAuth: ActionCreator<ThunkAction<any, any, void>> = () => {
 
         instance.get('/auth/isauth')
             .then(res => {
-                console.log(res)
                 return dispatch({
                     type: SIGN_IN_SUCCESS,
                     payload: res.data.user
-                })
+                });
             })
             .catch(err => {
                 console.error(err);
-
                 return dispatch({
                     type: SIGN_IN_ERROR,
                     err
-                })
-            })
-    }
+                });
+            });
+    };
 };
