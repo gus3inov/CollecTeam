@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Home from '../../ui/templates/Home';
 import { moduleName } from '../../ducks/auth';
 import Startups from '../Home/Startups';
+import AddStartup from '../Home/AddStartup';
 import MenuRoutes from '../common/MenuRoutes';
 import AuthService from '../../services/AuthService';
 
@@ -24,6 +25,7 @@ class HomePage extends React.Component<HomePageProps, any> {
         return (
             <Home user={user} routes={MenuRoutes}>
                 <Route path="/home/startups" component={Startups}/>
+                <Route path="/home/startup/add" component={AddStartup}/>
             </Home>
         );
     }

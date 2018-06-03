@@ -11,9 +11,13 @@ const Section: React.SFC<SectionProps> = (props) => {
     const { title, children } = props;
 
     return (
-        <StyledSection>
-            <SectionTitle>{title}</SectionTitle>
-            {children}
+        <StyledSection className="section">
+           <div>
+               <SectionTitle>{title}</SectionTitle>
+           </div>
+            <div className="section-content">
+                {children}
+            </div>
         </StyledSection>
     )
 };

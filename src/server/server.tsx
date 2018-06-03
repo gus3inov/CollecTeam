@@ -2,7 +2,6 @@ import * as Koa from 'koa';
 import * as config from 'config';
 import * as session from 'koa-session';
 import * as RedisStore from 'koa-redis';
-import * as bodyParser from 'koa-bodyparser';
 import * as React from 'react';
 import * as ReactDomServer from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
@@ -16,16 +15,18 @@ import { cookies } from '../client/helpers/cookies'
 import err from './middlewares/error';
 import UserController from './controllers/UserController';
 import User from './models/User';
+
+import StartupController from './controllers/StartupController';
+import Startup from './models/Startup';
+
 import passportInit from './libs/passport'
 import store from '../client/redux';
 import routes from '../client/components/routes';
+import { MuiThemeProvider, createMuiTheme, createGenerateClassName } from '@material-ui/core/styles';
 
 const serverPort = config.get('dev.serverPort');
 const app = new Koa();
 const assetUrl = process.env.NODE_ENV !== 'production' ? 'http://localhost:4000' : '/';
-
-const userModel = new User();
-const userController = new UserController(userModel);
 
 app.use(logger());
 app.use(err);
@@ -37,14 +38,39 @@ app.use(session({
     store: new RedisStore()
 }, app));
 
-app.use(bodyParser());
-
 import './authenticate/init';
 
 passportInit(app);
 
+const userModel = new User();
+const userController = new UserController(userModel);
+
 app.use(userController.getRoutes());
 app.use(userController.getMethods());
+
+const startupModel = new Startup();
+const startupController = new StartupController(startupModel);
+
+app.use(startupController.getRoutes());
+app.use(startupController.getMethods());
+
+import { blue, deepPurple, grey } from '@material-ui/core/colors';
+
+const theme = createMuiTheme({
+    palette: {
+        primary: blue,
+        primary1Color: blue,
+        primary2Color: "#2173B3",
+        primary3Color: "#A9D2EB",
+        accent1Color: "#ED3B3B",
+        accent2Color: "#ED2B2B",
+        accent3Color: "#F58C8C",
+        accent: deepPurple,
+        type: 'dark',
+        textColor: grey[50],
+        alternateTextColor: grey[50],
+    }
+});
 
 app.use(async (ctx, next) => {
     const context = {};
@@ -53,7 +79,9 @@ app.use(async (ctx, next) => {
         <StaticRouter location={ctx.request.url} context={context}>
                             <Provider store={store}>
                                 <CookiesProvider cookies={ctx.request.universalCookies}>
-                                    {renderRoutes(routes)}
+                                    <MuiThemeProvider theme={theme} sheetsManager={new Map()}>
+                                        {renderRoutes(routes)}
+                                    </MuiThemeProvider>
                                 </CookiesProvider>
                             </Provider>
                 </StaticRouter>
