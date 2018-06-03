@@ -13,10 +13,10 @@ export interface RootProps {
 @connect(null, { isAuthAction })
 @withCookies
 class Root extends React.Component<RootProps, any> {
-    // componentWillMount () {
-    //     const { isAuthAction } = this.props;
-    //     isAuthAction();
-    // }
+    componentWillMount () {
+        const { isAuthAction } = this.props;
+        isAuthAction();
+    }
 
     render () {
         const { route, cookies } = this.props;

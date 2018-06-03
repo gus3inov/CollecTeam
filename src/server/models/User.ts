@@ -90,7 +90,7 @@ class User extends Database implements IUserModel {
         const uniqeId: string = this.generateID();
 
         return await this.query(`INSERT INTO ${tableName} 
-            (id, first_name, last_name, email, username, password, salt, role)
+            (id, first_name, last_name, email, username, password, salt, role_id)
             VALUES('${uniqeId}', '${firstName}', '${lastName}', '${email}', '${username}', '${hash}', '${salt}', 3)`);
     }
 
