@@ -42,7 +42,7 @@ interface IStartup {
 }
 
 const ReducerRecord = Record({
-    enitites: new OrderedMap({}),
+    entities: [],
     error: null,
     loading: false
 });
@@ -55,15 +55,12 @@ export default function startup(state = initialState, action: startupAction): an
         case LOAD_ALL_STARTUPS + SUCCESS:
             return state
                 .set('entities', payload)
-                .set('loading', false)
-                .set('loaded', true);
+                .set('loading', false);
 
         case LOAD_ALL_STARTUPS + START:
-            return state.setIn([
-                'entities',
-                payload.id,
-                'loading'
-            ], true);
+            return state.
+                    set('loading', true);
+
 
         case LOAD_STARTUP + SUCCESS:
             return state.setIn(['entities', payload.id], payload.response);
@@ -97,11 +94,11 @@ export const loadAllStartups: ActionCreator<ThunkAction<any, any, void>> = () =>
         dispatch({
             type: LOAD_ALL_STARTUPS + START
         });
-        axios.post('/api/startups')
+        axios.get('/api/startups')
             .then(startups => {
                 return dispatch({
                     type: LOAD_ALL_STARTUPS + SUCCESS,
-                    payload: startups
+                    payload: startups.data
                 });
             })
             .catch(err => {
@@ -113,12 +110,12 @@ export const loadAllStartups: ActionCreator<ThunkAction<any, any, void>> = () =>
     };
 };
 
-export const loadStartups: ActionCreator<ThunkAction<any, any, void>> = (id) => {
+export const loadStartups: ActionCreator<ThunkAction<any, any, void>> = (name) => {
     return (dispatch) => {
         dispatch({
             type: LOAD_STARTUP + START
         });
-        axios.post(`/api/startup/${id}`)
+        axios.get(`/api/startup/${name}`)
             .then(startup => {
                 return dispatch({
                     type: LOAD_STARTUP + SUCCESS,

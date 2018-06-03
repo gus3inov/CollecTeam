@@ -293,3 +293,23 @@ ul li{
         transform: translateY(0px);
     }
 }
+
+.MuiStepLabel-label-50.MuiStepLabel-active-45 {
+    font-weight: 500;
+    font-size: 23px !important;
+}
+
+.MuiStepLabel-label-49 {
+    color: #E0E0E0 !important;
+}
+
+.AddStartup-container-1 {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.startups-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}

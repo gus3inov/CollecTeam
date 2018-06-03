@@ -1,27 +1,12 @@
 import * as convert from 'koa-convert';
 import * as KoaBody from 'koa-body';
 import * as passport from 'passport';
+import * as bodyParser from 'koa-bodyparser';
 
 import Router from '../helpers/RouteGenerator';
 import { IUserModel } from '../models/User';
-import checkAuth from '../middlewares/checkAuth'
-
-interface ContextStats {
-    status: number;
-    body: object;
-    params: object;
-    request: object;
-}
-
-enum ErrorStatus{
-    Created = 201,
-    NoContent = 204
-}
-
-interface IRequest{
-    body: any;
-    id: number;
-}
+import checkAuth from '../middlewares/checkAuth';
+import { ContextStats, ErrorStatus, IRequest } from '../interfaces/IKoa';
 
 type RequestStats = IRequest;
 
@@ -60,6 +45,7 @@ class UserController extends Router {
 
     public actionCreate () {
         this.post('/api/user', koaBody, async(ctx: ContextStats, next: any) => {
+            console.log(ctx.request.body)
             ctx.status = ErrorStatus.Created;
             const user = await this.model.create(ctx.request.body);
 
@@ -81,7 +67,7 @@ class UserController extends Router {
     }
 
     public actionLogin () {
-        this.post('/auth/login', async (ctx) => {
+        this.post('/auth/login', bodyParser(), async (ctx: ContextStats) => {
             return passport.authenticate('local', (err, token, user) => {
                 if (user) {
                     const userRequest = {

@@ -14,6 +14,11 @@ const MenuRoutes: Array<IMenuRoutes> = [
         path: '/home/startups',
         name: 'Стартапы',
         icon: 'mdi-application'
+    },
+    {
+        path: '/home/startup/add',
+        name: 'Создание стартапа',
+        icon: 'mdi-library-plus'
     }
 ];
 
