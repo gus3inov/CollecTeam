@@ -20,7 +20,6 @@ export interface HomePageProps {
 class HomePage extends React.Component<HomePageProps, any> {
     render() {
         const { children, user } = this.props;
-        console.log(user)
 
         return (
             <Home user={user} routes={MenuRoutes}>

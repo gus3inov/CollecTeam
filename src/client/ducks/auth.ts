@@ -35,6 +35,7 @@ interface signUp {
 
 const ReducerRecord = Record({
     user: null,
+    isAuth: false,
     error: null,
     loading: false
 });
@@ -42,7 +43,8 @@ const ReducerRecord = Record({
 const initialState = new ReducerRecord();
 
 export default function auth(state = initialState, action: SignUpAction): any {
-    const {type, payload, error} = action;
+    const { type, payload, error, isAuth } = action;
+
     switch (type) {
         case SIGN_UP_REQUEST:
             return state.set('loading', true);
@@ -55,6 +57,7 @@ export default function auth(state = initialState, action: SignUpAction): any {
             return state
                 .set('loading', false)
                 .set('user', payload)
+                .set('isAuth', isAuth)
                 .set('error', null);
         case SIGN_UP_ERROR:
             return state
@@ -96,6 +99,7 @@ export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
 
         axios.post('/auth/login', user)
             .then(res => {
+                console.log(res.data.token)
                 AuthService.authenticateUser(res.data.token);
                 return dispatch({
                     type: SIGN_IN_SUCCESS
@@ -112,32 +116,37 @@ export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
     };
 };
 
-export const isAuth: ActionCreator<ThunkAction<any, any, void>> = () => {
+export const isAuthAction: ActionCreator<ThunkAction<any, any, void>> = () => {
     return (dispatch) => {
         dispatch({
             type: SIGN_IN_REQUEST
         });
 
-        const instance = axios.create({
-            timeout: 2000,
-            headers: {
-                'Authorization': `bearer ${AuthService.getToken()}`
-            }
-        });
-
-        instance.get('/auth/isauth')
-            .then(res => {
-                return dispatch({
-                    type: SIGN_IN_SUCCESS,
-                    payload: res.data.user
-                });
-            })
-            .catch(err => {
-                console.error(err);
-                return dispatch({
-                    type: SIGN_IN_ERROR,
-                    err
-                });
+        AuthService.getToken().then(token => {
+            const isAuth = token !== null;
+            console.log(isAuth)
+            const instance = axios.create({
+                timeout: 2000,
+                headers: {
+                    'Authorization': `bearer ${token}`
+                }
             });
+
+            instance.get('/auth/isauth')
+                .then(res => {
+                    return dispatch({
+                        type: SIGN_IN_SUCCESS,
+                        payload: res.data.user,
+                        isAuth
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    return dispatch({
+                        type: SIGN_IN_ERROR,
+                        err
+                    });
+                });
+        })
     };
 };

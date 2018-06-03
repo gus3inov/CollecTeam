@@ -1,34 +1,43 @@
 import * as React from 'react';
-import {Route} from 'react-router-dom';
-import {connect} from 'react-redux';
-import {moduleName} from '../../ducks/auth';
-import UnAuthorized from './UnAuthorized';
+import { Fragment } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { renderRoutes } from 'react-router-config';
+
+import { isAuthAction, moduleName } from '../../ducks/auth';
 
 export interface ProtectedRouteProps {
-    component: any;
-    authorized: any;
-    path: any;
+
 }
 
+// @connect(state => ({
+//     token: state.authentication.token
+// }), null)
 class ProtectedRoute extends React.Component<ProtectedRouteProps, any> {
-
-    renderProtected = (routeProps: any) => {
-        const {component: ProtectedComponent, authorized} = this.props;
-
-        return authorized ? <ProtectedComponent {...routeProps} /> : <UnAuthorized/>;
-    };
-
     render() {
-        const {component, ...rest} = this.props;
-
+        const { routes, cookies } = this.props;
+        const protectedRoutes = [...routes.protectedRoutes, ...routes.routes];
+        const token = cookies.get('token') !== null;
+        console.log('cookies ----- ', cookies)
         return (
-            <div>
-                <Route {...rest} render={this.renderProtected}/>
-            </div>
+            <Fragment>
+                <Route exact path="/" render={props => (
+                    token ? (
+                        <Redirect to='/home'/>
+                    ) : (
+                        <Redirect to='/about'/>
+                    )
+                )}/>
+                {
+                    token ? (
+                        renderRoutes(protectedRoutes)
+                    ) : (
+                        renderRoutes(routes.routes)
+                    )
+                }
+            </Fragment>
         );
     }
 }
 
-export default connect(state => ({
-    authorized: !!state[moduleName].user
-}), null, null, {pure: false})(ProtectedRoute);
+export default ProtectedRoute;

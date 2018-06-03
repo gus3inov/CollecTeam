@@ -38,6 +38,8 @@ class UserController extends Router {
     constructor(model: IUserModel){
         super();
         this.model = model;
+        this.setToken();
+        this.getToken();
         this.actionCreate();
         this.actionGetAll();
         this.actionGet();
@@ -157,6 +159,21 @@ class UserController extends Router {
             await this.model.remove(ctx.params.username);
         })
     }
+
+    public setToken () {
+        this.post('/api/user/setToken', async (ctx, next) => {
+           await ctx.cookies.set('token', ctx.request.body.token);
+        })
+    }
+
+    public getToken () {
+        this.get('/api/user/getToken', async (ctx, next) => {
+           ctx.body = {
+               token: ctx.cookies.get('token')
+           }
+        })
+    }
+
 }
 
 export default UserController;

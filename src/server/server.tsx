@@ -9,6 +9,9 @@ import { StaticRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import * as logger from 'koa-logger';
 import { renderRoutes } from 'react-router-config';
+import * as cookiesMiddleware from 'universal-cookie-koa';
+import { CookiesProvider } from 'react-cookie';
+import { cookies } from '../client/helpers/cookies'
 
 import err from './middlewares/error';
 import UserController from './controllers/UserController';
@@ -28,6 +31,7 @@ app.use(logger());
 app.use(err);
 
 app.keys = ['your-session-secret'];
+app.use(cookiesMiddleware());
 
 app.use(session({
     store: new RedisStore()
@@ -44,15 +48,18 @@ app.use(userController.getMethods());
 
 app.use(async (ctx, next) => {
     const context = {};
-
     console.log('ctx.request.url ---- ', ctx.request.url)
     const componentHTML = ReactDomServer.renderToString(
         <StaticRouter location={ctx.request.url} context={context}>
-                    <Provider store={store}>
-                        {renderRoutes(routes)}
-                    </Provider>
+                            <Provider store={store}>
+                                <CookiesProvider cookies={ctx.request.universalCookies}>
+                                    {renderRoutes(routes)}
+                                </CookiesProvider>
+                            </Provider>
                 </StaticRouter>
     );
+
+    cookies.setCookies(ctx.request.universalCookies);
 
     console.log('context ----- ', context)
 
