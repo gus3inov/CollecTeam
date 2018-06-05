@@ -5,7 +5,7 @@ const StyledWorkspace = styled.div`
     width: 1400px;
     margin: 0 auto;
     padding-top: 140px;
-    margin-left: ${(props: { isOpen: boolean  }) => props.isOpen ? '411px' : '217px' };
+    margin-left: ${(props: { isOpen: boolean  }) => props.isOpen ? '381px' : '277px' };
     display: flex;
     flex-direction: column;
     align-items: flex-start;

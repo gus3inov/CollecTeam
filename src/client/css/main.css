@@ -310,6 +310,26 @@ ul li{
 
 .startups-list {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     flex-wrap: wrap;
+}
+
+.startups-list > div {
+    margin-top: 40px;
+}
+
+.loader {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+.loader > div {
+    position: relative;
+    top: -180px;
+    left: -160px;
 }

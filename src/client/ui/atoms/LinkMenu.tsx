@@ -34,7 +34,7 @@ interface LinkMenuProps extends NavLinkProps{
 const LinkMenu: React.SFC<LinkMenuProps> = (props: LinkMenuProps) => {
     const { to, isOpen, text, icon }: LinkMenuProps = props;
     return (
-        <NavLink to={to} className="alt-nav-link" activeClassName="alt-nav-link_active">
+        <NavLink to={to} className={"alt-nav-link"} activeClassName="alt-nav-link_active">
                 { isOpen
                     ? ( <StyledLink className={`mdi ${icon}`}>{text}</StyledLink>)
                     : ( <div>
