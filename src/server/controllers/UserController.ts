@@ -97,11 +97,11 @@ class UserController extends Router {
     }
 
     public isAuth () {
-        this.get('/auth/isauth', checkAuth);
+        this.get('/auth/isauth', bodyParser(), checkAuth);
     }
 
     public actionLogout () {
-        this.get('/auth/logout', async (ctx) => {
+        this.get('/auth/logout', bodyParser(), async (ctx) => {
             if (ctx.isAuthenticated()) {
                 return ctx.logout();
             } else {
@@ -147,7 +147,7 @@ class UserController extends Router {
     }
 
     public setToken () {
-        this.post('/api/user/setToken', async (ctx, next) => {
+        this.post('/api/user/setToken', koaBody, async (ctx, next) => {
            await ctx.cookies.set('token', ctx.request.body.token);
         })
     }
