@@ -45,6 +45,8 @@ export interface IStartupModel {
     remove(username: string): any;
 
     getAll(): Promise<any>;
+
+    privateGetAll(userId: string): Promise<any>;
 }
 
 class Startup extends Database implements IStartupModel {
@@ -95,7 +97,11 @@ class Startup extends Database implements IStartupModel {
     }
 
     public async getAll(): Promise<any> {
-        return await this.query(`SELECT * from ${tableName}`);
+        return await this.query(`SELECT * FROM ${tableName}`);
+    }
+
+    public async privateGetAll(userId): Promise<any> {
+        return await this.query(`SELECT * FROM ${tableName} WHERE id_user=?`,[userId]);
     }
 
     public async findByStartupName(name: string): Promise<any> {

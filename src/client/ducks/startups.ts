@@ -4,6 +4,7 @@ import { OrderedMap, Record } from 'immutable';
 import * as config from 'config';
 import axios from 'axios';
 import {start} from 'repl';
+import AuthService from '../services/AuthService';
 
 
 const appName: string = 'collect_team';
@@ -100,7 +101,15 @@ export const loadAllStartups: ActionCreator<ThunkAction<any, any, void>> = () =>
             type: LOAD_ALL_STARTUPS + START
         });
 
-            axios.get('/api/startups')
+        AuthService.getToken().then(token => {
+            const instance = axios.create({
+                timeout: 2000,
+                headers: {
+                    'Authorization': `bearer ${token}`
+                }
+            });
+
+            instance.get('/api/startups')
                 .then(startups => {
                     return dispatch({
                         type: LOAD_ALL_STARTUPS + SUCCESS,
@@ -113,6 +122,7 @@ export const loadAllStartups: ActionCreator<ThunkAction<any, any, void>> = () =>
                         err
                     });
                 });
+        });
     };
 };
 

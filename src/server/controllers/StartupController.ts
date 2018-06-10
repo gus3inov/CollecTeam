@@ -1,9 +1,14 @@
 import * as convert from 'koa-convert';
 import * as KoaBody from 'koa-body';
+import * as passport from 'passport';
 
 import Router from '../helpers/RouteGenerator';
 import { IStartupModel } from '../models/Startup';
 import { ContextStats, ErrorStatus, IRequest } from '../interfaces/IKoa';
+import * as bodyParser from 'koa-bodyparser';
+import * as config from "config";
+import User from '../models/User';
+import * as jwt from "jsonwebtoken";
 
 type RequestStats = IRequest;
 
@@ -43,9 +48,28 @@ class StartupController extends Router {
     }
 
     public actionGetAll () {
-        this.get('/api/startups', async(ctx: ContextStats, next: any) => {
-            const result: Array<object> = await this.model.getAll();
-            ctx.body = result[0];
+        this.get('/api/startups', bodyParser(), async(ctx: ContextStats, next: any) => {
+            const user = new User();
+            const jwtSecret = config.get('jwtSecret');
+
+            if (!ctx.request.headers.authorization) {
+                ctx.body = {
+                    messageS: JSON.stringify(ctx.request.header)
+                };
+
+                return ctx.throw(401).end();
+            }
+
+            const token = ctx.request.headers.authorization.split(' ')[1];
+
+            return jwt.verify(token, jwtSecret, async (err, decoded) => {
+
+                const userId = decoded.sub;
+
+                const result: Array<object> = await this.model.privateGetAll(userId);
+                ctx.body = result[0];
+            });
+
         });
     }
 
