@@ -25,6 +25,7 @@ class UserController extends Router {
         this.model = model;
         this.setToken();
         this.getToken();
+        this.deleteToken();
         this.actionCreate();
         this.actionGetAll();
         this.actionGet();
@@ -103,6 +104,8 @@ class UserController extends Router {
     public actionLogout () {
         this.get('/auth/logout', bodyParser(), async (ctx) => {
             if (ctx.isAuthenticated()) {
+                await ctx.cookies.set('token', null);
+
                 return ctx.logout();
             } else {
                 ctx.body = { success: false };
@@ -148,7 +151,13 @@ class UserController extends Router {
 
     public setToken () {
         this.post('/api/user/setToken', koaBody, async (ctx, next) => {
-           await ctx.cookies.set('token', ctx.request.body.token);
+           await ctx.cookies.set('token', ctx.request.body.token, { httpOnly: false });
+        })
+    }
+
+    public deleteToken () {
+        this.delete('/api/user/deleteToken', async (ctx, next) => {
+           await ctx.cookies.set('token', null);
         })
     }
 
