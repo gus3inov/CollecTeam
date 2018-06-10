@@ -23,7 +23,7 @@ const Panel: React.StatelessComponent<PanelProps> = (props: PanelProps) => {
                     <BackgroundOpacity opacity={8}/>
                     <div className="panel container">
                         <div className="panel-logo">
-                            <img src="http://g989666z.beget.tech/images/logo.png" alt=""/>
+                            <img src="/images/logo.png" alt=""/>
                         </div>
                         <div className="panel-descr">
                             <Title size={64}>Upgrade Skills</Title>

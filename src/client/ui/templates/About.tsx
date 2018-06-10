@@ -12,12 +12,13 @@ class About extends React.Component<AboutProps, {}> {
 
         return (
             <Fragment>
-                <Panel urlImg="http://g989666z.beget.tech/images/about-bg.jpg" />
+                <Panel urlImg="/images/about-bg.jpg" />
                 <div className="container">
                     { children }
                 </div>
             </Fragment>
         )
+
     }
 }
 
