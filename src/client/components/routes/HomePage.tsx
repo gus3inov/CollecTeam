@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { withCookies } from 'react-cookie';
 
 import Home from '../../ui/templates/Home';
 import { moduleName } from '../../ducks/auth';
@@ -32,6 +33,7 @@ class HomePage extends React.Component<HomePageProps, any> {
         return (
             <Home user={user} routes={MenuRoutes}>
                 <Route path="/home/startups" exact component={Startups}/>
+                <Route path="/home/startups/dashboard" exact component={Dashboard}/>
                 <Route path="/home/startup/add" component={AddStartup}/>
                 <Route path="/home/startups/:name" render={this.getStartup}/>
             </Home>

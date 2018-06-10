@@ -10,32 +10,23 @@ export interface ProtectedRouteProps {
 
 }
 
-// @connect(state => ({
-//     token: state.authentication.token
-// }), null)
 class ProtectedRoute extends React.Component<ProtectedRouteProps, any> {
     render() {
         const { routes, cookies } = this.props;
         const protectedRoutes = [...routes.protectedRoutes, ...routes.routes];
-        const token = cookies.get('token') !== null;
-        console.log('cookies ----- ', cookies)
+        const isAuth = typeof cookies.get('token') !== 'undefined';
+
         return (
-            <Fragment>
-                <Route exact path="/" render={props => (
-                    token ? (
-                        <Redirect to='/home'/>
+            <Route
+                {...rest}
+                render={props =>
+                    isAuth ? (
+                        <Component {...props} />
                     ) : (
-                        <Redirect to='/about'/>
-                    )
-                )}/>
-                {
-                    token ? (
-                        renderRoutes(protectedRoutes)
-                    ) : (
-                        renderRoutes(routes.routes)
+                        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
                     )
                 }
-            </Fragment>
+            />
         );
     }
 }
