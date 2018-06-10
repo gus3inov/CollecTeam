@@ -55,9 +55,9 @@ export default function auth(state = initialState, action: SignUpAction): any {
                 .set('error', null);
         case SIGN_IN_SUCCESS:
             return state
-                .set('loading', false)
-                .set('user', payload[0])
                 .set('isAuth', isAuth)
+                .set('loading', false)
+                .set('user', payload)
                 .set('error', null);
         case SIGN_UP_ERROR:
             return state
@@ -94,14 +94,16 @@ export const signUp: ActionCreator<ThunkAction<any, any, void>> = (user) => {
 export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
     return (dispatch) => {
         dispatch({
-            type: SIGN_IN_REQUEST
+            type: SIGN_IN_REQUEST,
+            isAuth: false
         });
 
         axios.post('/auth/login', user)
             .then(res => {
                 AuthService.authenticateUser(res.data.token);
                 return dispatch({
-                    type: SIGN_IN_SUCCESS
+                    type: SIGN_IN_SUCCESS,
+                    isAuth: true
                 });
             })
             .catch(err => {
@@ -109,7 +111,8 @@ export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
 
                 return dispatch({
                     type: SIGN_IN_ERROR,
-                    err
+                    err,
+                    isAuth: false
                 });
             });
     };
