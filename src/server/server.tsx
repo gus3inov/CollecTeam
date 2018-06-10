@@ -10,7 +10,8 @@ import * as logger from 'koa-logger';
 import { renderRoutes } from 'react-router-config';
 import * as cookiesMiddleware from 'universal-cookie-koa';
 import { CookiesProvider } from 'react-cookie';
-import { cookies } from '../client/helpers/cookies'
+import { cookies } from '../client/helpers/cookies';
+import * as serve from 'koa-static';
 
 import err from './middlewares/error';
 import UserController from './controllers/UserController';
@@ -37,6 +38,8 @@ app.use(cookiesMiddleware());
 app.use(session({
     store: new RedisStore()
 }, app));
+
+app.use(serve(__dirname + '\\public'));
 
 import './authenticate/init';
 
