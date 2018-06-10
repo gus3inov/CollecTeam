@@ -29,16 +29,16 @@ export default async (ctx: ContextStats, next: any) => {
         const findUser = await user.findIndentity(userId)
             .then(user => {
                 ctx.body = {
-                    user
+                    user: user[0]
                 };
+            })
+            .catch(err => {
+                ctx.body = {
+                    err
+                };
+
+                return ctx.throw(401).end();
             });
-            // .catch(err => {
-            //     ctx.body = {
-            //         err
-            //     }
-            //
-            //     return ctx.throw(401).end();
-            // });
 
         return findUser;
     });
