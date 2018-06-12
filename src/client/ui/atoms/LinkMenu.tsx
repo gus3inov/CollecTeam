@@ -7,6 +7,7 @@ const StyledLink = styled.span`
     color: #fff;
     text-decoration: none;
     transition: 0.32s;
+    white-space: nowrap;
     
     &:hover {
         color: #fff;
@@ -36,9 +37,9 @@ const LinkMenu: React.SFC<LinkMenuProps> = (props: LinkMenuProps) => {
     return (
         <NavLink to={to} className={"alt-nav-link"} activeClassName="alt-nav-link_active">
                 { isOpen
-                    ? ( <StyledLink className={`mdi ${icon}`}>{text}</StyledLink>)
+                    ? ( <StyledLink className={`mdi mdi-${icon}`}>{text}</StyledLink>)
                     : ( <div>
-                        <StyledLink className={`mdi ${icon}`}>{}</StyledLink>
+                        <StyledLink className={`mdi mdi-${icon}`}>{}</StyledLink>
                     </div>)
                 }
         </NavLink>

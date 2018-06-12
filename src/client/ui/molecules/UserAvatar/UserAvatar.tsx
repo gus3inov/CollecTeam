@@ -49,7 +49,7 @@ class UserAvatar extends React.Component<UserAvatarProps, any> {
                 <div className="alt-header__user">
                     <div className="alt-header__user_assignment">
                         <Badge className={classes.margin} badgeContent={10} color="secondary">
-                            <MailIcon onClick={toggleDrawer}/>
+                            <MailIcon fontSize={13} onClick={toggleDrawer}/>
                         </Badge>
                     </div>
                     <Avatar
@@ -73,7 +73,7 @@ class UserAvatar extends React.Component<UserAvatarProps, any> {
                         open={open}
                         onClose={this.handleClose}
                     >
-                        <MenuItem onClick={this.handleClose}>Профиль</MenuItem>
+                        <MenuItem onClick={() => this.props.history.push('/profile')}>Профиль</MenuItem>
                         <MenuItem onClick={this.logout}>Выйти</MenuItem>
                     </Menu>
                 </div>
