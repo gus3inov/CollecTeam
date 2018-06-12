@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
-import About from '../../ui/templates/About';
+import Login from '../../ui/templates/Login';
 import FormAuth from '../../ui/organisms/FormAuth';
 import { signUp, moduleName, signIn } from '../../ducks/auth';
 import Loader from '../common/Loader';
@@ -43,7 +43,7 @@ class LoginPage extends React.Component<AboutPageProps, any> {
                         password,
                         email
                     }: any) => {
-
+        const { signUp } = this.props;
         const user = {
             username,
             firstName,
@@ -51,7 +51,8 @@ class LoginPage extends React.Component<AboutPageProps, any> {
             password,
             email
         };
-        this.props.signUp(user);
+
+        signUp(user);
     };
 
     componentDidMount() {
@@ -67,13 +68,13 @@ class LoginPage extends React.Component<AboutPageProps, any> {
     render() {
         const { loading } = this.props;
         return (
-            <About>
+            <Login>
                 <FormAuth
                     componentSignIn={<SignIn onSubmit={this.handleSignIn}/>}
                     componentSignUp={<SignUp onSubmit={this.handleSignUp}/>}
                 />
                 {loading && <Loader/>}
-            </About>
+            </Login>
         );
     }
 }

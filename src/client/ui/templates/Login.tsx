@@ -3,10 +3,10 @@ import { Fragment } from 'react';
 
 import Panel from '../organisms/Panel';
 
-export interface AboutProps {
+export interface LoginProps {
 }
 
-class About extends React.Component<AboutProps, {}> {
+class Login extends React.Component<LoginProps, {}> {
     render() {
         const { children } = this.props;
 
@@ -22,4 +22,4 @@ class About extends React.Component<AboutProps, {}> {
     }
 }
 
-export default About;
+export default Login;
