@@ -10,6 +10,11 @@ import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Loader from '../common/Loader';
 import Slide from '@material-ui/core/Slide';
+import AddIcon from '@material-ui/icons/Add';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import ModalAddStartup from './ModalAddStartup';
 
 import Section from '../../ui/organisms/Section';
 import {loadAllStartups, moduleName} from '../../ducks/startups';
@@ -21,11 +26,11 @@ export interface StartupsProps {
 
 const styles = {
     card: {
-        maxWidth: 445,
+        width: 445,
     },
     media: {
         height: 0,
-        paddingTop: '56.25%', // 16:9
+        paddingTop: '56.25%',
     },
 };
 
@@ -37,6 +42,9 @@ const styles = {
 }, {loadAllStartups})
 @withStyles(styles)
 class Startups extends React.Component<StartupsProps, any> {
+    state = {
+        isAddOpen: false
+    };
 
     componentDidMount() {
         const {loadAllStartups} = this.props;
@@ -44,11 +52,39 @@ class Startups extends React.Component<StartupsProps, any> {
         loadAllStartups();
     }
 
+    handleToggleAdd = () => {
+        this.setState({
+            isAddOpen: !this.state.isAddOpen
+        })
+    };
+
     render() {
-        const {classes, startups, loading} = this.props;
+        const {classes, startups,loading} = this.props;
 
         return (
-            <Section title="Стартапы">
+            <Section title="Стартапы" bg>
+                <Dialog
+                    open={this.state.isAddOpen}
+                    onClose={this.handleToggleAdd}
+                    aria-labelledby="form-dialog-title"
+                >
+                    <DialogTitle id="form-dialog-title">Создание стартапа</DialogTitle>
+                    <DialogContent>
+                        <ModalAddStartup />
+                    </DialogContent>
+                </Dialog>
+                <div className="startups-add__button">
+                    <Button
+                        onClick={this.handleToggleAdd}
+                        variant="fab"
+                        color="primary"
+                        aria-label="add"
+                        className={classes.button}
+                    >
+                        <AddIcon />
+                    </Button>
+                </div>
+
                 {
                     loading
                         ?
@@ -64,7 +100,6 @@ class Startups extends React.Component<StartupsProps, any> {
                                             in={!loading}
                                             timeout={(1000 + (index * 2))}
                                             style={{ transformOrigin: '0 0 0' }}
-                                              {...(!loading ? { transitionDelay: (10000 + (index * 10)) } : {})}
                                         >
                                             <Card className={classes.card}>
                                                 <CardMedia
