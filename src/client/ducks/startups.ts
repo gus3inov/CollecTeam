@@ -1,9 +1,7 @@
 import { ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { OrderedMap, Record } from 'immutable';
-import * as config from 'config';
+import { Record } from 'immutable';
 import axios from 'axios';
-import {start} from 'repl';
 import AuthService from '../services/AuthService';
 
 
@@ -46,7 +44,8 @@ const ReducerRecord = Record({
     entities: [],
     entitie: [],
     error: null,
-    loading: false
+    loading: false,
+    loaded: false
 });
 
 const initialState = new ReducerRecord();
@@ -85,11 +84,15 @@ export default function startup(state = initialState, action: startupAction): an
                     startup.shift(payload)
                 });
 
-        case ADD_STARTUP:
+        case ADD_STARTUP + START:
+            return state
+                .set('loading', true);
+
+        case ADD_STARTUP + SUCCESS:
             return state
                 .set('loading', false)
-                .set('entities', payload)
-                .set('error', null);
+                .set('loaded', true)
+                .set('entities', payload);
         default:
             return state;
     }
@@ -148,11 +151,12 @@ export const loadStartup: ActionCreator<ThunkAction<any, any, void>> = (name) =>
     };
 };
 
-export const addStartups: ActionCreator<ThunkAction<any, any, void>> = (startup) => {
+export const addStartup: ActionCreator<ThunkAction<any, any, void>> = (startup) => {
     return (dispatch) => {
         dispatch({
             type: ADD_STARTUP + START
         });
+        console.log(startup)
         axios.post(`/api/startup`, startup)
             .then(startup => {
                 return dispatch({

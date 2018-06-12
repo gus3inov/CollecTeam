@@ -20,15 +20,15 @@ class Root extends React.Component<RootProps, any> {
         isAuthAction();
     }
 
-    componentDidMount() {
-        const { cookies, history } = this.props;
-        const token = typeof cookies.get('token') !== 'undefined';
-        if(token) {
-            history.push('/home')
-        } else {
-            history.push('/login')
-        }
-    }
+    // componentDidMount() {
+    //     const { cookies, history } = this.props;
+    //     const token = typeof cookies.get('token') !== 'undefined';
+    //     if(token) {
+    //         history.push('/home/dashboard')
+    //     } else {
+    //         history.push('/login')
+    //     }
+    // }
 
     render() {
         const {route, cookies} = this.props;

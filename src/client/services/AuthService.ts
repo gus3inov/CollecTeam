@@ -13,7 +13,7 @@ class AuthService {
                 console.log(res);
             })
             .catch(err => {
-                 console.error(err.response);
+                 // console.error(err.response);
             });
     }
 
@@ -34,7 +34,7 @@ class AuthService {
                 return res.data.token;
             })
             .catch(err => {
-                console.error(err.response);
+                // console.error(err.response);
             });
     }
 

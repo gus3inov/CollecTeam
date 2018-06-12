@@ -107,8 +107,7 @@ export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
                 });
             })
             .catch(err => {
-                console.error(err);
-
+                // console.error(err);
                 return dispatch({
                     type: SIGN_IN_ERROR,
                     err,
@@ -142,7 +141,7 @@ export const isAuthAction: ActionCreator<ThunkAction<any, any, void>> = () => {
                     });
                 })
                 .catch(err => {
-                    console.error(err);
+                    // console.error(err);
                     return dispatch({
                         type: SIGN_IN_ERROR,
                         err

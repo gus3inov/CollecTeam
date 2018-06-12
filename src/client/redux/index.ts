@@ -10,5 +10,3 @@ const enhancer = applyMiddleware(routerMiddleware(history), thunk);
 const store = createStore(reducer, enhancer);
 
 export default store
-
-typeof window !== 'undefined' ? window.store = store : console.log('lol')
