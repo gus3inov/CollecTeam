@@ -5,7 +5,7 @@ import * as bodyParser from 'koa-bodyparser';
 
 import Router from '../helpers/RouteGenerator';
 import { IUserModel } from '../models/User';
-import checkAuth from '../middlewares/checkAuth';
+import checkAuth, {default as checkAuth} from '../middlewares/checkAuth';
 import { ContextStats, ErrorStatus, IRequest } from '../interfaces/IKoa';
 
 type RequestStats = IRequest;
@@ -98,7 +98,12 @@ class UserController extends Router {
     }
 
     public isAuth () {
-        this.get('/auth/isauth', bodyParser(), checkAuth);
+        this.get('/auth/isauth', bodyParser(), checkAuth, async (ctx, next) => {
+            const user = ctx.body.user;
+            ctx.body = {
+                user
+            }
+        });
     }
 
     public actionLogout () {
@@ -134,18 +139,18 @@ class UserController extends Router {
     }
 
     public actionChange () {
-        this.put('/api/user/:username', koaBody, async <RequestStats> (ctx: ContextStats, next: any) => {
+        this.put('/api/user/edit', koaBody, checkAuth, async <RequestStats> (ctx: ContextStats, next: any) => {
             ctx.status = ErrorStatus.NoContent;
-
-            await this.model.update(ctx.params.username, ctx.request.body);
+            const username = ctx.body.user.username;
+            await this.model.update(username, ctx.request.body);
         })
     }
 
     public actionDelete () {
-        this.delete('/api/user/:username', async (ctx: ContextStats, next: any) => {
+        this.delete('/api/user/delete', koaBody, checkAuth, async (ctx: ContextStats, next: any) => {
             ctx.status = ErrorStatus.NoContent;
-
-            await this.model.remove(ctx.params.username);
+            const username = ctx.body.user.username;
+            await this.model.remove(username);
         })
     }
 
