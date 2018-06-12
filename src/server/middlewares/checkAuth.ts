@@ -40,6 +40,8 @@ export default async (ctx: ContextStats, next: any) => {
                 return ctx.throw(401).end();
             });
 
+        await next();
+
         return findUser;
     });
 };
