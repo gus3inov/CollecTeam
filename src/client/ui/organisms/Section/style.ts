@@ -7,10 +7,31 @@ const StyledSection = styled.div`
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    min-height: 100vh;
     
-    .section-content{
-        padding-top: 40px;
-        width: 100%;
+    ${(props: { bg: boolean }) => {
+         if (props.bg) {
+             return (
+                 `.section-content {
+                    margin-top: 40px;
+                    width: 100%;
+                    border-radius: 10px
+                    background-color: #0a0c0e;
+                    box-shadow: 8px 7px 88px -6px rgba(0,0,0,0.75);
+                    padding: 30px;
+                    min-height: 75vh;
+                }`
+             )
+         } else {
+             return (
+                 `.section-content {
+                    margin-top: 40px;
+                    width: 100%;
+                    padding: 30px;
+                }`
+             )   
+         }
+        }
     }
 `;
 

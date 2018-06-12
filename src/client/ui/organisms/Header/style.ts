@@ -8,9 +8,9 @@ export const StyledHeader = styled.header`
   padding: 10px;
   padding-left: 90px;
   padding-right: 50px;
-  height: 95px;
+  height: 60px;
   position: fixed;
-  width: calc(100% - 100px);
+  width: calc(100% - 80px);
   top: 0;
   left: 0;
   z-index: 100;
@@ -29,13 +29,13 @@ export const StyledHeader = styled.header`
   }
   
   &.alt-header_closed {
-    margin-left: 100px;
+    margin-left: 80px;
   }
   
   &.alt-header_open {
     padding-left: 10px;
-    margin-left: 300px;
-    width: calc(100% - 300px);
+    margin-left: 260px;
+    width: calc(100% - 260px);
   }
 `;
 

@@ -144,16 +144,16 @@ ul li{
     border-bottom: 1px solid #07D2FF;
 }
 
-.input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+.input::-webkit-input-placeholder {
     color: #fff;
 }
-.input::-moz-placeholder { /* Firefox 19+ */
+.input::-moz-placeholder {
     color: #fff;
 }
-.input:-ms-input-placeholder { /* IE 10+ */
+.input:-ms-input-placeholder {
     color: #fff;
 }
-.input:-moz-placeholder { /* Firefox 18- */
+.input:-moz-placeholder {
     color: #fff;
 }
 
@@ -168,8 +168,8 @@ ul li{
 
 .icon.toggle i {
     background-color: #07D2FF;
-    width: 40px;
-    height: 3px;
+    width: 30px;
+    height: 2px;
     display: block;
     position: relative;
     transition: 0.32s cubic-bezier(0.785, 0.135, 0.15, 0.86);
@@ -182,7 +182,7 @@ ul li{
 
 .icon.toggle i:nth-child(2) {
     top: 4px;
-    width: 23px;
+    width: 20px;
 }
 
 .icon.toggle i:nth-child(3) {
@@ -201,18 +201,18 @@ ul li{
 .toggle-button{
     cursor: pointer;
     position: absolute;
-    left: 120px;
-    top: 37px;
+    left: 100px;
+    top: 21px;
     transition: 0.32s;
 }
 
 .toggle-button.toggle-button_open{
-    left: 230px;
+    left: 200px;
 }
 
 .toggle-button.toggle-button_open .toggle i:nth-child(1) {
     transform: rotateZ(44.87deg);
-    top: 7px;
+    top: 13px;
 }
 
 .toggle-button.toggle-button_open .toggle i:nth-child(2) {
@@ -220,7 +220,7 @@ ul li{
 }
 
 .toggle-button.toggle-button_open .toggle i:nth-child(3) {
-    top: 1px !important;
+    top: 9px !important;
     transform: rotateZ(-44.87deg);
 }
 
@@ -314,8 +314,10 @@ ul li{
     flex-wrap: wrap;
 }
 
-.startups-list > div {
-    margin-top: 40px;
+.startups-add__button {
+    position: fixed;
+    right: 50px;
+    bottom: 40px;
 }
 
 .loader {
@@ -332,4 +334,12 @@ ul li{
     position: relative;
     top: -180px;
     left: -160px;
+}
+
+.form-startup {
+    width: 490px;
+}
+
+.margin {
+    margin: 20px 0;
 }
