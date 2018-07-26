@@ -10,12 +10,13 @@ export interface InfoCardProps {
     title: string;
     color: string;
     icon: string;
+    hintValue: string | number;
 }
 
 class InfoCard extends React.Component<InfoCardProps, any> {
 
     render() {
-        const { value, hint, title, size, color, icon } = this.props;
+        const { value, hint, hintValue, title, size, color, icon } = this.props;
 
         return (
             <StyledInfoCard
@@ -28,7 +29,7 @@ class InfoCard extends React.Component<InfoCardProps, any> {
                         <span className={`mdi mdi-${icon}`}/>
                     </div>
                     <div className="value">{value}</div>
-                    <div className="stat"><b>4</b>% increase</div>
+                    <div className="stat"><b>{hintValue}</b> {hint}</div>
                 </div>
             </StyledInfoCard>
         );

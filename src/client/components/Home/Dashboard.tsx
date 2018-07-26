@@ -44,35 +44,39 @@ class Dashboard extends React.Component<DashboardProps, any> {
                        <div className="row">
                            <InfoCard
                                 color="linear-gradient(135deg,  #e535e2 30%,#fe665b 70%)"
-                                value="4,500"
-                                title="Что то"
+                                value="40ч"
+                                title="Время задач"
                                 size={3}
-                                icon="database"
-                                hint="аовыда"
+                                icon="timelapse"
+                                hintValue="10 %"
+                                hint="увеличение"
                            />
                            <InfoCard
                                color="linear-gradient(135deg,  #e535e2 30%,#fe665b 70%)"
-                               value="4,500"
-                               title="Что то"
+                               value="$12,592"
+                               title="Рост капитала"
                                size={3}
-                               icon="database"
-                               hint="аовыда"
+                               icon="arrow-up-bold-box"
+                               hintValue="32 %"
+                               hint="увеличение"
                            />
                            <InfoCard
                                color="linear-gradient(135deg,  #00fe9e 30%,#acff3d 70%)"
-                               value="4,500"
-                               title="Что то"
+                               value="112"
+                               title="Рост пользователей"
                                size={3}
-                               icon="arrow-up-bold-box"
-                               hint="аовыда"
+                               icon="arrow-down-box"
+                               hintValue="8 %"
+                               hint="упадок"
                            />
                            <InfoCard
                                color="linear-gradient(135deg,  #bbc0f7 30%,#2afcef 70%)"
-                               value="4,500"
-                               title="Что то"
+                               value="32"
+                               title="Выполненные задачи"
                                size={3}
-                               icon="arrow-down-box"
-                               hint="аовыда"
+                               icon="arrow-up-bold-box"
+                               hintValue="24 %"
+                               hint="увеличение"
                            />
                        </div>
                        <div className="row">

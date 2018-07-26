@@ -18,6 +18,8 @@ export const StyledInfoCard = styled.div`
 	    
 	    &-title{
 	        font-size: 31px;
+            line-height: 40px;
+            margin-right: 120px;
 	    }
 	}
 	
@@ -40,7 +42,7 @@ export const StyledInfoCard = styled.div`
         width: 96%;
 	}
 	.value {
-		font-size: 44px;
+		font-size: 63px;
 		padding: 0 10px;
 	}
 `;
