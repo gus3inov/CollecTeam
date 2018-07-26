@@ -23,7 +23,7 @@ npm-debug.log
 /.idea
 /misc/
 .vscode
-
+/uploads
 
 npm-debug.log*
 yarn-debug.log*

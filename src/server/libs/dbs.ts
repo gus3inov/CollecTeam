@@ -1,18 +1,15 @@
 import * as MysqlPromise from 'mysql-promise';
 import * as mongoose from 'mongoose';
-import * as Redis from 'promise-redis';
 import * as config from 'config';
-import err from "../middlewares/error";
 
 export interface IConfigApp {
     db: object,
     redis: object;
 }
 
-const configApp: IConfigApp = config.get('dev')
+const configApp: IConfigApp = config.get('dev');
 
 const mysqlPromise: object = new MysqlPromise();
-const redis: any = Redis().createClient(configApp.redis.port, configApp.redis.host)
 
 let mongo = mongoose;
 
@@ -43,15 +40,6 @@ class DBConnect {
 
     }
 
-    private checkRedisReadyState() {
-        return new Promise((resolve, reject) => {
-            redis.once('ready', () => {
-                redis.removeAllListeners('error');
-                redis.once('error', e => reject(e));
-            })
-        })
-    }
-
    public init() {
         // console.log('init-------------------', this)
         return Promise.all([
@@ -60,12 +48,10 @@ class DBConnect {
                 mongoose.connect(configApp.db.mongo, err => {
                     err ? reject(err) : resolve()
                 })
-            }),
-            this.checkRedisReadyState()
+            })
         ])
     }
 }
 
 export {mysqlPromise};
-export {redis};
 export {DBConnect};

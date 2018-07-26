@@ -1,6 +1,6 @@
 import Database from '../helpers/Database';
-import StringHelper from '../helpers/StringHelper';
 import * as uuid from 'node-uuid';
+import { genSaltSync,  hashSync } from 'bcryptjs';
 
 const tableName: string = 'users';
 
@@ -42,7 +42,7 @@ export interface IUserModel {
 
     remove(username: string): any;
 
-    generateId(): string;
+    generateID(): string;
 
     getAll(): Promise<any>;
 }
@@ -85,13 +85,13 @@ class User extends Database implements IUserModel {
                             password,
                             email
                         }: UserRequest): Promise<any> {
-        const salt = StringHelper.getRandomString(16);
-        const passwordData = StringHelper.sha512(password, salt);
-        const uniqeId:string = this.generateID();
+        const salt = genSaltSync();
+        const hash = hashSync(password, salt);
+        const uniqeId: string = this.generateID();
 
         return await this.query(`INSERT INTO ${tableName} 
-            (id, first_name, last_name, email, username, password, salt, role)
-            VALUES('${uniqeId}', '${firstName}', '${lastName}', '${email}', '${username}', '${passwordData.hash}', '${passwordData.salt}', 3)`);
+            (id, first_name, last_name, email, username, password, salt, role_id)
+            VALUES('${uniqeId}', '${firstName}', '${lastName}', '${email}', '${username}', '${hash}', '${salt}', 3)`);
     }
 
     public async remove(username: string): any {
@@ -108,10 +108,10 @@ class User extends Database implements IUserModel {
             if (user.hasOwnProperty('firstName')) UpgrageUser.firstName = (user.firstName);
             if (user.hasOwnProperty('lastName')) UpgrageUser.lastName = (user.lastName);
             if (user.hasOwnProperty('password')) {
-                const salt = StringHelper.getRandomString(16);
-                const passwordData = StringHelper.sha512(user.password, salt);
-                UpgrageUser.salt = (passwordData.salt);
-                UpgrageUser.password = (passwordData.hash);
+                const salt = genSaltSync();
+                const hash = hashSync(user.password, salt);
+                UpgrageUser.salt = (salt);
+                UpgrageUser.password = (hash);
             }
             if (user.hasOwnProperty('email')) UpgrageUser.email = (user.email);
 
@@ -125,7 +125,7 @@ class User extends Database implements IUserModel {
             return result.affectedRows;
     }
 
-    private generateID(): string {
+    public generateID(): string {
         return uuid();
     }
 
@@ -134,11 +134,15 @@ class User extends Database implements IUserModel {
     }
 
     public async findByUserName(username: string): Promise<any> {
-        return await this.query(`SELECT * FROM ${tableName} WHERE username=?`, [username]);
+        const user: Array<object> = await this.query(`SELECT * FROM ${tableName} WHERE username=?`, [username]);
+
+        return user[0];
     }
 
     public async findIndentity(id: string): Promise<any> {
-        return await this.query(`SELECT * FROM ${tableName} WHERE id=?`, [Number(id)]);
+        const user: Array<object> = await this.query(`SELECT * FROM ${tableName} WHERE id=?`, [id]);
+
+        return user[0];
     }
 
     /**

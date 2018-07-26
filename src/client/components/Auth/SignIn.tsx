@@ -1,49 +1,29 @@
 import * as React from 'react';
-import { reduxForm, Field, InjectedFormProps } from 'redux-form'
+import {reduxForm, Field, InjectedFormProps} from 'redux-form';
 
 export interface SignInProps {
-    email: string;
+    username: string;
     password: string;
+
     onSubmit(): any;
 }
 
 class SignIn extends React.Component<SignInProps & InjectedFormProps, {}> {
     render() {
-        const {handleSubmit} = this.props
+        const {handleSubmit} = this.props;
 
         return (
-            <div>
-                <h2>Sign In</h2>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="">Username</label>
-                        <Field name="username" component="input"/>
-                    </div>
-                    <div>
-                        <label htmlFor="">First Name</label>
-                        <Field name="firstName" component="input"/>
-                    </div>
-                    <div>
-                        <label htmlFor="">Last Name</label>
-                        <Field name="lastName" component="input" />
-                    </div>
-                    <div>
-                        <label htmlFor="">Email</label>
-                        <Field name="email" component="input" />
-                    </div>
-                    <div>
-                        <label htmlFor="">Password</label>
-                        <Field name="password" component="input" type="password" />
-                    </div>
-                    <div>
-                        <label htmlFor="">Repeat Password</label>
-                        <Field name="r_password" component="input" type="password" />
-                    </div>
-                    <div>
-                        <input type="submit"/>
-                    </div>
-                </form>
-            </div>
+            <form onSubmit={handleSubmit}>
+                <div className="auth-body__form__input">
+                    <Field name="username" placeholder="Логин" component="input"/>
+                </div>
+                <div className="auth-body__form__input">
+                    <Field name="password" placeholder="Пароль" component="input" type="password"/>
+                </div>
+                <div className="auth-body__form__submit">
+                    <input type="submit" value="Войти"/>
+                </div>
+            </form>
         );
     }
 }

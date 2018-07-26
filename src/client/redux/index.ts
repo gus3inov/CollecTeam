@@ -5,10 +5,8 @@ import { routerMiddleware } from 'react-router-redux'
 import history from '../helpers/history'
 import reducer from './reducer';
 
-const enhancer = applyMiddleware(routerMiddleware(history), thunk, logger);
+const enhancer = applyMiddleware(routerMiddleware(history), thunk);
 
 const store = createStore(reducer, enhancer);
 
 export default store
-
-window.store = store

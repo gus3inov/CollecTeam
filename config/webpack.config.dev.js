@@ -12,6 +12,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const postCSSConfig = require('./postcss.config');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
@@ -111,6 +112,9 @@ module.exports = {
       new TsconfigPathsPlugin({ configFile: paths.appTsConfig }),
     ],
   },
+  devServer: {
+      historyApiFallback: true
+  },
   module: {
     strictExportPresence: true,
     rules: [
@@ -185,7 +189,11 @@ module.exports = {
                   // Necessary for external CSS imports to work
                   // https://github.com/facebookincubator/create-react-app/issues/2677
                   ident: 'postcss',
+                  postcss: () => {
+                      return postCSSConfig;
+                  },
                   plugins: () => [
+                    require('postcss-nested'),
                     require('postcss-flexbugs-fixes'),
                     autoprefixer({
                       browsers: [

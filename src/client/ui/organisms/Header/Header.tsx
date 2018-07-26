@@ -1,39 +1,52 @@
-import * as React from "react"
-import styled from 'styled-components'
-import { darkColor } from "../../style-vars";
+import * as React from 'react';
 
-const StyledHeader = styled.header`
-  background: ${darkColor};
-  padding: 20px;
-  border-bottom: 1px solid #fff;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 100;
-`
+import {StyledHeader} from './style';
+import Search from '../../molecules/Search';
+import UserAvatar from '../../molecules/UserAvatar';
+import {connect} from 'react-redux';
+import NotificationDrawer from '../NotificationDrawer';
 
-export interface OriginProps {
+export interface HeaderProps {
     isOpen?: boolean;
-    toggleOpen?(): any;
 }
 
-const  Header = (props: OriginProps ) => {
-        const { toggleOpen, isOpen } = props;
+@connect(state => {
+    return {
+        user: state.auth.user
+    };
+})
+class Header extends React.Component<HeaderProps, {}> {
+    state = {
+        drawerNotif: false
+    };
+
+    toggleDrawer = () => {
+        this.setState({
+            drawerNotif: !this.state.drawerNotif
+        })
+    };
+
+    render() {
+        const {isOpen, user } = this.props;
+        const { drawerNotif } = this.state;
 
         return (
-            <StyledHeader className="alt-header container-fluid">
-                <div className="row">
-                    <div className="col-md-5">
-                        <button className={`toggle-button ${isOpen ? 'toggle-button_open' : 'toggle-button_close'}`} onClick={ toggleOpen }>
-                            <div className="icon toggle">
-                                <i></i><i></i><i></i>
-                            </div>
-                        </button>
-                    </div>
+            <StyledHeader className={`alt-header ${isOpen ? 'alt-header_open' : 'alt-header_closed'} container-fluid`}>
+                <div className="alt-header__search">
+                    <Search/>
                 </div>
+                {
+                    user !== null ?
+                        <UserAvatar
+                            user={user}
+                            toggleDrawer={this.toggleDrawer}
+                        />
+                        : ''
+                }
+                <NotificationDrawer isOpen={drawerNotif} toggleOpen={this.toggleDrawer}/>
             </StyledHeader>
-        )
+        );
+    }
 }
 
-export default Header
+export default Header;

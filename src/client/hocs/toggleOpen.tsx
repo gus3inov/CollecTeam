@@ -35,7 +35,7 @@ export default function toggleOpen<OriginProps>(Component: React.ComponentType<O
         render(){
             return (
                 <Fragment>
-                    <Component {...this.props} {...this.state} toggleOpen = { this.toggleOpen } />;
+                    <Component {...this.props} {...this.state} toggleOpen = { this.toggleOpen } />
                 </Fragment>
             );
         }

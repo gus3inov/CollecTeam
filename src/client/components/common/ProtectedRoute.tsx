@@ -1,34 +1,34 @@
 import * as React from 'react';
-import {Route} from 'react-router-dom';
-import {connect} from 'react-redux'
-import {moduleName} from "../../ducks/auth";
-import UnAuthorized from "./UnAuthorized";
+import { Fragment } from 'react';
+import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { renderRoutes } from 'react-router-config';
+
+import { isAuthAction, moduleName } from '../../ducks/auth';
 
 export interface ProtectedRouteProps {
-    component: any;
-    authorized: any;
-    path: any;
+
 }
 
 class ProtectedRoute extends React.Component<ProtectedRouteProps, any> {
-
-    renderProtected = (routeProps: any) => {
-        const {component: ProtectedComponent, authorized} = this.props
-
-        return authorized ? <ProtectedComponent {...routeProps} /> : <UnAuthorized />
-    }
-
     render() {
-        const {component, ...rest} = this.props
+        const { routes, cookies } = this.props;
+        const protectedRoutes = [...routes.protectedRoutes, ...routes.routes];
+        const isAuth = typeof cookies.get('token') !== 'undefined';
 
         return (
-            <div>
-                <Route {...rest} render={this.renderProtected}/>
-            </div>
+            <Route
+                {...rest}
+                render={props =>
+                    isAuth ? (
+                        <Component {...props} />
+                    ) : (
+                        <Redirect to={{ pathname: '/login', state: { from: props.location } }} />
+                    )
+                }
+            />
         );
     }
 }
 
-export default connect(state => ({
-    authorized: !!state[moduleName].user
-}), null, null, {pure: false})(ProtectedRoute);
+export default ProtectedRoute;
