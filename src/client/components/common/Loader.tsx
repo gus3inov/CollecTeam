@@ -14,7 +14,9 @@ type LoaderProps = {
 
 const Loader: React.SFC<LoaderProps> = (props) => {
     const { classes } = props;
-    return <CircularProgress className={classes.progress} size={75} />
+    return <div className="loader">
+        <CircularProgress className={classes.progress} size={75} />
+    </div>
 }
 
 export default withStyles(styles)(Loader);

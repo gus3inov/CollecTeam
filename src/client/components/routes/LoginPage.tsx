@@ -1,13 +1,15 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-
-import About from '../../ui/templates/About';
+import Login from '../../ui/templates/Login';
 import FormAuth from '../../ui/organisms/FormAuth';
 import { signUp, moduleName, signIn } from '../../ducks/auth';
 import Loader from '../common/Loader';
 import SignIn from '../Auth/SignIn';
 import SignUp from '../Auth/SignUp';
+import {withCookies} from 'react-cookie';
+import {withRouter} from 'react-router';
 
 export interface AboutPageProps {
 
@@ -18,17 +20,20 @@ export interface AboutPageProps {
         loading: state[moduleName].loading
     };
 }, {signUp, signIn})
-class AboutPage extends React.Component<AboutPageProps, any> {
+@withCookies
+@withRouter
+class LoginPage extends React.Component<AboutPageProps, any> {
     handleSignIn = ({
                         username,
                         password
                     }: any) => {
+        const { signIn, history } = this.props;
         const user = {
             username,
             password
         };
 
-        this.props.signIn(user);
+        signIn(user);
     };
 
     handleSignUp = ({
@@ -38,7 +43,7 @@ class AboutPage extends React.Component<AboutPageProps, any> {
                         password,
                         email
                     }: any) => {
-
+        const { signUp } = this.props;
         const user = {
             username,
             firstName,
@@ -46,22 +51,32 @@ class AboutPage extends React.Component<AboutPageProps, any> {
             password,
             email
         };
-        this.props.signUp(user);
+
+        signUp(user);
     };
+
+    componentDidMount() {
+        const { cookies, history } = this.props;
+        const token = typeof cookies.get('token') !== 'undefined';
+        if(token) {
+            history.push('/home')
+        } else {
+            history.push('/login')
+        }
+    }
 
     render() {
         const { loading } = this.props;
-
         return (
-            <About>
+            <Login>
                 <FormAuth
                     componentSignIn={<SignIn onSubmit={this.handleSignIn}/>}
                     componentSignUp={<SignUp onSubmit={this.handleSignUp}/>}
                 />
                 {loading && <Loader/>}
-            </About>
+            </Login>
         );
     }
 }
 
-export default AboutPage;
+export default LoginPage;

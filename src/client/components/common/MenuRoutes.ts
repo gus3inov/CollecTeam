@@ -7,19 +7,19 @@ export type IMenuRoutes = {
 const MenuRoutes: Array<IMenuRoutes> = [
     {
         path: '/home/dashboard',
-        name: 'Главная',
-        icon: 'mdi-home'
+        name: 'Рабочая панель',
+        icon: 'chart-donut-variant'
+    },
+    {
+        path: '/home/team',
+        name: 'Команда',
+        icon: 'account-multiple'
     },
     {
         path: '/home/startups',
         name: 'Стартапы',
-        icon: 'mdi-application'
+        icon: 'application'
     },
-    {
-        path: '/home/startup/add',
-        name: 'Создание стартапа',
-        icon: 'mdi-library-plus'
-    }
 ];
 
 export default MenuRoutes;

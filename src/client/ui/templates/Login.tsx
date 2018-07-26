@@ -3,22 +3,23 @@ import { Fragment } from 'react';
 
 import Panel from '../organisms/Panel';
 
-export interface AboutProps {
+export interface LoginProps {
 }
 
-class About extends React.Component<AboutProps, {}> {
+class Login extends React.Component<LoginProps, {}> {
     render() {
         const { children } = this.props;
 
         return (
             <Fragment>
-                <Panel urlImg="http://g989666z.beget.tech/images/about-bg.jpg" />
+                <Panel urlImg="/images/about-bg.jpg" />
                 <div className="container">
                     { children }
                 </div>
             </Fragment>
         )
+
     }
 }
 
-export default About;
+export default Login;

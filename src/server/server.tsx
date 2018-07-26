@@ -10,7 +10,8 @@ import * as logger from 'koa-logger';
 import { renderRoutes } from 'react-router-config';
 import * as cookiesMiddleware from 'universal-cookie-koa';
 import { CookiesProvider } from 'react-cookie';
-import { cookies } from '../client/helpers/cookies'
+import { cookies } from '../client/helpers/cookies';
+import * as serve from 'koa-static';
 
 import err from './middlewares/error';
 import UserController from './controllers/UserController';
@@ -18,6 +19,9 @@ import User from './models/User';
 
 import StartupController from './controllers/StartupController';
 import Startup from './models/Startup';
+
+import TeamController from './controllers/TeamController';
+import Team from './models/Team';
 
 import passportInit from './libs/passport'
 import store from '../client/redux';
@@ -38,6 +42,8 @@ app.use(session({
     store: new RedisStore()
 }, app));
 
+app.use(serve(__dirname + '\\public'));
+
 import './authenticate/init';
 
 passportInit(app);
@@ -53,6 +59,12 @@ const startupController = new StartupController(startupModel);
 
 app.use(startupController.getRoutes());
 app.use(startupController.getMethods());
+
+const teamModel = new Team();
+const teamController = new TeamController(teamModel);
+
+app.use(teamController.getRoutes());
+app.use(teamController.getMethods());
 
 import { blue, deepPurple, grey } from '@material-ui/core/colors';
 
@@ -74,7 +86,7 @@ const theme = createMuiTheme({
 
 app.use(async (ctx, next) => {
     const context = {};
-    console.log('ctx.request.url ---- ', ctx.request.url)
+
     const componentHTML = ReactDomServer.renderToString(
         <StaticRouter location={ctx.request.url} context={context}>
                             <Provider store={store}>
@@ -88,8 +100,6 @@ app.use(async (ctx, next) => {
     );
 
     cookies.setCookies(ctx.request.universalCookies);
-
-    console.log('context ----- ', context)
 
     if (context.url) {
         ctx.response.redirect(context.url)
@@ -118,5 +128,4 @@ const renderHTML = (componentHTML: any) => {
 };
 
 app.listen(serverPort);
-
 console.log(`server listen on port ${serverPort}`);

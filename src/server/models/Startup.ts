@@ -4,7 +4,7 @@ const tableName: string = 'startups';
 
 export interface IStartupRequest {
     name: string;
-    user_id: string;
+    id_user: string;
     createdAt: string;
     updatedAt: string;
     description: string;
@@ -38,13 +38,15 @@ export interface IStartupModel {
 
     findIndentity(id: string): any;
 
-    findByStartupName(username: string): any;
+    findByStartupName(name: string): any;
 
-    update(username: string, user: IStartupRequest): any;
+    update(id: string, userId: string, startup: IStartupRequest): any;
 
-    remove(username: string): any;
+    remove(id: string, userId: string): any;
 
     getAll(): Promise<any>;
+
+    privateGetAll(userId: string): Promise<any>;
 }
 
 class Startup extends Database implements IStartupModel {
@@ -55,7 +57,7 @@ class Startup extends Database implements IStartupModel {
 
     public async create({
                             name,
-                            user_id,
+                            id_user,
                             createdAt,
                             updatedAt,
                             description,
@@ -66,16 +68,16 @@ class Startup extends Database implements IStartupModel {
                         }: StartupRequest): Promise<any> {
 
         return await this.query(`INSERT INTO ${tableName} 
-            (user_id, name, createdAt, description, contacts, profitText, whoNeed, specialization)
-            VALUES('${user_id}', '${name}', '${createdAt}',  '${description}', '${contacts}', '${profitText}', '${whoNeed}', '${specialization}')`);
+            (id_user, name, createdAt, description, contacts, profitText, whoNeed, specialization)
+            VALUES('${id_user}', '${name}', '${createdAt}',  '${description}', '${contacts}', '${profitText}', '${whoNeed}', '${specialization}')`);
     }
 
-    public async remove(id: string): any {
-        let result = await this.query(`DELETE FROM ${tableName} WHERE id=?`, [id]);
+    public async remove(id: string, userId): any {
+        let result = await this.query(`DELETE FROM ${tableName} WHERE id=? AND id_user=?`, [id, userId]);
 
         return result.affectedRowsstartup
     }
-    public async update(id: string, startup: IStartupRequest): any {
+    public async update(id: string, userId, startup: IStartupRequest): any {
         let UpgrageStartup: IStartupRequest = {},
             updateQuery: string = '';
 
@@ -90,12 +92,16 @@ class Startup extends Database implements IStartupModel {
             i === Object.keys(UpgrageStartup).length ? updateQuery += `${key} = '${UpgrageStartup[key]}'` : updateQuery += `${key} = '${UpgrageStartup[key]}', `;
         }
 
-        let result = await this.query(`UPDATE ${tableName} SET ${updateQuery} WHERE id=?`, [id]);
+        let result = await this.query(`UPDATE ${tableName} SET ${updateQuery} WHERE id=? AND id_user=?`, [id, userId]);
         return result.affectedRows;
     }
 
     public async getAll(): Promise<any> {
-        return await this.query(`SELECT * from ${tableName}`);
+        return await this.query(`SELECT * FROM ${tableName}`);
+    }
+
+    public async privateGetAll(userId): Promise<any> {
+        return await this.query(`SELECT * FROM ${tableName} WHERE id_user=?`,[userId]);
     }
 
     public async findByStartupName(name: string): Promise<any> {

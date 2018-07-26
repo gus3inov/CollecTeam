@@ -7,17 +7,17 @@ class AuthService {
      *
      * @param {string} token
      */
-    static authenticateUser (token) {
+    static authenticateUser(token) {
         axios.post('/api/user/setToken', {token})
             .then(res => {
-                console.log(res)
+                console.log(res);
             })
             .catch(err => {
-                throw new Error(err);
-            })
+                 // console.error(err.response);
+            });
     }
 
-    static async isUserAuthenticated () {
+    static async isUserAuthenticated() {
         const res = await this.getToken();
 
         return res !== undefined;
@@ -28,25 +28,28 @@ class AuthService {
      *
      * @returns {boolean}
      */
-    static getToken () {
+    static getToken() {
         return axios.get('/api/user/getToken')
             .then(res => {
-                return res.data.token
+                return res.data.token;
             })
             .catch(err => {
-                throw new Error(err);
-            })
+                // console.error(err.response);
+            });
     }
 
     /**
      * Deauthenticate a user. Remove a token from Local Storage.
      *
      */
-    static async deauthenticateUser () {
-        return await axios.get('/api/user/deleteToken')
+    static deauthenticateUser() {
+        return axios.delete('/api/user/deleteToken')
             .then(res => {
-                return res.token
+                return res.token;
             })
+            .catch(err => {
+               console.error(err.response);
+            });
     }
 
 }

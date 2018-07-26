@@ -4,7 +4,7 @@ import { darkColor, darkBlue, lightColor } from "../../theme";
 
 export const StyledMenu = styled.div`
     background: ${darkColor};
-    width: ${ (props: { isOpen: boolean }) => props.isOpen ? '300px' : '100px' };
+    width: ${ (props: { isOpen: boolean }) => props.isOpen ? '260px' : '80px' };
     height: 100vh;
     position: fixed;
     top: 0;
@@ -52,12 +52,16 @@ export const StyledMenu = styled.div`
                         position: relative;
                          
                         span {
-                          -webkit-animation: Fade 0.26s 0.63s 1 alternate backwards;
-                            animation: Fade 0.26s 0.63s 1 alternate backwards;
+                          -webkit-animation: Fade 0.26s 0.23s 1 alternate backwards;
+                            animation: Fade 0.26s 0.23s 1 alternate backwards;
                             transition: 0.32s;
+                            font-size: 23px;
+                            display: flex;
+                            align-items: center;
                             
                             &:before {
-                                margin-right: 30px
+                                margin-right: 20px;
+                                font-size: 31px;
                             }
                         }
                     }
@@ -70,9 +74,10 @@ export const StyledMenu = styled.div`
                             position: absolute;
                             left: 0;
                             top: 0;
-                            width: 10px;
+                            width: 6px;
                             height: 100%;
                             background-color: ${lightColor};
+                            font-size: 31px;
                         }
                     }
                     

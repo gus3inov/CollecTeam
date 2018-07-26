@@ -19,7 +19,7 @@ const Menu: React.StatelessComponent<MenuProps> = (props: MenuProps) => {
                 isOpen={isOpen}
             />
             <div className="logo">
-                <img src="http://g989666z.beget.tech/images/logo.png" alt=""/>
+                <img src="/images/logo.png" alt=""/>
             </div>
             <nav className="alt-menu-nav">
                 <ul className="alt-menu-nav__list">

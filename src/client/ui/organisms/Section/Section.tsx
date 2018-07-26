@@ -6,12 +6,13 @@ import SectionTitle from '../../atoms/SectionTitle';
 type SectionProps = {
     title: string;
     children: any;
+    bg: boolean;
 }
 const Section: React.SFC<SectionProps> = (props) => {
-    const { title, children } = props;
+    const { title, children, bg } = props;
 
     return (
-        <StyledSection className="section">
+        <StyledSection className="section" bg={bg}>
            <div>
                <SectionTitle>{title}</SectionTitle>
            </div>

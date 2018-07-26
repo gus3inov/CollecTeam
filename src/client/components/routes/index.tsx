@@ -1,4 +1,4 @@
-import AboutPage from './AboutPage';
+import LoginPage from './LoginPage';
 import NotFound from './NotFound';
 import HomePage from './HomePage';
 import Root from '../Root';
@@ -13,8 +13,8 @@ const routes: Array<object> = [
         ],
         routes: [
             {
-                path: '/about',
-                component: AboutPage
+                path: '/login',
+                component: LoginPage
             },
             {
                 path: '*',

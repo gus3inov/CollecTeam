@@ -1,10 +1,9 @@
 import * as React from 'react';
-import Section from '../../ui/organisms/Section';
-import FormStartup from '../../ui/organisms/FormStartup';
+import FormStartup from '../../ui/organisms/FormStartup/index';
 import TextField from '@material-ui/core/TextField';
 import {reduxForm, Field, InjectedFormProps} from 'redux-form';
 import * as emailValidator from 'email-validator';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
@@ -21,19 +20,17 @@ export interface AddStartupProps {
 }
 
 const suggestions = [
-    { label: 'Дизайн' },
-    { label: 'Маркетинг' },
-    { label: 'Автоматизация' },
-    { label: 'Разработка' },
-    { label: 'Машинное обучение' },
-    { label: 'Робото-техника' },
-    { label: 'Медецина' },
-    { label: 'Образование' },
+    {label: 'Дизайн'},
+    {label: 'Маркетинг'},
+    {label: 'Автоматизация'},
+    {label: 'Разработка'},
+    {label: 'Машинное обучение'},
+    {label: 'Робото-техника'},
+    {label: 'Медецина'},
+    {label: 'Образование'},
 ];
 
-const renderTextField = (
-    { input, label, meta: { touched, error }, ...custom },
-) => (
+const renderTextField = ({input, label, meta: {touched, error}, ...custom},) => (
     <TextField
         hintText={label}
         floatingLabelText={label}
@@ -44,7 +41,7 @@ const renderTextField = (
 );
 
 function renderInput(inputProps) {
-    const { InputProps, classes, ref, ...other } = inputProps;
+    const {InputProps, classes, ref, ...other} = inputProps;
 
     return (
         <TextField
@@ -60,7 +57,7 @@ function renderInput(inputProps) {
     );
 }
 
-function renderSuggestion({ suggestion, index, itemProps, highlightedIndex, selectedItem }) {
+function renderSuggestion({suggestion, index, itemProps, highlightedIndex, selectedItem}) {
     const isHighlighted = highlightedIndex === index;
     const isSelected = (selectedItem || '').indexOf(suggestion.label) > -1;
 
@@ -114,8 +111,6 @@ const styles = theme => ({
         display: 'flex',
         flexWrap: 'wrap',
     },
-    textField: {
-    },
     input: {
         color: '#fff'
     },
@@ -140,7 +135,7 @@ class AddStartup extends React.Component<AddStartupProps, any> {
     state = {
         activeStep: 0,
         inputValue: '',
-        selectedItem: []
+        selectedItem: [],
     };
 
     handleNext = () => {
@@ -155,14 +150,8 @@ class AddStartup extends React.Component<AddStartupProps, any> {
         });
     };
 
-    handleReset = () => {
-        this.setState({
-            activeStep: 0,
-        });
-    };
-
     handleKeyDown = event => {
-        const { inputValue, selectedItem } = this.state;
+        const {inputValue, selectedItem} = this.state;
         if (selectedItem.length && !inputValue.length && keycode(event) === 'backspace') {
             this.setState({
                 selectedItem: selectedItem.slice(0, selectedItem.length - 1),
@@ -171,11 +160,11 @@ class AddStartup extends React.Component<AddStartupProps, any> {
     };
 
     handleInputChange = event => {
-        this.setState({ inputValue: event.target.value });
+        this.setState({inputValue: event.target.value});
     };
 
     handleChange = item => {
-        let { selectedItem } = this.state;
+        let {selectedItem} = this.state;
 
         if (selectedItem.indexOf(item) === -1) {
             selectedItem = [...selectedItem, item];
@@ -191,7 +180,7 @@ class AddStartup extends React.Component<AddStartupProps, any> {
         const selectedItem = [...this.state.selectedItem];
         selectedItem.splice(selectedItem.indexOf(item), 1);
 
-        this.setState({ selectedItem });
+        this.setState({selectedItem});
     };
 
     getSteps = () => {
@@ -199,19 +188,20 @@ class AddStartup extends React.Component<AddStartupProps, any> {
             'Введите название платформы',
             'Специализация стартапа',
             'Дайте описание стартапа',
-            'Какую роль вы будете играть в стартапе',
             'Кто нужен ?',
+            'Выгода принимающего участие',
             'Контакты'
         ];
     };
 
     getStepContent = step => {
-        const { classes } = this.props;
-        const { inputValue, selectedItem } = this.state;
+        const {classes} = this.props;
+        const {inputValue, selectedItem} = this.state;
 
         switch (step) {
             case 0:
                 return <Field
+                    fullWidth
                     name="name"
                     component={renderTextField}
                     label="Название"
@@ -236,6 +226,7 @@ class AddStartup extends React.Component<AddStartupProps, any> {
                                 <div className={classes.container}>
                                     {renderInput({
                                         classes,
+                                        name: 'specialization',
                                         InputProps: getInputProps({
                                             startAdornment: selectedItem.map(item => (
                                                 <Chip
@@ -258,7 +249,7 @@ class AddStartup extends React.Component<AddStartupProps, any> {
                                                 renderSuggestion({
                                                     suggestion,
                                                     index,
-                                                    itemProps: getItemProps({ item: suggestion.label }),
+                                                    itemProps: getItemProps({item: suggestion.label}),
                                                     highlightedIndex,
                                                     selectedItem: selectedItem2,
                                                 }),
@@ -272,108 +263,110 @@ class AddStartup extends React.Component<AddStartupProps, any> {
                 );
             case 2:
                 return <Field
-                            name="description"
-                            component={renderTextField}
-                            label="Описание стартапа"
-                            placeholder="Описание"
-                            className={classes.textField}
-                            InputProps={{
-                                className: classes.input
-                            }}
-                            multiline
-                            rows="4"
-                        />;
+                    fullWidth
+                    name="description"
+                    component={renderTextField}
+                    label="Описание стартапа"
+                    placeholder="Описание"
+                    className={classes.textField}
+                    InputProps={{
+                        className: classes.input
+                    }}
+                    multiline
+                    rows="4"
+                />;
             case 3:
                 return <Field
-                            name="role"
-                            component={renderTextField}
-                            label="Роль в стартапа"
-                            placeholder="Роль"
-                            className={classes.textField}
-                            InputProps={{
-                                className: classes.input
-                            }}
-                            multiline
-                            rows="4"
-                        />;
+                    fullWidth
+                    name="whoNeed"
+                    component={renderTextField}
+                    label="Кто нужен в стартапе ?"
+                    placeholder="Кто нужен ?"
+                    className={classes.textField}
+                    InputProps={{
+                        className: classes.input
+                    }}
+                    multiline
+                    rows="4"
+                />;
             case 4:
                 return <Field
-                            name="whoNeed"
-                            component={renderTextField}
-                            label="Кто нужен в стартапе ?"
-                            placeholder="Кто нужен ?"
-                            className={classes.textField}
-                            InputProps={{
-                                className: classes.input
-                            }}
-                            multiline
-                            rows="4"
-                        />;
+                    fullWidth
+                    name="profitText"
+                    component={renderTextField}
+                    label="Profit"
+                    placeholder="Profit"
+                    className={classes.textField}
+                    InputProps={{
+                        className: classes.input
+                    }}
+                    multiline
+                    rows="4"
+                />;
             case 5:
                 return <Field
-                            name="contacts"
-                            component={renderTextField}
-                            label="Контакты"
-                            placeholder="Контакты"
-                            className={classes.textField}
-                            InputProps={{
-                                className: classes.input
-                            }}
-                            multiline
-                            rows="4"
-                        />;
+                    fullWidth
+                    name="contacts"
+                    component={renderTextField}
+                    label="Контакты"
+                    placeholder="Контакты"
+                    className={classes.textField}
+                    InputProps={{
+                        className: classes.input
+                    }}
+                    multiline
+                    rows="4"
+                />;
             default:
                 return 'Unknown step';
         }
     };
 
     render() {
-        const { classes, handleSubmit } = this.props;
+        const {classes, handleSubmit } = this.props;
         const steps = this.getSteps();
-        const { activeStep } = this.state;
+        const {activeStep} = this.state;
 
         return (
-            <Section title="Создание стартапа">
-                <FormStartup>
-                    <form onSubmit={handleSubmit} action="">
-                        <Stepper className={classes.stepRoot} activeStep={activeStep} orientation="vertical">
-                            {steps.map((label, index) => {
-                                return (
-                                    <Step key={label}>
-                                        <StepLabel style={{color: '#fff'}} className={classes.stepLabel}>{label}</StepLabel>
-                                        <StepContent>
-                                            {this.getStepContent(index)}
-                                            <div className={classes.actionsContainer}>
-                                                <div>
-                                                    <Button
-                                                        disabled={activeStep === 0}
-                                                        onClick={this.handleBack}
-                                                        className={classes.button}
-                                                        color="primary"
-                                                        variant="raised"
-                                                        style={{marginRight: 30}}
-                                                    >
-                                                        Назад
-                                                    </Button>
-                                                    <Button
-                                                        variant="raised"
-                                                        color="primary"
-                                                        onClick={this.handleNext}
-                                                        className={classes.button}
-                                                        type={activeStep === steps.length - 1 ? 'submit' : ''}
-                                                    >
-                                                        {activeStep === steps.length - 1 ? 'Создать' : 'Дальше'}
-                                                    </Button>
-                                                </div>
+            <FormStartup>
+                <form onSubmit={handleSubmit} action="">
+                    <Stepper className={classes.stepRoot} activeStep={activeStep} orientation="vertical">
+                        {steps.map((label, index) => {
+                            return (
+                                <Step key={label}>
+                                    <StepLabel style={{color: '#fff'}} className={classes.stepLabel}>{label}</StepLabel>
+                                    <StepContent>
+                                        {this.getStepContent(index)}
+                                        <div className={classes.actionsContainer}>
+                                            <div>
+                                                <Button
+                                                    disabled={activeStep === 0}
+                                                    onClick={this.handleBack}
+                                                    className={classes.button}
+                                                    color="primary"
+                                                    variant="raised"
+                                                    style={{marginRight: 30}}
+                                                >
+                                                    Назад
+                                                </Button>
+                                                <Button
+                                                    variant="raised"
+                                                    color="primary"
+                                                    onClick={this.handleNext}
+                                                    className={classes.button}
+                                                    type={activeStep === steps.length ? 'submit' : ''}
+                                                >
+                                                    {activeStep === steps.length - 1 ? 'Создать' : 'Дальше'}
+                                                </Button>
                                             </div>
-                                        </StepContent>
-                                    </Step>
-                                );
-                            })}
-                        </Stepper>
-                    </form>
-                </FormStartup>
-            </Section>
+                                        </div>
+                                    </StepContent>
+                                </Step>
+                            );
+                        })}
+                    </Stepper>
+                </form>
+            </FormStartup>
         );
     }
 }

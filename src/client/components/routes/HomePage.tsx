@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 
 import Home from '../../ui/templates/Home';
 import { moduleName } from '../../ducks/auth';
+import Profile from '../Profile/Profile';
 import Startups from '../Home/Startups';
-import AddStartup from '../Home/AddStartup';
+import Startup from '../Startup/Startup';
 import MenuRoutes from '../common/MenuRoutes';
-import AuthService from '../../services/AuthService';
+import Dashboard from '../Home/Dashboard';
 
 export interface HomePageProps {
 
@@ -19,13 +20,21 @@ export interface HomePageProps {
     }
 }, null)
 class HomePage extends React.Component<HomePageProps, any> {
+
+    getStartup = ({ match }) => {
+        const { name } = match.params
+        return <Startup name = { name } key = { name } />
+    };
+
     render() {
         const { children, user } = this.props;
 
         return (
             <Home user={user} routes={MenuRoutes}>
-                <Route path="/home/startups" component={Startups}/>
-                <Route path="/home/startup/add" component={AddStartup}/>
+                <Route path="/home/dashboard" exact component={Dashboard}/>
+                <Route path="/home/startups" exact component={Startups}/>
+                <Route path="/home/startups/:name" render={this.getStartup}/>
+                <Route path="/profile" exact component={Profile}/>
             </Home>
         );
     }

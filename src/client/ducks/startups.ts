@@ -1,9 +1,8 @@
 import { ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { OrderedMap, Record } from 'immutable';
-import * as config from 'config';
+import { Record } from 'immutable';
 import axios from 'axios';
-import {start} from 'repl';
+import AuthService from '../services/AuthService';
 
 
 const appName: string = 'collect_team';
@@ -43,8 +42,10 @@ interface IStartup {
 
 const ReducerRecord = Record({
     entities: [],
+    entitie: [],
     error: null,
-    loading: false
+    loading: false,
+    loaded: false
 });
 
 const initialState = new ReducerRecord();
@@ -61,9 +62,13 @@ export default function startup(state = initialState, action: startupAction): an
             return state.
                     set('loading', true);
 
+        case LOAD_STARTUP + START:
+            return state.set('loading', true);
 
         case LOAD_STARTUP + SUCCESS:
-            return state.setIn(['entities', payload.id], payload.response);
+            return state
+                    .set('entitie', payload.data)
+                    .set('loading', false);
 
         case DELETE_STARTUP:
             return state
@@ -79,11 +84,15 @@ export default function startup(state = initialState, action: startupAction): an
                     startup.shift(payload)
                 });
 
-        case ADD_STARTUP:
+        case ADD_STARTUP + START:
+            return state
+                .set('loading', true);
+
+        case ADD_STARTUP + SUCCESS:
             return state
                 .set('loading', false)
-                .set('entities', payload)
-                .set('error', null);
+                .set('loaded', true)
+                .set('entities', payload);
         default:
             return state;
     }
@@ -94,29 +103,40 @@ export const loadAllStartups: ActionCreator<ThunkAction<any, any, void>> = () =>
         dispatch({
             type: LOAD_ALL_STARTUPS + START
         });
-        axios.get('/api/startups')
-            .then(startups => {
-                return dispatch({
-                    type: LOAD_ALL_STARTUPS + SUCCESS,
-                    payload: startups.data
-                });
-            })
-            .catch(err => {
-                return dispatch({
-                    type: LOAD_ALL_STARTUPS + ERROR,
-                    err
-                });
+
+        AuthService.getToken().then(token => {
+            const instance = axios.create({
+                timeout: 2000,
+                headers: {
+                    'Authorization': `bearer ${token}`
+                }
             });
+
+            instance.get('/api/startups')
+                .then(startups => {
+                    return dispatch({
+                        type: LOAD_ALL_STARTUPS + SUCCESS,
+                        payload: startups.data
+                    });
+                })
+                .catch(err => {
+                    return dispatch({
+                        type: LOAD_ALL_STARTUPS + ERROR,
+                        err
+                    });
+                });
+        });
     };
 };
 
-export const loadStartups: ActionCreator<ThunkAction<any, any, void>> = (name) => {
+export const loadStartup: ActionCreator<ThunkAction<any, any, void>> = (name) => {
     return (dispatch) => {
         dispatch({
             type: LOAD_STARTUP + START
         });
         axios.get(`/api/startup/${name}`)
             .then(startup => {
+                console.log(startup)
                 return dispatch({
                     type: LOAD_STARTUP + SUCCESS,
                     payload: startup
@@ -131,11 +151,12 @@ export const loadStartups: ActionCreator<ThunkAction<any, any, void>> = (name) =
     };
 };
 
-export const addStartups: ActionCreator<ThunkAction<any, any, void>> = (startup) => {
+export const addStartup: ActionCreator<ThunkAction<any, any, void>> = (startup) => {
     return (dispatch) => {
         dispatch({
             type: ADD_STARTUP + START
         });
+        console.log(startup)
         axios.post(`/api/startup`, startup)
             .then(startup => {
                 return dispatch({

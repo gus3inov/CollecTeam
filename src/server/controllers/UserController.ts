@@ -5,7 +5,7 @@ import * as bodyParser from 'koa-bodyparser';
 
 import Router from '../helpers/RouteGenerator';
 import { IUserModel } from '../models/User';
-import checkAuth from '../middlewares/checkAuth';
+import checkAuth, {default as checkAuth} from '../middlewares/checkAuth';
 import { ContextStats, ErrorStatus, IRequest } from '../interfaces/IKoa';
 
 type RequestStats = IRequest;
@@ -25,6 +25,7 @@ class UserController extends Router {
         this.model = model;
         this.setToken();
         this.getToken();
+        this.deleteToken();
         this.actionCreate();
         this.actionGetAll();
         this.actionGet();
@@ -97,12 +98,19 @@ class UserController extends Router {
     }
 
     public isAuth () {
-        this.get('/auth/isauth', checkAuth);
+        this.get('/auth/isauth', bodyParser(), checkAuth, async (ctx, next) => {
+            const user = ctx.body.user;
+            ctx.body = {
+                user
+            }
+        });
     }
 
     public actionLogout () {
-        this.get('/auth/logout', async (ctx) => {
+        this.get('/auth/logout', bodyParser(), async (ctx) => {
             if (ctx.isAuthenticated()) {
+                await ctx.cookies.set('token', null);
+
                 return ctx.logout();
             } else {
                 ctx.body = { success: false };
@@ -131,24 +139,30 @@ class UserController extends Router {
     }
 
     public actionChange () {
-        this.put('/api/user/:username', koaBody, async <RequestStats> (ctx: ContextStats, next: any) => {
+        this.put('/api/user/edit', koaBody, checkAuth, async <RequestStats> (ctx: ContextStats, next: any) => {
             ctx.status = ErrorStatus.NoContent;
-
-            await this.model.update(ctx.params.username, ctx.request.body);
+            const username = ctx.body.user.username;
+            await this.model.update(username, ctx.request.body);
         })
     }
 
     public actionDelete () {
-        this.delete('/api/user/:username', async (ctx: ContextStats, next: any) => {
+        this.delete('/api/user/delete', koaBody, checkAuth, async (ctx: ContextStats, next: any) => {
             ctx.status = ErrorStatus.NoContent;
-
-            await this.model.remove(ctx.params.username);
+            const username = ctx.body.user.username;
+            await this.model.remove(username);
         })
     }
 
     public setToken () {
-        this.post('/api/user/setToken', async (ctx, next) => {
-           await ctx.cookies.set('token', ctx.request.body.token);
+        this.post('/api/user/setToken', koaBody, async (ctx, next) => {
+           await ctx.cookies.set('token', ctx.request.body.token, { httpOnly: false });
+        })
+    }
+
+    public deleteToken () {
+        this.delete('/api/user/deleteToken', async (ctx, next) => {
+           await ctx.cookies.set('token', null);
         })
     }
 

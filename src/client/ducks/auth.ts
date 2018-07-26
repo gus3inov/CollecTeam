@@ -51,13 +51,13 @@ export default function auth(state = initialState, action: SignUpAction): any {
         case SIGN_UP_SUCCESS:
             return state
                 .set('loading', false)
-                .set('user', payload)
+                .set('user', payload[0])
                 .set('error', null);
         case SIGN_IN_SUCCESS:
             return state
+                .set('isAuth', isAuth)
                 .set('loading', false)
                 .set('user', payload)
-                .set('isAuth', isAuth)
                 .set('error', null);
         case SIGN_UP_ERROR:
             return state
@@ -94,23 +94,24 @@ export const signUp: ActionCreator<ThunkAction<any, any, void>> = (user) => {
 export const signIn: ActionCreator<ThunkAction<any, any, void>> = (user) => {
     return (dispatch) => {
         dispatch({
-            type: SIGN_IN_REQUEST
+            type: SIGN_IN_REQUEST,
+            isAuth: false
         });
 
         axios.post('/auth/login', user)
             .then(res => {
-                console.log(res.data.token)
                 AuthService.authenticateUser(res.data.token);
                 return dispatch({
-                    type: SIGN_IN_SUCCESS
+                    type: SIGN_IN_SUCCESS,
+                    isAuth: true
                 });
             })
             .catch(err => {
-                console.error(err);
-
+                // console.error(err);
                 return dispatch({
                     type: SIGN_IN_ERROR,
-                    err
+                    err,
+                    isAuth: false
                 });
             });
     };
@@ -124,7 +125,6 @@ export const isAuthAction: ActionCreator<ThunkAction<any, any, void>> = () => {
 
         AuthService.getToken().then(token => {
             const isAuth = token !== null;
-            console.log(isAuth)
             const instance = axios.create({
                 timeout: 2000,
                 headers: {
@@ -141,7 +141,7 @@ export const isAuthAction: ActionCreator<ThunkAction<any, any, void>> = () => {
                     });
                 })
                 .catch(err => {
-                    console.error(err);
+                    // console.error(err);
                     return dispatch({
                         type: SIGN_IN_ERROR,
                         err

@@ -2,10 +2,10 @@ import styled from "styled-components";
 import {darkColor, darkBlue, lightColor} from '../../theme';
 
 const StyledWorkspace = styled.div`
-    width: 1400px;
+    width: ${(props: { isOpen: boolean  }) => props.isOpen ? '1500px' : '1680px' };
     margin: 0 auto;
-    padding-top: 140px;
-    margin-left: ${(props: { isOpen: boolean  }) => props.isOpen ? '411px' : '217px' };
+    padding-top: 80px;
+    margin-left: ${(props: { isOpen: boolean  }) => props.isOpen ? '311px' : '127px' };
     display: flex;
     flex-direction: column;
     align-items: flex-start;
