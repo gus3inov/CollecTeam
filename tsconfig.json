@@ -1,5 +1,21 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@core/*": [
+        "server/core/*"
+      ],
+      "@server/*": [
+        "server/*"
+      ],
+      "@client/*": [
+        "client/*"
+      ],
+      "@ui/*": [
+        "client/ui/*"
+      ]
+    },
+    "rootDir": "src",
     "outDir": "build/dist",
     "module": "commonjs",
     "target": "es2017",
@@ -8,7 +24,6 @@
     "allowJs": true,
     "jsx": "react",
     "moduleResolution": "node",
-    "rootDir": "src",
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
@@ -18,7 +33,9 @@
     "noUnusedLocals": true
   },
   "include": [
-    "./src/**/*"
+    "./src/**/*",
+    "./src/client/*",
+    "./src/server/*"
   ],
   "exclude": [
     "node_modules",
@@ -27,6 +44,14 @@
     "acceptance-tests",
     "webpack",
     "jest",
-    "src/setupTests.ts"
+    "src/setupTests.ts",
+    "./src/**/*.test.ts",
+    "./src/**/*.spec.ts",
+    "./src/**/*.spec.tsx",
+    "./src/**/*.test.tsx"
+  ],
+  "typeRoots": [
+    "../node_modules/@types",
+    "../@types"
   ]
 }
