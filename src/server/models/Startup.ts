@@ -1,120 +1,86 @@
-import Database from '../helpers/Database';
+import Database from '@core/Database';
+import HashMapHelper from '@server/helpers/HashMapHelper';
 
-const tableName: string = 'startups';
-
-export interface IStartupRequest {
-    name: string;
-    id_user: string;
-    createdAt: string;
-    updatedAt: string;
-    description: string;
-    contacts: string;
-    profitText: string;
-    whoNeed: string;
-    specialization: string;
-}
-
-type StartupRequest = IStartupRequest
-
-export interface IStartupResponse {
-    id: number;
-    id_user: string;
-    createdAt: number;
-    updatedAt: number;
-    name: string;
-    description: string;
-    previewPicture: string;
-    detailPicture: string;
-    contacts: string;
-    profitText: string;
-    whoNeed: string;
-    specialization: string;
-}
-
-type StartupResponse = IStartupResponse;
-
-export interface IStartupModel {
-    create(object: StartupRequest): Promise<any>;
-
-    findIndentity(id: string): any;
-
-    findByStartupName(name: string): any;
-
-    update(id: string, userId: string, startup: IStartupRequest): any;
-
-    remove(id: string, userId: string): any;
-
-    getAll(): Promise<any>;
-
-    privateGetAll(userId: string): Promise<any>;
-}
+const tableName = 'startups';
 
 class Startup extends Database implements IStartupModel {
 
-    constructor(){
-        super();
-    }
+	constructor() {
+		super();
+	}
 
-    public async create({
-                            name,
-                            id_user,
-                            createdAt,
-                            updatedAt,
-                            description,
-                            contacts,
-                            profitText,
-                            whoNeed,
-                            specialization
-                        }: StartupRequest): Promise<any> {
+	public async create({
+							name,
+							id_user,
+							createdAt,
+							updatedAt,
+							description,
+							contacts,
+							profitText,
+							whoNeed,
+							specialization,
+						}: StartupRequest): Promise<any> {
 
-        return await this.query(`INSERT INTO ${tableName} 
+		return await this.query(`INSERT INTO ${tableName}
             (id_user, name, createdAt, description, contacts, profitText, whoNeed, specialization)
-            VALUES('${id_user}', '${name}', '${createdAt}',  '${description}', '${contacts}', '${profitText}', '${whoNeed}', '${specialization}')`);
-    }
+            VALUES(
+            '${id_user}',
+             '${name}',
+              '${createdAt}',
+                '${description}',
+                 '${contacts}',
+                  '${profitText}',
+                   '${whoNeed}',
+                    '${specialization}')`
+		);
+	}
 
-    public async remove(id: string, userId): any {
-        let result = await this.query(`DELETE FROM ${tableName} WHERE id=? AND id_user=?`, [id, userId]);
+	public async remove(id: string, userId: string): Promise<any> {
+		const result = await this.query(`DELETE FROM ${tableName} WHERE id=? AND id_user=?`, [id, userId]);
 
-        return result.affectedRowsstartup
-    }
-    public async update(id: string, userId, startup: IStartupRequest): any {
-        let UpgrageStartup: IStartupRequest = {},
-            updateQuery: string = '';
+		return result.affectedRowsstartup;
+	}
 
-        if (startup.hasOwnProperty('name')) UpgrageStartup.name = (startup.name);
-        if (startup.hasOwnProperty('description')) UpgrageStartup.description = (startup.description);
-        if (startup.hasOwnProperty('contacts')) UpgrageStartup.contacts = (startup.contacts);
-        if (startup.hasOwnProperty('profitText')) UpgrageStartup.profitText = (startup.profitText);
+	public async update(id: string, userId: string, startup: IStartupRequest): Promise<any> {
+		const UpgradeStartup: any = {};
 
-        let i:number = 0;
-        for(let key in UpgrageStartup) {
-            i++;
-            i === Object.keys(UpgrageStartup).length ? updateQuery += `${key} = '${UpgrageStartup[key]}'` : updateQuery += `${key} = '${UpgrageStartup[key]}', `;
-        }
+		if (startup.hasOwnProperty('name')) {
+			UpgradeStartup.name = (startup.name);
+		}
+		if (startup.hasOwnProperty('description')) {
+			UpgradeStartup.description = (startup.description);
+		}
+		if (startup.hasOwnProperty('contacts')) {
+			UpgradeStartup.contacts = (startup.contacts);
+		}
+		if (startup.hasOwnProperty('profitText')) {
+			UpgradeStartup.profitText = (startup.profitText);
+		}
+		const query: string = HashMapHelper.rowMap(UpgradeStartup, '=');
 
-        let result = await this.query(`UPDATE ${tableName} SET ${updateQuery} WHERE id=? AND id_user=?`, [id, userId]);
-        return result.affectedRows;
-    }
+		const result = await this.query(`UPDATE ${tableName} SET ${query} WHERE id=? AND id_user=?`, [id, userId]);
+		return result.affectedRows;
+	}
 
-    public async getAll(): Promise<any> {
-        return await this.query(`SELECT * FROM ${tableName}`);
-    }
+	public async getAll(): Promise<any> {
+		return await this.query(`SELECT * FROM ${tableName}`);
+	}
 
-    public async privateGetAll(userId): Promise<any> {
-        return await this.query(`SELECT * FROM ${tableName} WHERE id_user=?`,[userId]);
-    }
+	public async privateGetAll(userId: string): Promise<any> {
+		return await this.query(`SELECT * FROM ${tableName} WHERE id_user=?`, [userId]);
+	}
 
-    public async findByStartupName(name: string): Promise<any> {
-        const startup: Array<object> = await this.query(`SELECT * FROM ${tableName} WHERE name=?`, [name]);
+	public async findByStartupName(name: string): Promise<any> {
+		const startup: Array<object> = await this.query(`SELECT * FROM ${tableName} WHERE name=?`, [name]);
 
-        return startup[0];
-    }
+		return startup[0];
+	}
 
-    public async findIndentity(id: string): Promise<any> {
-        const startup: Array<object> = await this.query(`SELECT * FROM ${tableName} WHERE id=?`, [id]);
+	public async findIndentity(id: string): Promise<any> {
+		const startup: Array<object> = await this.query(`SELECT * FROM ${tableName} WHERE id=?`, [id]);
 
-        return startup[0];
-    }
+		return startup[0];
+	}
 }
 
 export default Startup;
