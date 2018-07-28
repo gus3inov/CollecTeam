@@ -3,55 +3,53 @@ import * as mongoose from 'mongoose';
 import * as config from 'config';
 
 export interface IConfigApp {
-    db: object,
-    redis: object;
+	db: any,
+	redis: object;
 }
 
 const configApp: IConfigApp = config.get('dev');
 
-const mysqlPromise: object = new MysqlPromise();
+const mysqlPromise: any = new MysqlPromise();
 
-let mongo = mongoose;
+const mongo = mongoose;
 
 mongo.Promise = Promise;
 
 interface IDBConnect {
-    checkMySqlConnection(): Promise<any>;
+	// checkMySqlConnection(): Promise<any>;
 
-    checkRedisReadyState(): Promise<any>;
+	// checkRedisReadyState(): Promise<any>;
 
-    init(): Promise<any>;
+	init(): Promise<any>;
 }
 
-class DBConnect {
-    static mysqlConfig: any;
+class DBConnect implements IDBConnect {
+	mysqlConfig: any;
 
-    constructor() {
-        this.mysqlConfig = configApp.db.mysql;
-    }
+	constructor() {
+		this.mysqlConfig = configApp.db.mysql;
+	}
 
-    private checkMySqlConnection() {
-        return mysqlPromise.configure({
-            "host": this.mysqlConfig.host,
-            "user": this.mysqlConfig.user,
-            "password": this.mysqlConfig.password,
-            "database": this.mysqlConfig.database
-        });
+	public init(): Promise<any> {
+		return Promise.all([
+			this.checkMySqlConnection(),
+			new Promise<Promise<any>>((resolve, reject) => {
+				mongoose.connect(configApp.db.mongo, err => {
+					err ? reject(err) : resolve();
+				});
+			}),
+		]);
+	}
 
-    }
-
-   public init() {
-        // console.log('init-------------------', this)
-        return Promise.all([
-            this.checkMySqlConnection(),
-            new Promise<Promise<any>>((resolve, reject) => {
-                mongoose.connect(configApp.db.mongo, err => {
-                    err ? reject(err) : resolve()
-                })
-            })
-        ])
-    }
+	private checkMySqlConnection() {
+		return mysqlPromise.configure({
+			'host': this.mysqlConfig.host,
+			'user': this.mysqlConfig.user,
+			'password': this.mysqlConfig.password,
+			'database': this.mysqlConfig.database,
+		});
+	}
 }
 
-export {mysqlPromise};
-export {DBConnect};
+export { mysqlPromise };
+export { DBConnect };
