@@ -1,47 +1,44 @@
+import User from '@server/modules/user/UserModel';
+import { Context, Next } from '@server/interfaces/IKoa';
 import * as jwt from 'jsonwebtoken';
 import * as config from 'config';
 
-import User from '../models/User';
-import { ContextStats } from '../interfaces/IKoa';
+export default async (ctx: Context, next: Next) => {
+	const userModel = new User();
+	const jwtSecret = config.get('jwtSecret');
 
-export default async (ctx: ContextStats, next: any) => {
-    const user = new User();
-    const jwtSecret = config.get('jwtSecret');
+	if (!ctx.request.headers.authorization) {
+		ctx.body = {
+			messageS: JSON.stringify(ctx.request.header),
+		};
 
-    if (!ctx.request.headers.authorization) {
-        ctx.body = {
-            messageS: JSON.stringify(ctx.request.header)
-        };
+		return ctx.throw(401);
+	}
 
-        return ctx.throw(401).end();
-    }
+	const token = ctx.request.headers.authorization.split(' ')[1];
 
-    const token = ctx.request.headers.authorization.split(' ')[1];
+	return jwt.verify(token, jwtSecret, async (err: any, decoded: any) => {
+		if (err) {
+			return ctx.throw(401);
+		}
 
-    return jwt.verify(token, jwtSecret, async (err, decoded) => {
+		const userId = decoded.sub;
 
-        if (err) {
-            return ctx.throw(401).end;
-        }
+		const findUser = await userModel.findIndentity(userId)
+			.then(user => {
+				ctx.body = {
+					user: user[0],
+				};
+			})
+			.catch((error: any) => {
+				ctx.body = {
+					error,
+				};
 
-        const userId = decoded.sub;
+				return ctx.throw(401);
+			});
 
-        const findUser = await user.findIndentity(userId)
-            .then(user => {
-                ctx.body = {
-                    user: user[0]
-                };
-            })
-            .catch(err => {
-                ctx.body = {
-                    err
-                };
-
-                return ctx.throw(401).end();
-            });
-
-        await next();
-
-        return findUser;
-    });
+		await next();
+		return findUser;
+	});
 };
