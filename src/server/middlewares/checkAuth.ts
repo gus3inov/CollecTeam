@@ -1,4 +1,4 @@
-import User from '@server/modules/user/User';
+import User from '@server/modules/user/UserModel';
 import { Context, Next } from '@server/interfaces/IKoa';
 import * as jwt from 'jsonwebtoken';
 import * as config from 'config';
