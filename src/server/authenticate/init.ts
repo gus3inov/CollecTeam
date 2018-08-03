@@ -1,4 +1,4 @@
-import User from '@server/modules/user/User';
+import User from '@server/modules/user/UserModel';
 import * as passport from 'koa-passport';
 import * as LocalPassport from 'passport-local';
 import { compareSync } from 'bcryptjs';
