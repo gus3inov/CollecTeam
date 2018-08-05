@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^1.1.0",
+    "antd": "^3.8.0",
     "autoprefixer": "^8.5.0",
     "axios": "^0.18.0",
     "babel-jest": "^22.1.0",
