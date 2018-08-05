@@ -1,7 +1,6 @@
 import * as React from 'react';
-
 import styled from 'styled-components';
-import { lightColor } from "../theme";
+import { lightColor } from '@ui/theme';
 
 const StyledSectionTitle = styled.h3`
     font-size: 64px;
@@ -18,13 +17,12 @@ const StyledSectionTitle = styled.h3`
     }
 `;
 
-type SectionTitleProps = {
-    children: any;
-}
+type IProps = {
+	children: any;
+};
 
-
-const SectionTitle: React.SFC<SectionTitleProps> = (props: SectionTitleProps) => {
-    return <StyledSectionTitle>{props.children}</StyledSectionTitle>
+const SectionTitle: React.SFC<IProps> = (props: IProps) => {
+	return <StyledSectionTitle>{props.children}</StyledSectionTitle>;
 };
 
 export default SectionTitle;

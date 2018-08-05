@@ -1,7 +1,6 @@
 import * as React from 'react';
-
 import styled from 'styled-components';
-import { fontWhite } from "../theme";
+import { fontWhite } from '@ui/theme';
 
 const StyledTitle = styled.h3`
     font-size: ${(props: { size: number }) => props.size}px;
@@ -10,15 +9,14 @@ const StyledTitle = styled.h3`
 `;
 
 type TitleProps = {
-    size: number;
-    children: any;
-}
-
+	size: number;
+	children: any;
+};
 
 const Title: React.SFC<TitleProps> = (props: TitleProps) => {
-    const { children, size } = props;
+	const { children, size } = props;
 
-    return <StyledTitle size={size}>{children}</StyledTitle>
+	return <StyledTitle size={size}>{children}</StyledTitle>;
 };
 
 export default Title;
