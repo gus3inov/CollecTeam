@@ -1,14 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
 // import { darkColor, lightColor } from '@ui/theme';
-import AntButton from 'antd/lib/button';
+import { Button as AntButton } from 'antd';
 
-interface IProps {
+type IProps = {
 	children: string;
 	size: string;
 	type: string;
 	onClick(): void;
-}
+};
 
 const StyledButton: any = styled(AntButton)`
 	
