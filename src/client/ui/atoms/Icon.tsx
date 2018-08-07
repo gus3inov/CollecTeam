@@ -1,11 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-export interface IProps {
+type IProps = {
 	type: string;
 	width: string;
 	height: string;
-}
+};
 
 const IconStyle = styled.i`
     display: block;
