@@ -3,11 +3,11 @@ import ButtonIcon from '@ui/atoms/ButtonIcon';
 
 import StyledCardHeader from './style';
 
-export interface CardHeaderProps {
+type IProps = {
 	title: string;
-}
+};
 
-const CardHeader: React.SFC<CardHeaderProps> = (props) => {
+const CardHeader: React.SFC<IProps> = (props) => {
 	const { title } = props;
 
 	return (
