@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { NavLink, NavLinkProps } from 'react-router-dom';
 import styled from 'styled-components';
-import { lightColor } from "../theme";
+import { NavLink, NavLinkProps } from 'react-router-dom';
+import { lightColor } from '@ui/theme';
 
 const StyledLink = styled.span`
     color: #fff;
@@ -26,24 +26,24 @@ const StyledLink = styled.span`
     
 `;
 
-interface LinkMenuProps extends NavLinkProps{
-    isOpen: boolean;
-    text: string;
-    icon: string;
+interface IProps extends NavLinkProps {
+	isOpen: boolean;
+	text: string;
+	icon: string;
 }
 
-const LinkMenu: React.SFC<LinkMenuProps> = (props: LinkMenuProps) => {
-    const { to, isOpen, text, icon }: LinkMenuProps = props;
-    return (
-        <NavLink to={to} className={"alt-nav-link"} activeClassName="alt-nav-link_active">
-                { isOpen
-                    ? ( <StyledLink className={`mdi mdi-${icon}`}>{text}</StyledLink>)
-                    : ( <div>
-                        <StyledLink className={`mdi mdi-${icon}`}>{}</StyledLink>
-                    </div>)
-                }
-        </NavLink>
-    )
+const LinkMenu: React.SFC<IProps> = (props: IProps) => {
+	const { to, isOpen, text, icon }: IProps = props;
+	return (
+		<NavLink to={to} className={'alt-nav-link'} activeClassName="alt-nav-link_active">
+			{isOpen
+				? (<StyledLink className={`mdi mdi-${icon}`}>{text}</StyledLink>)
+				: (<div>
+					<StyledLink className={`mdi mdi-${icon}`}>{}</StyledLink>
+				</div>)
+			}
+		</NavLink>
+	);
 };
 
 export default LinkMenu;
