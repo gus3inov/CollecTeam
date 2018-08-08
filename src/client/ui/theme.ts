@@ -12,13 +12,11 @@ export type lightBlue = typeof lightBlue;
 export const darkBlue = '#0c2740';
 export type darkBlue = typeof darkBlue;
 
-
 export const lightPurple = '#535393';
 export type lightPurple = typeof lightPurple;
 
 export const darkPurple = '#2B2B7E';
 export type darkPurple = typeof darkPurple;
-
 
 export const fontWhite = '#e5e2da';
 export type fontWhite = typeof fontWhite;
@@ -33,5 +31,5 @@ export const BackgroundOpacity = styled.div`
     width: 100%;
     height: 100%;   
     z-index: 10;
-    background-color: rgba(0,0,0,.${(props: {opacity: number}) => props.opacity});
+    background-color: rgba(0,0,0,.${(props: { opacity: number }) => props.opacity});
 `;

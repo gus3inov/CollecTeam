@@ -11,10 +11,6 @@ import Button from '@material-ui/core/Button';
 import Loader from '../common/Loader';
 import Slide from '@material-ui/core/Slide';
 import AddIcon from '@material-ui/icons/Add';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import ModalAddStartup from './ModalAddStartup';
 
 import Section from '../../ui/organisms/Section';
 import {loadAllStartups, moduleName} from '../../ducks/startups';
@@ -63,16 +59,6 @@ class Startups extends React.Component<StartupsProps, any> {
 
         return (
             <Section title="Стартапы" bg>
-                <Dialog
-                    open={this.state.isAddOpen}
-                    onClose={this.handleToggleAdd}
-                    aria-labelledby="form-dialog-title"
-                >
-                    <DialogTitle id="form-dialog-title">Создание стартапа</DialogTitle>
-                    <DialogContent>
-                        <ModalAddStartup />
-                    </DialogContent>
-                </Dialog>
                 <div className="startups-add__button">
                     <Button
                         onClick={this.handleToggleAdd}

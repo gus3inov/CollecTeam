@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {StyledHeader} from './style';
-import Search from '../../molecules/Search';
+import Search from '@ui/atoms/InputSearch';
 import UserAvatar from '../../molecules/UserAvatar';
 import {connect} from 'react-redux';
 import NotificationDrawer from '../NotificationDrawer';
