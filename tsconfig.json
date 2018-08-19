@@ -33,9 +33,7 @@
     "noUnusedLocals": true
   },
   "include": [
-    "./src/**/*",
-    "./src/client/*",
-    "./src/server/*"
+    "./src/**/*"
   ],
   "exclude": [
     "node_modules",
