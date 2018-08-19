@@ -6,4 +6,3 @@ declare module 'jsonwebtoken';
 declare module 'node-uuid';
 declare module 'universal-cookie-koa';
 declare module 'mysql-promise';
-
