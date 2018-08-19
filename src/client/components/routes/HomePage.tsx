@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 import Home from '../../ui/templates/Home';
 import { moduleName } from '../../ducks/auth';
-import Profile from '../Profile/Profile';
 import Startups from '../Home/Startups';
 import Startup from '../Startup/Startup';
 import MenuRoutes from '../common/MenuRoutes';
@@ -34,7 +33,6 @@ class HomePage extends React.Component<HomePageProps, any> {
                 <Route path="/home/dashboard" exact component={Dashboard}/>
                 <Route path="/home/startups" exact component={Startups}/>
                 <Route path="/home/startups/:name" render={this.getStartup}/>
-                <Route path="/profile" exact component={Profile}/>
             </Home>
         );
     }
