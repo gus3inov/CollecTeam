@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {NavLink} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import {connect } from 'react-redux';
+import { connect } from 'react-redux';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
@@ -14,13 +14,12 @@ import Slide from '@material-ui/core/Slide';
 import AddIcon from '@material-ui/icons/Add';
 
 import Section from '../../ui/organisms/Section';
-import {loadAllStartups, moduleName} from '../../ducks/startups';
+import { loadAllStartups, moduleName } from '../../ducks/startups';
 
 export interface StartupsProps {
 	loading: boolean;
 	startups: any;
 	classes: any;
-	handleToggleAdd(): any;
 	fetchStartups(): any;
 }
 
@@ -34,15 +33,6 @@ const styles = {
 	},
 };
 
-@connect((state: any) => {
-	return {
-		loading: state[moduleName].loading,
-		startups: state[moduleName].entities,
-	};
-}, (dispatch: any) => ({
-	fetchStartups: bindActionCreators(loadAllStartups, dispatch)
-}))
-@withStyles(styles)
 class Startups extends React.Component<StartupsProps, any> {
 	state = {
 		isAddOpen: false,
@@ -61,7 +51,7 @@ class Startups extends React.Component<StartupsProps, any> {
 	};
 
 	render() {
-		const {classes, startups, loading} = this.props;
+		const { classes, startups, loading } = this.props;
 
 		return (
 			<Section title="Стартапы" bg>
@@ -84,7 +74,7 @@ class Startups extends React.Component<StartupsProps, any> {
 						:
 						<div className="startups-list">
 							{
-								startups.map((startup, index) => {
+								startups.map((startup: any, index: number) => {
 									return (
 										<Slide
 											direction="up"
@@ -129,4 +119,11 @@ class Startups extends React.Component<StartupsProps, any> {
 	}
 }
 
-export default Startups;
+export default connect((state: any) => {
+	return {
+		loading: state[moduleName].loading,
+		startups: state[moduleName].entities,
+	};
+}, (dispatch: any) => ({
+	fetchStartups: bindActionCreators(loadAllStartups, dispatch)
+}))(withStyles(styles)(Startups));
