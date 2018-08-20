@@ -8,12 +8,12 @@ import Workspace from '../organisms/Workspace';
 
 export interface HomeProps {
 	children: Array<JSX.Element>;
-	
-	isOpen: boolean;
+
+	isOpen?: boolean;
 
 	routes: Array<IMenuRoutes>;
 
-	toggleOpen<A>(): A;
+	toggleOpen?<A>(): A;
 }
 
 class Home extends React.Component <HomeProps, {}> {

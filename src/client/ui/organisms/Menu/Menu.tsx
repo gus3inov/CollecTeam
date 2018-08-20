@@ -5,11 +5,11 @@ import LinkMenu from '../../atoms/LinkMenu';
 import ButtonToggle from '../../atoms/ButtonToggle';
 
 export interface MenuProps {
-	isOpen: boolean;
+	isOpen?: boolean;
 
 	routes: Array<IMenuRoutes>;
 
-	toggleOpen<A>(): A;
+	toggleOpen?<A>(): A;
 }
 
 const Menu: React.StatelessComponent<MenuProps> = (props: MenuProps) => {

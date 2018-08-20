@@ -13,7 +13,7 @@ type LoaderProps = {
 };
 
 const Loader: React.SFC<LoaderProps> = (props) => {
-	const { classes } = props;
+	const {classes} = props;
 	return (
 		<div className="loader">
 			<CircularProgress className={classes.progress} size={75}/>
