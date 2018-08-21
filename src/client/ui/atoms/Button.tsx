@@ -2,6 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 // import { darkColor, lightColor } from '@ui/theme';
 import { Button as AntButton } from 'antd';
+import {ButtonProps} from 'antd/es/button';
+import {StatelessComponent} from 'react';
 
 type IProps = {
 	children: string;
@@ -10,7 +12,7 @@ type IProps = {
 	onClick(): void;
 };
 
-const StyledButton: any = styled(AntButton)`
+const StyledButton: StatelessComponent<ButtonProps> = styled(AntButton)`
 	
 `;
 

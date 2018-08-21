@@ -25,7 +25,7 @@ interface IStartupRequest {
 	specialization: string;
 }
 
-type StartupRequest = IStartupRequest
+type StartupRequest = IStartupRequest;
 
 type StartupResponse = IStartup;
 
@@ -46,7 +46,7 @@ interface ITeamRequest {
 	specialization: string;
 }
 
-type TeamRequest = ITeamRequest
+type TeamRequest = ITeamRequest;
 
 type TeamResponse = ITeam;
 
@@ -72,6 +72,6 @@ interface IUserRequest {
 	email: string;
 }
 
-type UserRequest = IUserRequest
+type UserRequest = IUserRequest;
 
 type UserResponse = IUser;

@@ -1,8 +1,8 @@
 import * as React from 'react';
 
 type IProps = {
-	isOpen: boolean;
-	toggleOpen(): void;
+	isOpen?: boolean;
+	toggleOpen?(): void;
 };
 
 const ButtonToggle: React.SFC<IProps> = (props) => {

@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "baseUrl": "src",
     "paths": {
       "@core/*": [
@@ -33,9 +34,7 @@
     "noUnusedLocals": true
   },
   "include": [
-    "./src/**/*",
-    "./src/client/*",
-    "./src/server/*"
+    "./src/**/*"
   ],
   "exclude": [
     "node_modules",

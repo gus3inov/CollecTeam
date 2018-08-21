@@ -9,7 +9,7 @@ import * as serve from 'koa-static';
 import routesModules from '@server/routes';
 import passportInit from '@server/libs/passport';
 import err from '@server/middlewares/error';
-import client from '@server/middlewares/client'
+import client from '@server/middlewares/client';
 
 const serverPort = config.get('dev.serverPort');
 const app = new Koa();
@@ -22,7 +22,7 @@ app.keys = ['your-session-secret'];
 app.use(cookiesMiddleware());
 
 app.use(session({
-	store: new RedisStore()
+	store: new RedisStore(),
 }, app));
 
 app.use(serve(__dirname + '\\public'));
