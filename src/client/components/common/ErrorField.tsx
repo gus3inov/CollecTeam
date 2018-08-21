@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Fragment } from 'react';
+import {Fragment} from 'react';
 
 // type ErrorFieldProps = {
 //     input: any;
@@ -8,15 +8,15 @@ import { Fragment } from 'react';
 // }
 
 const ErrorField: React.SFC<any> = (props) => {
-    const {input, type, meta: {error, touched}} = props;
-    const errorText = touched && error && <div className="error-field">{error}</div>;
+	const {input, type, meta: {error, touched}} = props;
+	const errorText = touched && error && <div className="error-field">{error}</div>;
 
-    return (
-        <Fragment>
-            <input placeholder={props.placeholder} {...input} type={type}/>
-            {errorText}
-        </Fragment>
-    );
+	return (
+		<Fragment>
+			<input placeholder={props.placeholder} {...input} type={type}/>
+			{errorText}
+		</Fragment>
+	);
 };
 
 export default ErrorField;

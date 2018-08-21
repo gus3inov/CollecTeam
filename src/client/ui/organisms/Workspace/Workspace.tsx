@@ -3,7 +3,7 @@ import * as React from 'react';
 import StyledWorkspace from './style';
 
 export interface WorkspaceProps {
-    isOpen: boolean;
+    isOpen?: boolean;
     children: any;
 }
 
@@ -12,7 +12,7 @@ class Workspace extends React.Component<WorkspaceProps, any> {
         const { isOpen, children } = this.props;
 
         return (
-            <StyledWorkspace isOpen={isOpen}>
+            <StyledWorkspace isOpen={isOpen || false}>
                 {children}
             </StyledWorkspace>
         );

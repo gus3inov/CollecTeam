@@ -27,7 +27,7 @@ const StyledLink = styled.span`
 `;
 
 interface IProps extends NavLinkProps {
-	isOpen: boolean;
+	isOpen?: boolean;
 	text: string;
 	icon: string;
 }

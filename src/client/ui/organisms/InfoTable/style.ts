@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { darkColor, lightBlue } from '../../theme'
+import { darkColor, lightBlue } from '../../theme';
 
 export const StyledInfoTable = styled.div`
 .projects {

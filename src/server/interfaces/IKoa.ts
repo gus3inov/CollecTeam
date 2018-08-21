@@ -1,4 +1,4 @@
-import { Context as ContextStats } from 'koa'
+import { Context as ContextStats } from 'koa';
 
 export type Context = ContextStats;
 export type Next = Function;
