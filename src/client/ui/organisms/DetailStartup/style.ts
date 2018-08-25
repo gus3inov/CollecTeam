@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import { darkColor, fontWhite, borderBlue } from '../../theme'
-
 export const StyledDetailStartup = styled.div`
     width: 100%;
     position: relative;

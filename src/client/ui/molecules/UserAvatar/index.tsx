@@ -2,9 +2,6 @@ import * as React from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import Avatar from '@material-ui/core/Avatar';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import green from '@material-ui/core/colors/green';
 import MailIcon from '@material-ui/icons/Mail';
 import Badge from '@material-ui/core/Badge';
 
@@ -52,7 +49,7 @@ class UserAvatar extends React.Component<UserAvatarProps, any> {
 				<div className="alt-header__user">
 					<div className="alt-header__user_assignment">
 						<Badge className={classes.margin} badgeContent={10} color="secondary">
-							<MailIcon fontSize={13} onClick={toggleDrawer}/>
+							<MailIcon onClick={toggleDrawer}/>
 						</Badge>
 					</div>
 					<Avatar

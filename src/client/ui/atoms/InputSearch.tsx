@@ -1,17 +1,13 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { Input } from 'antd';
-
-const StyledInputSearch = styled(Input)`
-`;
 
 type IProps = {
 
 };
 
-const InputSearch: React.SFC<IProps> = (props) => {
+const InputSearch: React.SFC<IProps> = (props: IProps) => {
 	return (
-		<StyledInputSearch placeholder="Поиск..." type="text"/>
+		<Input placeholder="Поиск..." type="text"/>
 	);
 };
 
