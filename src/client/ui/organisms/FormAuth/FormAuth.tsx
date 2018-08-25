@@ -1,22 +1,18 @@
 import * as React from 'react';
 
 import StyledFormAuth from './style';
-import toggleOpen from '../../../hocs/toggleOpen';
+import toggleOpen, { InjectedProps } from '@client/hocs/toggleOpen';
 import {Fragment} from 'react';
 
-export interface FormAuthProps {
-	isOpen?: boolean;
-
+export interface FormAuthProps extends InjectedProps {
 	componentSignIn: JSX.Element;
 
 	componentSignUp: JSX.Element;
-
-	toggleOpen?(): any;
 }
 
-class FormAuth extends React.Component<FormAuthProps, {}> {
+class FormAuth extends React.Component<FormAuthProps & InjectedProps, {}> {
 	render() {
-		const {isOpen, componentSignIn, componentSignUp} = this.props;
+		const {isOpen, componentSignIn, componentSignUp, handleOpen} = this.props;
 
 		return (
 			<StyledFormAuth className="auth">
@@ -26,8 +22,8 @@ class FormAuth extends React.Component<FormAuthProps, {}> {
 							? (
 								<Fragment>
 									<div className="auth-header__left auth-header__sign-in">
-										<button onClick={this.props.toggleOpen}>
-											<i className="mdi mdi-arrow-left"></i>
+										<button onClick={handleOpen}>
+											<i className="mdi mdi-arrow-left" />
 										</button>
 										<h3 className="auth-header__title">Вход</h3>
 									</div>
@@ -39,9 +35,9 @@ class FormAuth extends React.Component<FormAuthProps, {}> {
 										<h3 className="title">Регистрация</h3>
 									</div>
 									<div className="auth-header__right">
-										<button onClick={toggleOpen}>
+										<button onClick={handleOpen}>
 											<span>Вход</span>
-											<i className="mdi mdi-arrow-right"></i>
+											<i className="mdi mdi-arrow-right" />
 										</button>
 									</div>
 								</Fragment>
@@ -65,9 +61,9 @@ class FormAuth extends React.Component<FormAuthProps, {}> {
 							Вы так же можете войти через стороние сервисы
 						</h3>
 						<div className="auth-body__service__content">
-							<a className="mdi mdi-facebook"></a>
-							<a className="mdi mdi-vk"></a>
-							<a className="mdi mdi-google-plus"></a>
+							<a className="mdi mdi-facebook" />
+							<a className="mdi mdi-vk" />
+							<a className="mdi mdi-google-plus" />
 						</div>
 					</div>
 				</div>
