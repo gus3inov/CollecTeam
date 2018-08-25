@@ -1,31 +1,27 @@
 import * as React from 'react';
 import {Fragment} from 'react';
 
-import toggleOpen from '../../hocs/toggleOpen';
-import Menu from '../organisms/Menu';
-import Header from '../organisms/Header';
-import Workspace from '../organisms/Workspace';
+import toggleOpen, { InjectedProps } from '@client/hocs/toggleOpen';
+import Menu from '@ui/organisms/Menu';
+import Header from '@ui/organisms/Header';
+import Workspace from '@ui/organisms/Workspace';
 
 export interface HomeProps {
 	children: Array<JSX.Element>;
 
-	isOpen?: boolean;
-
 	routes: Array<IMenuRoutes>;
-
-	toggleOpen?<A>(): A;
 }
 
-class Home extends React.Component <HomeProps, {}> {
+class Home extends React.Component <HomeProps & InjectedProps, {}> {
 
 	render() {
-		const {isOpen, children, routes } = this.props;
+		const {isOpen, children, routes, handleOpen } = this.props;
 
 		return (
 			<Fragment>
 				<main className="home">
 					<Header isOpen={isOpen} />
-					<Menu routes={routes} toggleOpen={this.props.toggleOpen} isOpen={isOpen}/>
+					<Menu routes={routes} toggleOpen={handleOpen} isOpen={isOpen}/>
 					<Workspace isOpen={isOpen}>
 						{children}
 					</Workspace>
