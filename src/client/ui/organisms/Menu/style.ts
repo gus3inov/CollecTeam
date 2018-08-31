@@ -1,6 +1,6 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
-import { darkColor, darkBlue, lightColor } from "../../theme";
+import { darkColor, darkBlue, lightColor } from '../../theme';
 
 export const StyledMenu = styled.div`
     background: ${darkColor};

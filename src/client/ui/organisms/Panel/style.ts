@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { darkColor, darkBlue, lightColor } from '../../theme';
+// import { darkColor, darkBlue, lightColor } from '../../theme';
 
 const StyledPanel = styled.section`
     background-image: url(${(props: { url: string }) => props.url});

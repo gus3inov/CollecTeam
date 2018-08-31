@@ -3,7 +3,7 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import CardHeader from '@ui/molecules/CardHeader';
-import { StyledInfoTable } from './style';
+import {StyledInfoTable} from './style';
 
 export interface InfoTableProps {
 	size: StringOrNuber;
@@ -25,7 +25,7 @@ class InfoTable extends React.Component<InfoTableProps, any> {
 	};
 
 	render() {
-		const { size, color } = this.props;
+		const {size, color} = this.props;
 
 		return (
 			<StyledInfoTable
@@ -57,8 +57,10 @@ class InfoTable extends React.Component<InfoTableProps, any> {
 									<p className="danger-text">Overdue</p>
 								</td>
 								<td className="member">
-									<figure><img
-										src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/people_8.png"/>
+									<figure>
+										<img
+											src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/people_8.png"
+										/>
 									</figure>
 									<div className="member-info">
 										<p>Myrtle Erickson</p>
@@ -100,8 +102,10 @@ class InfoTable extends React.Component<InfoTableProps, any> {
 									<p className="danger-text">Overdue</p>
 								</td>
 								<td className="member">
-									<figure><img
-										src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/people_8.png"/>
+									<figure>
+										<img
+											src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/people_8.png"
+										/>
 									</figure>
 									<div className="member-info">
 										<p>Myrtle Erickson</p>
@@ -143,8 +147,10 @@ class InfoTable extends React.Component<InfoTableProps, any> {
 									<p className="danger-text">Overdue</p>
 								</td>
 								<td className="member">
-									<figure><img
-										src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/people_8.png"/>
+									<figure>
+										<img
+											src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/people_8.png"
+										/>
 									</figure>
 									<div className="member-info">
 										<p>Myrtle Erickson</p>
@@ -186,8 +192,10 @@ class InfoTable extends React.Component<InfoTableProps, any> {
 									<p className="danger-text">Overdue</p>
 								</td>
 								<td className="member">
-									<figure><img
-										src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/people_8.png"/>
+									<figure>
+										<img
+											src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/people_8.png"
+										/>
 									</figure>
 									<div className="member-info">
 										<p>Myrtle Erickson</p>
@@ -229,8 +237,10 @@ class InfoTable extends React.Component<InfoTableProps, any> {
 									<p className="danger-text">Overdue</p>
 								</td>
 								<td className="member">
-									<figure><img
-										src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/people_8.png"/>
+									<figure>
+										<img
+											src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/584938/people_8.png"
+										/>
 									</figure>
 									<div className="member-info">
 										<p>Myrtle Erickson</p>

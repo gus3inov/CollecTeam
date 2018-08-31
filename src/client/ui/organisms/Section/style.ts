@@ -10,9 +10,9 @@ const StyledSection = styled.div`
     min-height: 100vh;
     
     ${(props: { bg: boolean }) => {
-         if (props.bg) {
-             return (
-                 `.section-content {
+	if (props.bg) {
+		return (
+			`.section-content {
                     margin-top: 40px;
                     width: 100%;
                     border-radius: 10px
@@ -21,18 +21,18 @@ const StyledSection = styled.div`
                     padding: 30px;
                     min-height: 75vh;
                 }`
-             )
-         } else {
-             return (
-                 `.section-content {
+		);
+	} else {
+		return (
+			`.section-content {
                     margin-top: 40px;
                     width: 100%;
                     padding: 30px;
                 }`
-             )   
-         }
-        }
-    }
+		);
+	}
+}
+	}
 `;
 
 export default StyledSection;
