@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Icon from '@material-ui/core/Icon';
+// import Icon from '@material-ui/core/Icon';
 
 import {StyledInfoCard} from './style';
 
