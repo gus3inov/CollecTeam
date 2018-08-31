@@ -28,35 +28,35 @@ const StyledSearch = styled.div`
 `;
 
 export const styles = {
-    root: {
-        flexGrow: 1,
-    },
-    flex: {
-        flex: 1,
-    },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20,
-    },
-    row: {
-        display: 'flex',
-        justifyContent: 'center',
-    },
-    avatar: {
-        margin: 10,
-    },
-    bigAvatar: {
-        width: 40,
-        height: 40,
-        backgroundColor: deepPurple[500],
-        color: '#fff',
-        fontSize: 18,
-    },
-    greenAvatar: {
-        margin: 10,
-        color: '#fff',
-        backgroundColor: green[500],
-    },
+	root: {
+		flexGrow: 1,
+	},
+	flex: {
+		flex: 1,
+	},
+	menuButton: {
+		marginLeft: -12,
+		marginRight: 20,
+	},
+	row: {
+		display: 'flex',
+		justifyContent: 'center',
+	},
+	avatar: {
+		margin: 10,
+	},
+	bigAvatar: {
+		width: 40,
+		height: 40,
+		backgroundColor: deepPurple[500],
+		color: '#fff',
+		fontSize: 18,
+	},
+	greenAvatar: {
+		margin: 10,
+		color: '#fff',
+		backgroundColor: green[500],
+	},
 };
 
 export default StyledSearch;

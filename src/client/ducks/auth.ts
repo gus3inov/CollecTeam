@@ -4,7 +4,7 @@ import {Record} from 'immutable';
 import axios from 'axios';
 import AuthService from '../services/AuthService';
 
-const appName: string = 'collect_team';
+const appName = 'collect_team';
 
 export const moduleName = 'auth';
 export const SIGN_UP_REQUEST = `${appName}/${moduleName}/SIGN_UP_REQUEST`;
@@ -15,34 +15,33 @@ export const SIGN_IN_REQUEST = `${appName}/${moduleName}/SIGN_IN_REQUEST`;
 export const SIGN_IN_SUCCESS = `${appName}/${moduleName}/SIGN_IN_SUCCESS`;
 export const SIGN_IN_ERROR = `${appName}/${moduleName}/SIGN_IN_ERROR`;
 
-
-export interface signUpAction {
+export interface ISignUpAction {
 	type: any;
 	payload: any;
 	error: any;
 	isAuth?: boolean;
 }
 
-type SignUpAction = signUpAction;
+type SignUpAction = ISignUpAction;
 
-interface signUp {
-	username: string;
-	firstName: string;
-	lastName: string;
-	password: string;
-	email: string;
-}
+// interface ISignUp {
+// 	username: string;
+// 	firstName: string;
+// 	lastName: string;
+// 	password: string;
+// 	email: string;
+// }
 
 const ReducerRecord = Record({
 	user: null,
 	isAuth: false,
 	error: null,
-	loading: false
+	loading: false,
 });
 
 const initialState = new ReducerRecord();
 
-export default function auth(state = initialState, action: SignUpAction): any {
+export default function auth(state: any = initialState, action: SignUpAction): any {
 	const {type, payload, error, isAuth} = action;
 
 	switch (type) {
@@ -71,21 +70,20 @@ export default function auth(state = initialState, action: SignUpAction): any {
 export const signUp: ActionCreator<ThunkAction<any, any, any, Action<any>>> = (user) => {
 	return (dispatch) => {
 		dispatch({
-			type: SIGN_UP_REQUEST
+			type: SIGN_UP_REQUEST,
 		});
 		axios.post('/api/user', user)
-			.then(user => {
+			.then((res) => {
 				return dispatch({
 					type: SIGN_UP_SUCCESS,
-					payload: user
+					payload: res,
 				});
 			})
 			.catch(err => {
-				console.error(err);
-
+				// console.error(err);
 				return dispatch({
 					type: SIGN_UP_ERROR,
-					err
+					err,
 				});
 			});
 	};
@@ -95,7 +93,7 @@ export const signIn: ActionCreator<ThunkAction<any, any, any, Action<any>>> = (u
 	return (dispatch) => {
 		dispatch({
 			type: SIGN_IN_REQUEST,
-			isAuth: false
+			isAuth: false,
 		});
 
 		axios.post('/auth/login', user)
@@ -103,7 +101,7 @@ export const signIn: ActionCreator<ThunkAction<any, any, any, Action<any>>> = (u
 				AuthService.authenticateUser(res.data.token);
 				return dispatch({
 					type: SIGN_IN_SUCCESS,
-					isAuth: true
+					isAuth: true,
 				});
 			})
 			.catch(err => {
@@ -111,7 +109,7 @@ export const signIn: ActionCreator<ThunkAction<any, any, any, Action<any>>> = (u
 				return dispatch({
 					type: SIGN_IN_ERROR,
 					err,
-					isAuth: false
+					isAuth: false,
 				});
 			});
 	};
@@ -120,7 +118,7 @@ export const signIn: ActionCreator<ThunkAction<any, any, any, Action<any>>> = (u
 export const isAuthAction: ActionCreator<ThunkAction<any, any, any, Action<any>>> = () => {
 	return (dispatch: any) => {
 		dispatch({
-			type: SIGN_IN_REQUEST
+			type: SIGN_IN_REQUEST,
 		});
 
 		AuthService.getToken().then(token => {
@@ -128,8 +126,8 @@ export const isAuthAction: ActionCreator<ThunkAction<any, any, any, Action<any>>
 			const instance = axios.create({
 				timeout: 2000,
 				headers: {
-					'Authorization': `bearer ${token}`
-				}
+					'Authorization': `bearer ${token}`,
+				},
 			});
 
 			instance.get('/auth/isauth')
@@ -137,14 +135,14 @@ export const isAuthAction: ActionCreator<ThunkAction<any, any, any, Action<any>>
 					return dispatch({
 						type: SIGN_IN_SUCCESS,
 						payload: res.data.user,
-						isAuth
+						isAuth,
 					});
 				})
 				.catch(err => {
 					// console.error(err);
 					return dispatch({
 						type: SIGN_IN_ERROR,
-						err
+						err,
 					});
 				});
 		});

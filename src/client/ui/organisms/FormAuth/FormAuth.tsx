@@ -10,7 +10,7 @@ export interface FormAuthProps extends InjectedProps {
 	componentSignUp: JSX.Element;
 }
 
-class FormAuth extends React.Component<FormAuthProps & InjectedProps, {}> {
+class FormAuth extends React.Component<any, {}> {
 	render() {
 		const {isOpen, componentSignIn, componentSignUp, handleOpen} = this.props;
 

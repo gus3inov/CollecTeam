@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { darkColor } from '../../theme';
-import deepPurple from '@material-ui/core/colors/deepPurple';
-import green from '@material-ui/core/colors/green';
+import {darkColor} from '../../theme';
+// import deepPurple from '@material-ui/core/colors/deepPurple';
+// import green from '@material-ui/core/colors/green';
 
 export const StyledHeader = styled.header`
   background: ${darkColor};
@@ -38,4 +38,3 @@ export const StyledHeader = styled.header`
     width: calc(100% - 260px);
   }
 `;
-

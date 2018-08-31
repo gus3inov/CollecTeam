@@ -4,21 +4,20 @@ import {Record} from 'immutable';
 import axios from 'axios';
 import AuthService from '../services/AuthService';
 
-
-const appName: string = 'collect_team';
+const appName = 'collect_team';
 
 export const moduleName = 'startup';
-export const LOAD_ALL_STARTUPS: string = `${appName}/${moduleName}/LOAD_ALL_STARTUPS`;
-export const LOAD_STARTUP: string = `${appName}/${moduleName}/LOAD_STARTUP`;
-export const ADD_STARTUP: string = `${appName}/${moduleName}/ADD_STARTUP`;
-export const DELETE_STARTUP: string = `${appName}/${moduleName}/DELETE_STARTUP`;
-export const EDIT_STARTUP: string = `${appName}/${moduleName}/EDIT_STARTUP`;
+export const LOAD_ALL_STARTUPS = `${appName}/${moduleName}/LOAD_ALL_STARTUPS`;
+export const LOAD_STARTUP = `${appName}/${moduleName}/LOAD_STARTUP`;
+export const ADD_STARTUP = `${appName}/${moduleName}/ADD_STARTUP`;
+export const DELETE_STARTUP = `${appName}/${moduleName}/DELETE_STARTUP`;
+export const EDIT_STARTUP = `${appName}/${moduleName}/EDIT_STARTUP`;
 
-export const START: string = '_START';
-export const SUCCESS: string = '_SUCCESS';
-export const ERROR: string = '_ERROR';
+export const START = '_START';
+export const SUCCESS = '_SUCCESS';
+export const ERROR = '_ERROR';
 
-export interface startupAction {
+export interface IStartupAction {
 	type: any;
 	payload: any;
 	error: any;
@@ -29,12 +28,12 @@ const ReducerRecord = Record({
 	entitie: [],
 	error: null,
 	loading: false,
-	loaded: false
+	loaded: false,
 });
 
 const initialState = new ReducerRecord();
 
-export default function startup(state = initialState, action: startupAction): any {
+export default function startupReducer(state: any = initialState, action: IStartupAction): any {
 	const {type, payload} = action;
 	switch (type) {
 		case LOAD_ALL_STARTUPS + SUCCESS:
@@ -61,9 +60,9 @@ export default function startup(state = initialState, action: startupAction): an
 			return state.updateIn(
 				[
 					'entities',
-					payload.id
+					payload.id,
 				],
-				startup => {
+				(startup: any) => {
 					startup.shift(payload);
 				});
 
@@ -84,28 +83,28 @@ export default function startup(state = initialState, action: startupAction): an
 export const loadAllStartups: ActionCreator<ThunkAction<any, any, any, Action<any>>> = () => {
 	return (dispatch) => {
 		dispatch({
-			type: LOAD_ALL_STARTUPS + START
+			type: LOAD_ALL_STARTUPS + START,
 		});
 
 		AuthService.getToken().then(token => {
 			const instance = axios.create({
 				timeout: 2000,
 				headers: {
-					'Authorization': `bearer ${token}`
-				}
+					'Authorization': `bearer ${token}`,
+				},
 			});
 
 			instance.get('/api/startups')
 				.then(startups => {
 					return dispatch({
 						type: LOAD_ALL_STARTUPS + SUCCESS,
-						payload: startups.data
+						payload: startups.data,
 					});
 				})
 				.catch(err => {
 					return dispatch({
 						type: LOAD_ALL_STARTUPS + ERROR,
-						err
+						err,
 					});
 				});
 		});
@@ -115,20 +114,19 @@ export const loadAllStartups: ActionCreator<ThunkAction<any, any, any, Action<an
 export const loadStartup: ActionCreator<ThunkAction<any, any, any, Action<any>>> = (name) => {
 	return (dispatch) => {
 		dispatch({
-			type: LOAD_STARTUP + START
+			type: LOAD_STARTUP + START,
 		});
 		axios.get(`/api/startup/${name}`)
-			.then(startup => {
-				console.log(startup);
+			.then(res => {
 				return dispatch({
 					type: LOAD_STARTUP + SUCCESS,
-					payload: startup
+					payload: res,
 				});
 			})
 			.catch(err => {
 				return dispatch({
 					type: LOAD_STARTUP + ERROR,
-					err
+					err,
 				});
 			});
 	};
@@ -137,19 +135,20 @@ export const loadStartup: ActionCreator<ThunkAction<any, any, any, Action<any>>>
 export const addStartup: ActionCreator<ThunkAction<any, any, any, Action<any>>> = (startup) => {
 	return (dispatch) => {
 		dispatch({
-			type: ADD_STARTUP + START
+			type: ADD_STARTUP + START,
 		});
-		console.log(startup);
+
 		axios.post(`/api/startup`, startup)
-			.then(startup => {
+			.then(res => {
 				return dispatch({
-					type: ADD_STARTUP + SUCCESS
+					type: ADD_STARTUP + SUCCESS,
+					payload: res,
 				});
 			})
 			.catch(err => {
 				return dispatch({
 					type: ADD_STARTUP + ERROR,
-					err
+					err,
 				});
 			});
 	};

@@ -25,8 +25,8 @@ class HomePage extends React.Component<HomePageProps, any> {
 	render() {
 		return (
 			<Home routes={MenuRoutes}>
-				<Route path="/home/dashboard" exact component={Dashboard}/>
-				<Route path="/home/startups" exact component={Startups}/>
+				<Route path="/home/dashboard" exact={true} component={Dashboard}/>
+				<Route path="/home/startups" exact={true} component={Startups}/>
 				<Route path="/home/startups/:name" render={this.getStartup}/>
 			</Home>
 		);

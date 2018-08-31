@@ -24,12 +24,12 @@ export default function toggleOpen<OriginProps>(Component: React.ComponentType<O
 		static displayName = `toggleOpen(${ Component.displayName })`;
 
 		state: State = {
-			isOpen: this.props.isOpen
+			isOpen: this.props.isOpen,
 		};
 
 		toggleOpen = () => {
 			this.setState({
-				isOpen: !this.state.isOpen
+				isOpen: !this.state.isOpen,
 			});
 		};
 
