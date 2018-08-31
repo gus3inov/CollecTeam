@@ -5,7 +5,7 @@ import LinkMenu from '../../atoms/LinkMenu';
 import ButtonToggle from '../../atoms/ButtonToggle';
 
 export interface MenuProps {
-	isOpen?: boolean;
+	isOpen: boolean;
 
 	routes: Array<IMenuRoutes>;
 
@@ -44,6 +44,5 @@ const Menu: React.StatelessComponent<MenuProps> = (props: MenuProps) => {
 		</StyledMenu>
 	);
 };
-
 
 export default Menu;

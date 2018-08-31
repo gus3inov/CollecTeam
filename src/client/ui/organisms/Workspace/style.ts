@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import {darkColor, darkBlue, lightColor} from '../../theme';
+import styled from 'styled-components';
+// import {darkColor, darkBlue, lightColor} from '../../theme';
 
 const StyledWorkspace = styled.div`
     width: ${(props: { isOpen: boolean  }) => props.isOpen ? '1500px' : '1680px' };

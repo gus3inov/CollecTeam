@@ -16,6 +16,7 @@ export interface UserAvatarProps {
 	match: any;
 	history: any;
 	location: any;
+
 	toggleDrawer(): any;
 }
 

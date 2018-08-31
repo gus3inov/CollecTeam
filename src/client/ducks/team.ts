@@ -4,20 +4,20 @@ import {Record} from 'immutable';
 import axios from 'axios';
 import AuthService from '../services/AuthService';
 
-const appName: string = 'collect_team';
+const appName = 'collect_team';
 
 export const moduleName = 'team';
-export const LOAD_ALL_TEAMS: string = `${appName}/${moduleName}/LOAD_ALL`;
-export const LOAD_TEAM: string = `${appName}/${moduleName}/LOAD_TEAM`;
-export const ADD_TEAM: string = `${appName}/${moduleName}/ADD_TEAM`;
-export const DELETE_TEAM: string = `${appName}/${moduleName}/DELETE_TEAM`;
-export const EDIT_TEAM: string = `${appName}/${moduleName}/EDIT_TEAM`;
+export const LOAD_ALL_TEAMS = `${appName}/${moduleName}/LOAD_ALL`;
+export const LOAD_TEAM = `${appName}/${moduleName}/LOAD_TEAM`;
+export const ADD_TEAM = `${appName}/${moduleName}/ADD_TEAM`;
+export const DELETE_TEAM = `${appName}/${moduleName}/DELETE_TEAM`;
+export const EDIT_TEAM = `${appName}/${moduleName}/EDIT_TEAM`;
 
-export const START: string = '_START';
-export const SUCCESS: string = '_SUCCESS';
-export const ERROR: string = '_ERROR';
+export const START = '_START';
+export const SUCCESS = '_SUCCESS';
+export const ERROR = '_ERROR';
 
-export interface teamAction {
+export interface ITeamAction {
 	type: any;
 	payload: any;
 	error: any;
@@ -28,12 +28,12 @@ const ReducerRecord = Record({
 	entitie: [],
 	error: null,
 	loading: false,
-	loaded: false
+	loaded: false,
 });
 
 const initialState = new ReducerRecord();
 
-export default function team(state = initialState, action: teamAction): any {
+export default function teamReducer(state: any = initialState, action: ITeamAction): any {
 	const {type, payload} = action;
 	switch (type) {
 		case LOAD_ALL_TEAMS + SUCCESS:
@@ -60,9 +60,9 @@ export default function team(state = initialState, action: teamAction): any {
 			return state.updateIn(
 				[
 					'entities',
-					payload.id
+					payload.id,
 				],
-				team => {
+				(team: any) => {
 					team.shift(payload);
 				});
 
@@ -83,28 +83,28 @@ export default function team(state = initialState, action: teamAction): any {
 export const loadAllTeam: ActionCreator<ThunkAction<any, any, any, Action<any>>> = () => {
 	return (dispatch) => {
 		dispatch({
-			type: LOAD_ALL_TEAMS + START
+			type: LOAD_ALL_TEAMS + START,
 		});
 
 		AuthService.getToken().then(token => {
 			const instance = axios.create({
 				timeout: 2000,
 				headers: {
-					'Authorization': `bearer ${token}`
-				}
+					'Authorization': `bearer ${token}`,
+				},
 			});
 
 			instance.get('/api/teams')
 				.then(teams => {
 					return dispatch({
 						type: LOAD_ALL_TEAMS + SUCCESS,
-						payload: teams.data
+						payload: teams.data,
 					});
 				})
 				.catch(err => {
 					return dispatch({
 						type: LOAD_ALL_TEAMS + ERROR,
-						err
+						err,
 					});
 				});
 		});
@@ -114,20 +114,19 @@ export const loadAllTeam: ActionCreator<ThunkAction<any, any, any, Action<any>>>
 export const loadTeam: ActionCreator<ThunkAction<any, any, any, Action<any>>> = (name) => {
 	return (dispatch) => {
 		dispatch({
-			type: LOAD_TEAM + START
+			type: LOAD_TEAM + START,
 		});
 		axios.get(`/api/team/${name}`)
 			.then(team => {
-				console.log(team);
 				return dispatch({
 					type: LOAD_TEAM + SUCCESS,
-					payload: team
+					payload: team,
 				});
 			})
 			.catch(err => {
 				return dispatch({
 					type: LOAD_TEAM + ERROR,
-					err
+					err,
 				});
 			});
 	};
@@ -136,19 +135,19 @@ export const loadTeam: ActionCreator<ThunkAction<any, any, any, Action<any>>> = 
 export const addTeam: ActionCreator<ThunkAction<any, any, any, Action<any>>> = (team) => {
 	return (dispatch) => {
 		dispatch({
-			type: ADD_TEAM + START
+			type: ADD_TEAM + START,
 		});
-		console.log(team);
 		axios.post(`/api/team`, team)
-			.then(team => {
+			.then(res => {
 				return dispatch({
-					type: ADD_TEAM + SUCCESS
+					type: ADD_TEAM + SUCCESS,
+					payload: res,
 				});
 			})
 			.catch(err => {
 				return dispatch({
 					type: ADD_TEAM + ERROR,
-					err
+					err,
 				});
 			});
 	};

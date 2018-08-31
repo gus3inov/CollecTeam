@@ -11,28 +11,19 @@ import routes from '@client/components/routes';
 import { CookiesProvider } from 'react-cookie';
 import { getUniversalCookies } from '@client/helpers/cookies';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { deepPurple, blue, grey } from '@material-ui/core/colors';
+import { blue } from '@material-ui/core/colors';
 
 const theme = createMuiTheme({
 	palette: {
 		primary: blue,
-		primary1Color: blue,
-		primary2Color: '#2173B3',
-		primary3Color: '#A9D2EB',
-		accent1Color: '#ED3B3B',
-		accent2Color: '#ED2B2B',
-		accent3Color: '#F58C8C',
-		accent: deepPurple,
 		type: 'dark',
-		textColor: grey[50],
-		alternateTextColor: grey[50],
-	}
+	},
 });
 
 ReactDOM.hydrate(
 	<Router>
 		<Provider store={store}>
-			<CookiesProvider store={getUniversalCookies()}>
+			<CookiesProvider cookies={getUniversalCookies()}>
 				<MuiThemeProvider theme={theme}>
 					{renderRoutes(routes)}
 				</MuiThemeProvider>

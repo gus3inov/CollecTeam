@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { darkColor, fontWhite, borderBlue } from '../../theme'
+import { darkColor, fontWhite, borderBlue } from '../../theme';
 
 const StyledFormAuth = styled.div`
     width: 100%;
