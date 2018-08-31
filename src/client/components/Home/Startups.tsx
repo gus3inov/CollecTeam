@@ -54,7 +54,7 @@ class Startups extends React.Component<StartupsProps, any> {
 		const { classes, startups, loading } = this.props;
 
 		return (
-			<Section title="Стартапы" bg>
+			<Section title="Стартапы" bg={ true }>
 				<div className="startups-add__button">
 					<Button
 						onClick={this.handleToggleAdd}
@@ -90,7 +90,7 @@ class Startups extends React.Component<StartupsProps, any> {
 													title={startup.name}
 												/>
 												<CardContent>
-													<Typography gutterBottom variant="headline" component="h2">
+													<Typography variant="headline" component="h2">
 														{startup.name}
 													</Typography>
 													<Typography component="p">
@@ -125,5 +125,5 @@ export default connect((state: any) => {
 		startups: state[moduleName].entities,
 	};
 }, (dispatch: any) => ({
-	fetchStartups: bindActionCreators(loadAllStartups, dispatch)
+	fetchStartups: bindActionCreators(loadAllStartups, dispatch),
 }))(withStyles(styles)(Startups));

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import { loadStartup, moduleName } from '../../ducks/startups'
+import { loadStartup, moduleName } from '../../ducks/startups';
 import {Fragment} from 'react';
 import DetailStartup from '../../ui/organisms/DetailStartup/index';
 import {bindActionCreators} from 'redux';
