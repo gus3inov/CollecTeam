@@ -12,7 +12,7 @@ export interface HomeProps {
 	routes: Array<IMenuRoutes>;
 }
 
-class Home extends React.Component <HomeProps & InjectedProps, {}> {
+class Home extends React.Component <any, {}> {
 
 	render() {
 		const {isOpen, children, routes, handleOpen } = this.props;
