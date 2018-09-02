@@ -1,35 +1,28 @@
 import * as React from 'react';
 import * as ReactDomServer from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { CookiesProvider } from 'react-cookie';
-import { renderRoutes } from 'react-router-config';
+import {StaticRouter} from 'react-router-dom';
+import {Provider} from 'react-redux';
+import {CookiesProvider} from 'react-cookie';
+import {renderRoutes} from 'react-router-config';
 
-import { Context, Next } from '@server/interfaces/IKoa';
-import { cookies } from '@client/helpers/cookies';
+import {Next} from '@server/interfaces/IKoa';
+import {cookies} from '@client/helpers/cookies';
 import store from '@client/redux';
 import routes from '@client/components/routes';
 import renderHTML from '@server/common/renderHTML';
-import { blue, deepPurple, grey } from '@material-ui/core/colors';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import {blue} from '@material-ui/core/colors';
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
 	palette: {
 		primary: blue,
-		primary2Color: '#2173B3',
-		primary3Color: '#A9D2EB',
-		accent1Color: '#ED3B3B',
-		accent2Color: '#ED2B2B',
-		accent3Color: '#F58C8C',
-		accent: deepPurple,
 		type: 'dark',
-		alternateTextColor: grey[50],
 	},
 });
 
 const client = (app: any, assetUrl: string) => {
-	app.use(async (ctx: Context, next: Next) => {
-		const context = {};
+	app.use(async (ctx: any, next: Next) => {
+		const context: any = {};
 
 		const componentHTML = ReactDomServer.renderToString(
 			<StaticRouter location={ctx.request.url} context={context}>
