@@ -8,13 +8,15 @@ class Cookies {
 	private _cookies: any;
 
 	constructor() {
-		if (typeof window !== 'undefined') this._cookies = new ReactCookies();
-		else
+		if (typeof window !== 'undefined') {
+			this._cookies = new ReactCookies();
+		} else {
 			this._cookies = {
 				get: warning,
 				set: warning,
 				remove: warning,
 			};
+		}
 	}
 
 	setCookies(opts: any) {
@@ -27,4 +29,4 @@ class Cookies {
 }
 
 export const cookies = new Cookies();
-export const getUniversalCookies = () => cookies.cookies;
+export const getUniversalCookies = (): any => cookies.cookies;
