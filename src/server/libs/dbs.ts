@@ -1,19 +1,14 @@
 import * as MysqlPromise from 'mysql-promise';
-import * as mongoose from 'mongoose';
 import * as config from 'config';
 
 export interface IConfigApp {
-	db: any,
+	db: any;
 	redis: object;
 }
 
 const configApp: IConfigApp = config.get('dev');
 
 const mysqlPromise: any = new MysqlPromise();
-
-const mongo = mongoose;
-
-mongo.Promise = Promise;
 
 interface IDBConnect {
 	// checkMySqlConnection(): Promise<any>;
@@ -31,14 +26,7 @@ class DBConnect implements IDBConnect {
 	}
 
 	public init(): Promise<any> {
-		return Promise.all([
-			this.checkMySqlConnection(),
-			new Promise<Promise<any>>((resolve, reject) => {
-				mongoose.connect(configApp.db.mongo, err => {
-					err ? reject(err) : resolve();
-				});
-			}),
-		]);
+		return Promise.resolve(this.checkMySqlConnection());
 	}
 
 	private checkMySqlConnection() {
