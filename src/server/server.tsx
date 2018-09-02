@@ -22,7 +22,7 @@ app.keys = ['your-session-secret'];
 app.use(cookiesMiddleware());
 
 app.use(session({
-	store: new RedisStore(),
+	store: RedisStore({}),
 }, app));
 
 app.use(serve(__dirname + '\\public'));

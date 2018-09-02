@@ -3,20 +3,6 @@ import HashMapHelper from '@server/helpers/HashMapHelper';
 
 const tableName = 'teams';
 
-export interface ITeamModel {
-	create(object: TeamRequest): Promise<any>;
-
-	findIndentity(id: string): any;
-
-	findByTeamName(name: string): any;
-
-	update(id: string, team: ITeamRequest): any;
-
-	remove(name: string): any;
-
-	getAll(): Promise<any>;
-}
-
 class TeamModel extends Database implements ITeamModel {
 
 	constructor() {

@@ -56,7 +56,7 @@ class StringHelper implements IStringHelper<string> {
 		'y',
 		'e',
 		'yu',
-		'ya'
+		'ya',
 	];
 
 	static rus: Array<string> = [
@@ -92,13 +92,13 @@ class StringHelper implements IStringHelper<string> {
 		'ь',
 		'э',
 		'ю',
-		'я'
+		'я',
 	];
 
 	static basename(path: string, suffix: string = ''): string {
 		let pathReg = path.replace(/^.*[\/\\]/g, '');
 
-		if (pathReg.substr(pathReg.length - suffix.length) == suffix) {
+		if (pathReg.substr(pathReg.length - suffix.length) === suffix) {
 			pathReg = pathReg.substr(0, pathReg.length - suffix.length);
 		}
 
@@ -118,13 +118,13 @@ class StringHelper implements IStringHelper<string> {
 
 		return {
 			salt,
-			hash: value
+			hash: value,
 		};
 	}
 
 	static dirname(path: string): string {
-		let pathReg: string = path.replace(/^.*[\/\\]/g, ''),
-			pos: number = path.indexOf(pathReg);
+		const pathReg: string = path.replace(/^.*[\/\\]/g, '');
+		const pos = path.indexOf(pathReg);
 		if (pos !== 0) {
 			return path.substr(0, pos);
 		}
@@ -132,10 +132,10 @@ class StringHelper implements IStringHelper<string> {
 		return '';
 	}
 
-	static findIndexTranslit(string: string, arr: Array<string>, replaceArr: Array<string>): string {
-		let resultString: string = string;
-		for (let i: number = 0; i < arr.length; i++) {
-			let reg: RegExp = new RegExp(arr[i], 'g');
+	static findIndexTranslit(value: string, arr: Array<string>, replaceArr: Array<string>): string {
+		let resultString: string = value;
+		for (let i = 0; i < arr.length; i++) {
+			const reg: RegExp = new RegExp(arr[i], 'g');
 
 			resultString = resultString.replace(reg, replaceArr[i]);
 		}
@@ -143,8 +143,8 @@ class StringHelper implements IStringHelper<string> {
 		return resultString;
 	}
 
-	static translit(string: string): string {
-		let translitString = string.toLowerCase();
+	static translit(value: string): string {
+		let translitString = value.toLowerCase();
 
 		translitString = this.findIndexTranslit(translitString, this.rus, this.lat);
 

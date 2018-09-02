@@ -9,4 +9,4 @@ export default async (ctx: Context, next: Next) => {
 			message: err.message,
 		};
 	}
-}
+};

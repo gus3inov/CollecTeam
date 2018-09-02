@@ -7,4 +7,4 @@ const controller = new StartupController(model);
 export default (app: any) => {
 	app.use(controller.getRoutes());
 	app.use(controller.getMethods());
-}
+};

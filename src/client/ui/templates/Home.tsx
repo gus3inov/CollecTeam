@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Fragment} from 'react';
 
-import toggleOpen, { InjectedProps } from '@client/hocs/toggleOpen';
+import toggleOpen from '@client/hocs/toggleOpen';
 import Menu from '@ui/organisms/Menu';
 import Header from '@ui/organisms/Header';
 import Workspace from '@ui/organisms/Workspace';
