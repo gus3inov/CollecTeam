@@ -31,3 +31,17 @@ interface IStartupModel {
 
 	privateGetAll(userId: string): Promise<any>;
 }
+
+interface ITeamModel {
+	create(object: TeamRequest): Promise<any>;
+
+	findIndentity(id: string): any;
+
+	findByTeamName(name: string): any;
+
+	update(id: string, team: ITeamRequest): any;
+
+	remove(name: string): any;
+
+	getAll(): Promise<any>;
+}
