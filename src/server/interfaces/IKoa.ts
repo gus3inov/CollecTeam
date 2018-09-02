@@ -1,7 +1,7 @@
 import { Context as ContextStats } from 'koa';
 
 export type Context = ContextStats;
-export type Next = Function;
+export type Next = () => void;
 
 export enum ErrorStatus {
 	Created = 201,

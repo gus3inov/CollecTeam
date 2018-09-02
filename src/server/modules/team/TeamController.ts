@@ -1,5 +1,4 @@
 import Router from 'server/core/RouteGenerator';
-import { ITeamModel } from 'server/modules/team/Team';
 import { Context, ErrorStatus, Next } from 'server/interfaces/IKoa';
 import checkAuth from 'server/middlewares/checkAuth';
 import * as convert from 'koa-convert';
