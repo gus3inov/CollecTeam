@@ -29,7 +29,7 @@ const client = (app: any, assetUrl: string) => {
 				<Provider store={store}>
 					<CookiesProvider cookies={ctx.request.universalCookies}>
 						<MuiThemeProvider theme={theme} sheetsManager={new Map()}>
-							{renderRoutes(routes)}
+							{ renderRoutes(routes) }
 						</MuiThemeProvider>
 					</CookiesProvider>
 				</Provider>
