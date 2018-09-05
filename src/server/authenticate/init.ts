@@ -28,10 +28,7 @@ passport.use(new LocalStrategy(
 		userModel.findByUserName(username).then(userRes => {
 			const userData = userRes[0];
 
-			if (!userData) {
-				return done(null, false);
-			}
-			if (!compareSync(password, userData.password)) {
+			if (!userData || !compareSync(password, userData.password)) {
 				return done(null, false);
 			}
 
