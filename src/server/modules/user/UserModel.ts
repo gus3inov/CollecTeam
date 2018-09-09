@@ -22,7 +22,7 @@ class UserModel extends Database implements IUserModel {
 		const uniqeId: string = this.generateID();
 
 		return await this.query(`INSERT INTO ${tableName}
-            (id, first_name, last_name, email, username, password, salt, role_id)
+            (id, first_name, last_name, email, username, password, salt, role_id, position_id, team_id)
             VALUES(
             '${uniqeId}',
              '${firstName}',
@@ -30,7 +30,8 @@ class UserModel extends Database implements IUserModel {
                '${email}',
                 '${username}',
                  '${hash}',
-                  '${salt}', 3)`);
+                  '${salt}', '3', '2', '0'
+                  `);
 	}
 
 	public async remove(username: string): Promise<any> {
