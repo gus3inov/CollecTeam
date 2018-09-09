@@ -37,26 +37,27 @@ class UserController extends Router {
 	}
 
 	public actionCreate() {
-		this.post('/api/user', koaBody, async (ctx: Context) => {
+		this.post('/api/user', koaBody, async (ctx: Context, next: Next) => {
+			await this.model.create(ctx.request.body);
+
 			ctx.status = ErrorStatus.Created;
-			const userModel = await this.model.create(ctx.request.body);
+			ctx.body = [];
 
-			ctx.body = userModel;
-
-			return passport.authenticate('local', async (err, token, user) => {
-				if (user) {
-					ctx.body = {success: true, token};
-
-					return ctx.login(user);
-				} else {
-					ctx.status = 400;
-					ctx.body = {
-						error: err,
-					};
-
-					return err;
-				}
-			})(ctx);
+			await next();
+			// return passport.authenticate('local', async (err, token, user) => {
+			// 	if (user) {
+			// 		ctx.body = {success: true, token};
+			//
+			// 		return ctx.login(user);
+			// 	} else {
+			// 		ctx.status = 400;
+			// 		ctx.body = {
+			// 			error: err,
+			// 		};
+			//
+			// 		return err;
+			// 	}
+			// })(ctx);
 		});
 	}
 
@@ -79,6 +80,7 @@ class UserController extends Router {
 					delete user.salt;
 					delete user.password;
 					ctx.body = {success: true, token, user: userRequest};
+
 					return ctx.login(user);
 				} else {
 					ctx.status = 400;
