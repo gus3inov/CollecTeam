@@ -30,8 +30,7 @@ class UserModel extends Database implements IUserModel {
                '${email}',
                 '${username}',
                  '${hash}',
-                  '${salt}', '3', '2', '0'
-                  `);
+                  '${salt}', '3', '2', '0')`);
 	}
 
 	public async remove(username: string): Promise<any> {
