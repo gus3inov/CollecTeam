@@ -15,11 +15,11 @@ export default async (ctx: Context, next: Next) => {
 		return ctx.throw(401);
 	}
 
-	const token = ctx.request.headers.authorization.split(' ')[1];
-
+	const token = ctx.request.headers.authorization.split(' ')[1]
+;
 	return jwt.verify(token, jwtSecret, async (err: any, decoded: any) => {
 		if (err) {
-			return ctx.throw(401);
+			return ctx.throw(401).end();
 		}
 
 		const userId = decoded.sub;
@@ -35,7 +35,7 @@ export default async (ctx: Context, next: Next) => {
 					error,
 				};
 
-				return ctx.throw(401);
+				return ctx.throw(401).end();
 			});
 
 		await next();
