@@ -62,7 +62,7 @@ class UserController extends Router {
 	}
 
 	public actionLogin() {
-		this.post('/auth/login', bodyParser(), async (ctx: Context) => {
+		this.post('/auth/login', bodyParser(), async (ctx: Context, next: Next) => {
 			return passport.authenticate('local', (err, token, user) => {
 				if (user) {
 					const userRequest = {
