@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "skipLibCheck": true,
-    "baseUrl": "src",
+    "baseUrl": "./",
     "paths": {
       "@core/*": [
         "server/core/*"
@@ -10,13 +10,13 @@
         "server/*"
       ],
       "@client/*": [
-        "client/*"
+        "src/client/*"
       ],
       "@ui/*": [
-        "client/ui/*"
+        "src/client/ui/*"
       ]
     },
-    "rootDir": "src",
+    "rootDir": "/",
     "outDir": "build/dist",
     "module": "commonjs",
     "target": "es2017",
