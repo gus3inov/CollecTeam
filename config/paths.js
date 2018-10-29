@@ -41,12 +41,14 @@ function getServedPath(appPackageJson) {
 // config after eject: we're in ./config/
 module.exports = {
 	dotenv: resolveApp('.env'),
-	appBuild: resolveApp('build'),
+	appBuild: resolveApp('client-build'),
 	appPublic: resolveApp('public'),
 	appHtml: resolveApp('public/index.html'),
 	appIndexJs: resolveApp('src/index.tsx'),
 	appPackageJson: resolveApp('package.json'),
 	appSrc: resolveApp('src'),
+	appServer: resolveApp('server/bootstrap.ts'),
+	appServerBuild: resolveApp('server-build'),
 	yarnLockFile: resolveApp('yarn.lock'),
 	testsSetup: resolveApp('src/setupTests.ts'),
 	appNodeModules: resolveApp('node_modules'),
